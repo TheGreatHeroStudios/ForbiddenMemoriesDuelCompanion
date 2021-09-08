@@ -4,6 +4,7 @@ namespace FMDC.Model.Models
 {
 	public class CardPercentage
 	{
+		public int CardPercentageId { get; set; }
 		public int CardId { get; set; }
 		public PercentageType PercentageDiscriminator { get; set; }
 		public double GenerationPercentage { get; set; }

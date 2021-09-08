@@ -139,7 +139,7 @@ namespace FMDC.DataLoader.Implementations
 											(
 												MessageConstants.CARD_LOADED_TEMPLATE,
 												card.Name,
-												card.Id.ToString("000")
+												card.CardId.ToString("000")
 											)
 										);
 									}
@@ -192,7 +192,7 @@ namespace FMDC.DataLoader.Implementations
 				//Build the new card object
 				return new Card()
 				{
-					Id = int.Parse(data[0].InnerText),
+					CardId = int.Parse(data[0].InnerText),
 					Name = HttpUtility.HtmlDecode(data[1].FirstChild.InnerText),
 					CardType = cardType,
 					MonsterType = monsterType == MonsterType.Unknown ? (MonsterType?)null : monsterType,
@@ -200,8 +200,8 @@ namespace FMDC.DataLoader.Implementations
 					FirstGuardianStar = guardianStars?.FirstOrDefault(),
 					SecondGuardianStar = guardianStars?.Skip(1).FirstOrDefault(),
 					Level = monsterType == MonsterType.Unknown ? (int?)null : int.Parse(data[4].InnerText),
-					Attack = monsterType == MonsterType.Unknown ? (int?)null : int.Parse(data[5].InnerText),
-					Defense = monsterType == MonsterType.Unknown ? (int?)null : int.Parse(data[6].InnerText),
+					AttackPoints = monsterType == MonsterType.Unknown ? (int?)null : int.Parse(data[5].InnerText),
+					DefensePoints = monsterType == MonsterType.Unknown ? (int?)null : int.Parse(data[6].InnerText),
 					Password = string.IsNullOrEmpty(data[7].InnerText) ? null : data[7].InnerText,
 					StarchipCost = string.IsNullOrEmpty(data[8].InnerText) ? (int?)null : int.Parse(data[8].InnerText, NumberStyles.Any)
 				};

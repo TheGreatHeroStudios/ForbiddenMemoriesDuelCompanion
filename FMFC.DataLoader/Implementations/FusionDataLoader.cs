@@ -203,7 +203,7 @@ namespace FMDC.DataLoader.Implementations
 
 				//Lookup the resultantCard from the name in the right operand
 				Card resultantCard = LookupCard(operands[1]);
-				generalFusion.ResultantCardId = resultantCard.Id;
+				generalFusion.ResultantCardId = resultantCard.CardId;
 
 				if (operands[0].Contains('+'))
 				{
@@ -246,11 +246,11 @@ namespace FMDC.DataLoader.Implementations
 
 							if (i == 0)
 							{
-								generalFusion.TargetCardId = componentCard.Id;
+								generalFusion.TargetCardId = componentCard.CardId;
 							}
 							else
 							{
-								generalFusion.FusionMaterialCardId = componentCard.Id;
+								generalFusion.FusionMaterialCardId = componentCard.CardId;
 							}
 						}
 					}
@@ -304,7 +304,7 @@ namespace FMDC.DataLoader.Implementations
 						(
 							//Store this ID, as it will apply to any fusions that follow it
 							!int.TryParse(cardIdString, out _lastSpecificTargetId) ||
-							!_cardList.Where(card => card.Id == _lastSpecificTargetId).Any()
+							!_cardList.Where(card => card.CardId == _lastSpecificTargetId).Any()
 						)
 						{
 							//Throw an exception if the ID could not be parsed or does not exist in the card list
@@ -351,7 +351,7 @@ namespace FMDC.DataLoader.Implementations
 					case DataRowType.Fusion:
 					{
 						//Ensure that a valid target card is set before attempting to create the fusion
-						if (!_cardList.Where(card => card.Id == _lastSpecificTargetId).Any())
+						if (!_cardList.Where(card => card.CardId == _lastSpecificTargetId).Any())
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.NO_VALID_TARGET_FOR_FUSION);
 						}
@@ -376,15 +376,15 @@ namespace FMDC.DataLoader.Implementations
 							.ToArray();
 
 						specificFusion.TargetCardId = _lastSpecificTargetId;
-						specificFusion.FusionMaterialCardId = parsedCards[0].Id;
-						specificFusion.ResultantCardId = parsedCards[1].Id;
+						specificFusion.FusionMaterialCardId = parsedCards[0].CardId;
+						specificFusion.ResultantCardId = parsedCards[1].CardId;
 
 						LoggingUtility.LogVerbose
 						(
 							string.Format
 							(
 								MessageConstants.FUSION_PARSED_TEMPLATE,
-								_cardList.Where(card => card.Id == _lastSpecificTargetId).First().Name,
+								_cardList.Where(card => card.CardId == _lastSpecificTargetId).First().Name,
 								parsedCards[0].Name,
 								parsedCards[1].Name
 							)

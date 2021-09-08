@@ -150,7 +150,7 @@ namespace FMDC.DataLoader.Implementations
 				);
 			}
 
-			return referencedCard.Id;
+			return referencedCard.CardId;
 		}
 		#endregion
 	}

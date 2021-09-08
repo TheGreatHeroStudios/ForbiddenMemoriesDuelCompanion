@@ -212,7 +212,7 @@ namespace FMDC.DataLoader.Implementations
 							);
 						}
 
-						_lastCharacterId = currentCharacter.Id;
+						_lastCharacterId = currentCharacter.CharacterId;
 
 						//If the preceeding row was not a delimiter, log an anomaly
 						if (lineNumber != 1 && _lastDropRateRowType != DataRowType.Delimiter)
@@ -260,7 +260,7 @@ namespace FMDC.DataLoader.Implementations
 							rowData = rowData.Trim();
 
 							//If the current row is a target for dropping, first, ensure that a valid character is set for the drop
-							Character targetCharacter = _characterList.FirstOrDefault(character => character.Id == _lastCharacterId);
+							Character targetCharacter = _characterList.FirstOrDefault(character => character.CharacterId == _lastCharacterId);
 
 							if (targetCharacter == null)
 							{
@@ -378,7 +378,7 @@ namespace FMDC.DataLoader.Implementations
 
 		private void VerifyDroppedCard(int cardId, string cardName)
 		{
-			Card referencedCard = _cardList.FirstOrDefault(card => card.Id == cardId);
+			Card referencedCard = _cardList.FirstOrDefault(card => card.CardId == cardId);
 
 			if (referencedCard == null)
 			{
@@ -394,7 +394,7 @@ namespace FMDC.DataLoader.Implementations
 					(
 						AnomalyConstants.DROPPED_CARD_NAME_DISCREPANCY_TEMPLATE,
 						cardName,
-						referencedCard.Id.ToString("000"),
+						referencedCard.CardId.ToString("000"),
 						referencedCard.Name
 					)
 				);

@@ -229,7 +229,7 @@ namespace FMDC.DataLoader.Implementations
 						VerifyCard(equipCardId, cardName);
 
 						//Ensure that a valid target card is set for the equipemnt
-						Card lastTargetCard = _cardList.Where(card => card.Id == _lastTargetId).FirstOrDefault();
+						Card lastTargetCard = _cardList.Where(card => card.CardId == _lastTargetId).FirstOrDefault();
 
 						if (lastTargetCard == null)
 						{
@@ -248,7 +248,7 @@ namespace FMDC.DataLoader.Implementations
 							string.Format
 							(
 								MessageConstants.EQUIPMENT_PARSED_TEMPLATE,
-								_cardList.First(card => card.Id == equipCardId).Name,
+								_cardList.First(card => card.CardId == equipCardId).Name,
 								_lastTargetId.ToString("000"),
 								lastTargetCard.Name
 							)
@@ -308,7 +308,7 @@ namespace FMDC.DataLoader.Implementations
 
 		private void VerifyCard(int cardId, string cardName)
 		{
-			Card referencedCard = _cardList.FirstOrDefault(card => card.Id == cardId);
+			Card referencedCard = _cardList.FirstOrDefault(card => card.CardId == cardId);
 
 			if (referencedCard == null)
 			{
@@ -324,7 +324,7 @@ namespace FMDC.DataLoader.Implementations
 					(
 						AnomalyConstants.DROPPED_CARD_NAME_DISCREPANCY_TEMPLATE,
 						cardName,
-						referencedCard.Id.ToString("000"),
+						referencedCard.CardId.ToString("000"),
 						referencedCard.Name
 					)
 				);

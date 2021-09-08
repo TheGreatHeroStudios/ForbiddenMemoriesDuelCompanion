@@ -135,7 +135,7 @@ namespace FMDC.DataLoader.Implementations
 
 				return new Character()
 				{
-					Id = loadingInfo.CharacterId,
+					CharacterId = loadingInfo.CharacterId,
 					Name = loadingInfo.CharacterName,
 					Biography = biography,
 					DeckCards = deckCards
