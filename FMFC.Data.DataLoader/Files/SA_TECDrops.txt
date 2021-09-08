@@ -1,0 +1,3033 @@
+﻿Simon Muran
+------------------------------------------------------------------------
+9 Shadow Specter 92
+16 Time wizard 54
+19 Right Arm of the Forbidden One 6
+24 Skull Servant 27
+47 Torike 27
+48 Sangan 27
+58 Kuriboh 27
+102 Mask of Darkness 12
+105 Tomozaurus 53
+123 Dark Plant 53
+130 Weather Control 53
+137 Mystery Hand 53
+167 Ancient Jar 52
+192 Key Mace 52
+197 Mech Mole Zombie 52
+202 Air marmot of nefariousness 52
+237 Haniwa 52
+238 Yashinoki 12
+289 Change slime 52
+301 Legendary sword 20
+313 Horn of light 20
+314 Horn of the unicorn 20
+333 Sogen 36
+336 Dark hole 20
+349 Spellbinding circle 36
+387 Mystic lamp 52
+397 Leghul 52
+402 Monster eye 52
+410 Mechanical spider 52
+411 Bat 52
+422 Jinzo #7 52
+436 White Dolphin 52
+444 Turu-purun 52
+469 Armed ninja 52
+484 Ameba 52
+485 Korogashi 52
+488 Rainbow flower 52
+504 Fungi of the musk 52
+516 Muka muka 52
+547 Griggle 52
+548 Bone mouse 52
+558 Pot the trick 52
+563 Wretched ghost of the attic 52
+635 Queen's double 52
+676 Commencement dance 20
+677 Hamburger recipe 20
+681 House of adhesive tape 20
+682 Eatgaboon 20
+690 Fake trap 20
+
+Teana
+------------------------------------------------------------------------
+19 Right Arm of the Forbidden One 6
+24 Skull Servant 170
+58 Kuriboh 170
+167 Ancient Jar 168
+302 Sword of dark destruction 16
+312 Silver bow and arrow 15
+313 Horn of light 15
+330 Forest 30
+336 Dark hole 15
+345 Final flame 15
+350 Dark-piercing Light 30
+393 Zone eater 170
+395 Dancing elf 170
+398 Ooguchi 170
+399 Swordsman from a Foreign Land 170
+402 Monster eye 168
+469 Armed ninja 168
+475 Sinister Serpent 168
+527 Milus radiant 168
+681 House of adhesive tape 15
+682 Eatgaboon 15
+690 Fake trap 15
+699 Revival of skeleton rider 1
+
+Jono
+------------------------------------------------------------------------
+16 Time wizard 60
+20 Left Arm of the Forbidden One 4
+50 Basic Insect 40
+104 Curtain of the Dark Ones 40
+105 Tomozaurus 40
+122 Yamatano Dragon Scroll 40
+130 Weather Control 40
+135 Fiend's Hand 40
+137 Mystery Hand 40
+152 The Melting Red Shadow 40
+154 Fire Reaper 40
+174 Hurricail 40
+182 Masked Clown 40
+185 Eyearmor 40
+191 Lala Li-oon 40
+197 Mech Mole Zombie 40
+202 Air marmot of nefariousness 40
+207 Droll bird 40
+210 Hinotama soul 40
+214 Kagemusha of the Blue Flame 40
+237 Haniwa 40
+242 Candle of fate 42
+245 Meda bat 42
+268 Sectarian of secrets 42
+301 Legendary sword 16
+302 Sword of dark destruction 16
+310 Vile germs 16
+311 Black pendant 16
+333 Sogen 36
+336 Dark hole 16
+343 Sparks 16
+344 Hinotama 18
+410 Mechanical spider 42
+420 Cyber-stein 42
+422 Jinzo #7 42
+436 White Dolphin 42
+444 Turu-purun 42
+485 Korogashi 42
+486 Boo koo 42
+488 Rainbow flower 42
+492 Hoshiningen 42
+501 Man-eater bug 42
+516 Muka muka 42
+524 Star boy 42
+549 Frog the jam 42
+558 Pot the trick 42
+563 Wretched ghost of the attic 42
+579 Abyss flower 42
+589 Tentacle plant 42
+598 Little chimera 42
+611 Hiro's shadow scout 42
+651 Kunai with chain 35
+654 Salamandra 35
+677 Hamburger recipe 16
+679 Novox's prayer 16
+681 House of adhesive tape 16
+683 Bear trap 16
+690 Fake trap 16
+
+Villager 1
+------------------------------------------------------------------------
+9 Shadow Specter 60
+20 Left Arm of the Forbidden One 6
+24 Skull Servant 60
+58 Kuriboh 60
+123 Dark Plant 60
+167 Ancient Jar 60
+192 Key Mace 60
+289 Change slime 60
+307 Elf's light 16
+308 Beast fangs 16
+309 Steel shell 16
+311 Black pendant 16
+312 Silver bow and arrow 16
+323 Book of secret arts 16
+327 Follow wind 16
+332 Mountain 32
+336 Dark hole 18
+338 Mooyan Curry 32
+339 Red medicine 32
+340 Goblin's secret remedy 32
+345 Final flame 18
+350 Dark-piercing Light 32
+387 Mystic lamp 60
+393 Zone eater 60
+395 Dancing elf 60
+397 Leghul 60
+398 Ooguchi 60
+399 Swordsman from a Foreign Land 60
+402 Monster eye 60
+411 Bat 60
+469 Armed ninja 60
+475 Sinister Serpent 60
+484 Ameba 60
+504 Fungi of the musk 60
+527 Milus radiant 60
+547 Griggle 60
+548 Bone mouse 60
+558 Pot the trick 60
+635 Queen's double 60
+655 Cursebreaker 20
+665 Curse of Millennium Shield 12
+666 Yamadron ritual 12
+671 Zera ritual 12
+673 War-lion ritual 12
+674 Beastry mirror ritual 12
+676 Commencement dance 12
+677 Hamburger recipe 12
+678 Revival of Sennen Genjin 12
+679 Novox's prayer 12
+680 Curse of tri-horned dragon 12
+681 House of adhesive tape 24
+690 Fake trap 22
+691 Revived of Serpent Night Dragon 12
+692 Turtle Oath 12
+693 Contruct of mask 12
+694 Resurrection of Chakra 12
+695 Puppet ritual 12
+697 Garma sword oath 12
+698 Cosmo queen's prayer 12
+699 Revival of skeleton rider 12
+700 Fortress whale's oath 12
+
+Villager 2
+------------------------------------------------------------------------
+9 Shadow Specter 25
+19 Right Arm of the Forbidden One 12
+24 Skull Servant 25
+45 Oscillo Hero #2 25
+96 Armored Zombie 25
+97 Dragon Zombie 25
+98 Clown Zombie 25
+102 Mask of Darkness 12
+108 Graveyard and the Hand of Invitation 25
+135 Fiend's Hand 25
+139 Blue-eyed Silver Zombie 25
+152 The Melting Red Shadow 23
+154 Fire Reaper 23
+167 Ancient Jar 23
+177 Monsturtle 23
+191 Lala Li-oon 23
+197 Mech Mole Zombie 23
+199 Penguin Knight 23
+203 Phantom ghost 23
+205 Dorover 23
+206 Twin long rods #1 23
+211 Kaminarikozou 23
+215 Flame ghost 23
+227 Hitodenchak 23
+228 Wood remains 23
+237 Haniwa 23
+238 Yashinoki 12
+243 Water element 23
+244 Dissolverock 23
+259 Ancient sorcerer 23
+262 The little swordsman of aile 23
+265 The furious sea king 23
+270 Wetha 23
+289 Change slime 23
+292 Psychic kappa 23
+304 Axe of despair 32
+305 Laser cannon armor 32
+316 Electro-whip 32
+319 Mystical moon 32
+321 Malevolent Nuzzler 32
+326 Raise body heat 32
+330 Forest 33
+333 Sogen 33
+335 Yami 33
+336 Dark hole 32
+338 Mooyan Curry 34
+339 Red medicine 32
+340 Goblin's secret remedy 32
+345 Final flame 32
+350 Dark-piercing Light 32
+393 Zone eater 23
+394 Steel scorpion 12
+398 Ooguchi 23
+432 Waterdragon fairy 23
+444 Turu-purun 23
+446 Aqua snake 23
+451 Kanikabuto 23
+452 Zarigun 23
+461 Bolt penguin 23
+463 Electric Snake 23
+484 Ameba 23
+503 Turtle Raccoon 23
+516 Muka muka 23
+524 Star boy 23
+548 Bone mouse 23
+549 Frog the jam 23
+556 The wandering doomed 23
+558 Pot the trick 23
+586 Greenkappa 10
+591 Morphing jar 23
+592 Muse-a 10
+602 Penguin soldier 23
+605 Liquid beast 23
+606 Twin Long Rods 2 23
+610 Electric lizard 2
+652 Magical Labyrinth 32
+655 Cursebreaker 32
+683 Bear trap 32
+684 Invisible wire 32
+687 Goblin fan 32
+688 Bad reaction to simochi 32
+690 Fake trap 32
+693 Contruct of mask 32
+
+Villager 3
+------------------------------------------------------------------------
+4 Baby Dragon 15
+9 Shadow Specter 15
+20 Left Arm of the Forbidden One 4
+24 Skull Servant 15
+45 Oscillo Hero #2 15
+47 Torike 15
+96 Armored Zombie 15
+97 Dragon Zombie 15
+98 Clown Zombie 17
+108 Graveyard and the Hand of Invitation 17
+133 Charubin the fire knight 17
+135 Fiend's Hand 17
+139 Blue-eyed Silver Zombie 17
+140 Toad master 20
+142 Flame Manipulator 17
+152 The Melting Red Shadow 17
+154 Fire Reaper 17
+155 Larvas 17
+167 Ancient Jar 17
+177 Monsturtle 26
+178 Claw Reacher 16
+180 Arlownay 16
+190 Akakieisu 16
+191 Lala Li-oon 16
+197 Mech Mole Zombie 16
+199 Penguin Knight 16
+203 Phantom ghost 16
+205 Dorover 16
+206 Twin long rods #1 16
+211 Kaminarikozou 16
+215 Flame ghost 26
+227 Hitodenchak 16
+228 Wood remains 26
+237 Haniwa 16
+243 Water element 16
+244 Dissolverock 26
+253 Angelwitch 16
+260 Lunar queen elzaim 16
+264 Wing egg elf 16
+265 The furious sea king 16
+270 Wetha 26
+279 King fog 16
+282 Mystical sheep #2 16
+283 Holograh 16
+289 Change slime 16
+290 Moon envoy 16
+292 Psychic kappa 16
+295 Bio plant 16
+298 Wicked dragon with the ersatz head 16
+304 Axe of despair 32
+306 Insect Armor with Laser Cannon 32
+317 Cyber shield 32
+319 Mystical moon 32
+321 Malevolent Nuzzler 32
+326 Raise body heat 32
+331 Wasteland 32
+334 Umi 32
+335 Yami 48
+336 Dark hole 32
+338 Mooyan Curry 32
+339 Red medicine 32
+340 Goblin's secret remedy 32
+345 Final flame 32
+350 Dark-piercing Light 32
+393 Zone eater 16
+394 Steel scorpion 12
+398 Ooguchi 16
+432 Waterdragon fairy 26
+444 Turu-purun 16
+446 Aqua snake 26
+451 Kanikabuto 16
+452 Zarigun 16
+461 Bolt penguin 26
+463 Electric Snake 16
+478 Insect soldiers of the sky 16
+484 Ameba 16
+503 Turtle Raccoon 16
+516 Muka muka 16
+524 Star boy 16
+548 Bone mouse 16
+549 Frog the jam 16
+556 The wandering doomed 16
+558 Pot the trick 16
+568 Anthrosaurus 16
+573 Little D 16
+585 Mechanical snail 16
+588 Living vase 12
+591 Morphing jar 16
+592 Muse-a 12
+602 Penguin soldier 16
+605 Liquid beast 16
+606 Twin Long Rods 2 16
+612 Lady of faith 16
+652 Magical Labyrinth 26
+655 Cursebreaker 23
+683 Bear trap 32
+684 Invisible wire 32
+687 Goblin fan 32
+688 Bad reaction to simochi 32
+690 Fake trap 32
+693 Contruct of mask 32
+
+Seto
+------------------------------------------------------------------------
+8 Mushroom man 40
+19 Right Arm of the Forbidden One 5
+50 Basic Insect 17
+75 Man-eating Plant 100
+98 Clown Zombie 19
+101 Wings of Wicked Flame 40
+104 Curtain of the Dark Ones 19
+107 Kageningen 19
+122 Yamatano Dragon Scroll 19
+123 Dark Plant 19
+130 Weather Control 19
+133 Charubin the fire knight 19
+134 Mystical Capture Chain 19
+135 Fiend's Hand 19
+137 Mystery Hand 19
+145 The Bewitching Phantom Thief 20
+152 The Melting Red Shadow 19
+154 Fire Reaper 19
+157 Firegrass 38
+158 Man Eater 38
+159 Dig Beak 18
+174 Hurricail 18
+176 Fire Eye 38
+179 Phantom Dewan 18
+180 Arlownay 18
+182 Masked Clown 18
+183 Lucky Trinket 18
+185 Eyearmor 18
+191 Lala Li-oon 18
+195 Doron 18
+198 Happy Lover 18
+200 Petit Dragon 18
+202 Air marmot of nefariousness 18
+203 Phantom ghost 18
+207 Droll bird 18
+209 Winged cleaver 18
+210 Hinotama soul 38
+211 Kaminarikozou 18
+212 Meotoko 18
+214 Kagemusha of the Blue Flame 18
+222 Midnight fiend 18
+227 Hitodenchak 18
+229 Hourglass of life 18
+232 Madjinn gunn 18
+237 Haniwa 18
+242 Candle of fate 18
+245 Meda bat 18
+254 Embryonic beast 18
+261 Wicked mirror 18
+268 Sectarian of secrets 18
+285 Serpent marauder 18
+292 Psychic kappa 18
+302 Sword of dark destruction 20
+308 Beast fangs 20
+310 Vile germs 18
+324 Invigoration 18
+328 Power of kaishin 18
+330 Forest 42
+336 Dark hole 32
+337 Raigeki 18
+343 Sparks 20
+344 Hinotama 20
+345 Final flame 20
+420 Cyber-stein 18
+452 Zarigun 18
+476 Ganigumo 18
+486 Boo koo 18
+488 Rainbow flower 18
+492 Hoshiningen 18
+501 Man-eater bug 18
+506 Gale dogra 18
+510 Laughing Flower 38
+524 Star boy 18
+536 Mechaleon 18
+540 Skelengel 18
+544 Dharma cannon 18
+547 Griggle 18
+549 Frog the jam 18
+556 The wandering doomed 18
+579 Abyss flower 38
+589 Tentacle plant 38
+591 Morphing jar 18
+598 Little chimera 18
+602 Penguin soldier 18
+609 Bladefly 18
+611 Hiro's shadow scout 18
+656 Eternal rest 32
+666 Yamadron ritual 18
+677 Hamburger recipe 18
+682 Eatgaboon 20
+683 Bear trap 20
+684 Invisible wire 20
+687 Goblin fan 20
+688 Bad reaction to simochi 20
+690 Fake trap 18
+
+Heishin
+------------------------------------------------------------------------
+2 Mystical Elf 26
+19 Right Arm of the Forbidden One 4
+30 Zombie Warrior 26
+34 Saggi the Dark Clown 26
+36 The Snake Hair 26
+42 Illusionist Faceless Mage 26
+44 Rogue Doll 26
+74 Giant Soldier of Stone 26
+96 Armored Zombie 26
+97 Dragon Zombie 26
+98 Clown Zombie 26
+104 Curtain of the Dark Ones 26
+106 Spirit of the Winds 26
+108 Graveyard and the Hand of Invitation 26
+114 White Magical Hat 26
+115 Kamion Wizard 26
+129 Nemuriko 26
+132 The 13th grave 26
+135 Fiend's Hand 26
+139 Blue-eyed Silver Zombie 26
+142 Flame Manipulator 26
+143 Necrolancer the Timelord 26
+144 Djinn the Watcher of the Wind 26
+145 The Bewitching Phantom Thief 26
+154 Fire Reaper 26
+174 Hurricail 24
+179 Phantom Dewan 24
+183 Lucky Trinket 24
+184 Genin 24
+190 Akakieisu 24
+203 Phantom ghost 24
+213 Aqua madoor 24
+215 Flame ghost 24
+220 Masked sorcerer 24
+228 Wood remains 24
+237 Haniwa 24
+244 Dissolverock 22
+253 Angelwitch 22
+257 Stone armadiller 22
+259 Ancient sorcerer 22
+263 Rock ogre grotto #2 22
+268 Sectarian of secrets 22
+303 Dark energy 24
+313 Horn of light 24
+315 Dragon treasure 24
+320 Stop defense 1
+321 Malevolent Nuzzler 24
+322 Violet crystal 24
+323 Book of secret arts 24
+331 Wasteland 48
+336 Dark hole 48
+337 Raigeki 20
+342 Dian keto the cure master 1
+343 Sparks 24
+344 Hinotama 24
+345 Final flame 24
+347 Tremendous fire 1
+366 Labyrinth wall 22
+368 Shadow ghoul 22
+455 Barrel rock 46
+457 Stone Ghost 46
+470 Magical ghost 24
+505 Prisman 46
+525 Spirit of the mountain 10
+532 Gemini elf 24
+593 Giant turtle who feeds on flames 10
+599 Violent rain 46
+623 The thing that hides in the mud 24
+631 Maiden of the moonlight 24
+632 Stone ogre grotto 10
+634 Night lizard 24
+646 Gruesome goo 46
+657 Megamorph 2
+661 Crush card 2
+665 Curse of Millennium Shield 24
+672 Harpie's Feather Duster 1
+676 Commencement dance 24
+682 Eatgaboon 24
+683 Bear trap 24
+684 Invisible wire 24
+686 Widespread ruin 20
+687 Goblin fan 24
+688 Bad reaction to simochi 24
+690 Fake trap 24
+693 Contruct of mask 24
+695 Puppet ritual 24
+
+Rex Raptor
+------------------------------------------------------------------------
+5 Ryu-kishin 18
+8 Mushroom man 18
+19 Right Arm of the Forbidden One 6
+29 Mountain Warrior 18
+45 Oscillo Hero #2 18
+47 Torike 18
+48 Sangan 18
+96 Armored Zombie 16
+97 Dragon Zombie 16
+100 Battle Warrior 16
+105 Tomozaurus 32
+107 Kageningen 16
+108 Graveyard and the Hand of Invitation 16
+113 Dark Gray 16
+114 White Magical Hat 16
+116 Nightmare Scorpion 16
+129 Nemuriko 16
+134 Mystical Capture Chain 16
+139 Blue-eyed Silver Zombie 16
+143 Necrolancer the Timelord 16
+144 Djinn the Watcher of the Wind 16
+145 The Bewitching Phantom Thief 16
+147 Monster Egg 16
+148 The Shadow Who Controls the Dark 16
+155 Larvas 16
+156 Hard Armor 16
+158 Man Eater 16
+160 M-Warrior #1 16
+161 M-Warrior #2 16
+173 Dark Prisoner 16
+175 Ancient Brain 16
+176 Fire Eye 16
+177 Monsturtle 16
+178 Claw Reacher 16
+180 Arlownay 16
+183 Lucky Trinket 16
+184 Genin 16
+187 Gate Deeg 16
+188 Synchar 16
+189 Fusionist 16
+190 Akakieisu 16
+195 Doron 16
+199 Penguin Knight 16
+203 Phantom ghost 16
+205 Dorover 16
+206 Twin long rods #1 16
+208 Petit angel 16
+209 Winged cleaver 16
+215 Flame ghost 16
+218 Two-mouth darkruler 48
+222 Midnight fiend 16
+224 Trap master 16
+226 Skull stalker 16
+232 Madjinn gunn 16
+239 Vishwar randi 16
+240 The drdek 16
+243 Water element 16
+247 Root water 16
+253 Angelwitch 16
+264 Wing egg elf 16
+265 The furious sea king 16
+266 Princess of tsurugi 16
+267 Unknown warrior of fiend 16
+271 Megirus light 16
+277 Gorgon egg 16
+282 Mystical sheep #2 16
+283 Holograh 16
+292 Psychic kappa 16
+298 Wicked dragon with the ersatz head 16
+300 Kurama 16
+308 Beast fangs 36
+324 Invigoration 36
+326 Raise body heat 36
+331 Wasteland 64
+332 Mountain 64
+417 Blast juggler 16
+421 Cyber commander 16
+432 Waterdragon fairy 16
+451 Kanikabuto 16
+463 Electric Snake 16
+476 Ganigumo 16
+477 Alinsection 16
+478 Insect soldiers of the sky 16
+479 Cockroach knight 16
+481 Burglar 16
+490 Needle ball 16
+503 Turtle Raccoon 16
+510 Laughing Flower 16
+534 Minar 16
+536 Mechaleon 16
+538 Niwatori 16
+544 Dharma cannon 16
+556 The wandering doomed 16
+568 Anthrosaurus 26
+569 Drooling lizard 16
+573 Little D 52
+585 Mechanical snail 16
+590 Beaked snake 16
+604 Obese marmot of nefariousness 16
+605 Liquid beast 16
+606 Twin Long Rods 2 16
+679 Novox's prayer 32
+682 Eatgaboon 36
+683 Bear trap 48
+690 Fake trap 32
+699 Revival of skeleton rider 32
+
+Weevil Underwood
+------------------------------------------------------------------------
+8 Mushroom man 48
+19 Right Arm of the Forbidden One 4
+50 Basic Insect 250
+116 Nightmare Scorpion 40
+123 Dark Plant 40
+141 Spiked Snail 42
+157 Firegrass 40
+158 Man Eater 40
+180 Arlownay 40
+209 Winged cleaver 40
+305 Laser cannon armor 60
+306 Insect Armor with Laser Cannon 60
+310 Vile germs 32
+325 Machine Conversion Factory 32
+330 Forest 60
+336 Dark hole 32
+338 Mooyan Curry 32
+339 Red medicine 32
+340 Goblin's secret remedy 32
+343 Sparks 32
+344 Hinotama 32
+345 Final flame 32
+350 Dark-piercing Light 32
+397 Leghul 24
+476 Ganigumo 42
+477 Alinsection 42
+478 Insect soldiers of the sky 42
+479 Cockroach knight 42
+485 Korogashi 42
+488 Rainbow flower 42
+501 Man-eater bug 42
+506 Gale dogra 42
+510 Laughing Flower 42
+534 Minar 42
+547 Griggle 42
+579 Abyss flower 42
+589 Tentacle plant 42
+609 Bladefly 42
+662 Eradicating Aerosol 64
+666 Yamadron ritual 32
+677 Hamburger recipe 32
+683 Bear trap 32
+684 Invisible wire 32
+688 Bad reaction to simochi 32
+690 Fake trap 32
+693 Contruct of mask 32
+695 Puppet ritual 32
+699 Revival of skeleton rider 32
+
+Mai Valentine
+------------------------------------------------------------------------
+13 Tyhone 136
+20 Left Arm of the Forbidden One 10
+41 Celtic Guardian 46
+44 Rogue Doll 46
+54 Gokibore 46
+70 Fiend Kraken 46
+78 Axe raider 46
+125 Faith Bird 132
+149 Lord of the Lamp 45
+186 Fiend Refrection #2 90
+207 Droll bird 90
+272 Mavelus 90
+300 Kurama 90
+307 Elf's light 32
+312 Silver bow and arrow 32
+313 Horn of light 32
+316 Electro-whip 64
+317 Cyber shield 72
+321 Malevolent Nuzzler 32
+325 Machine Conversion Factory 32
+327 Follow wind 32
+332 Mountain 64
+339 Red medicine 32
+340 Goblin's secret remedy 32
+341 Soul of the pure 32
+344 Hinotama 32
+345 Final flame 32
+349 Spellbinding circle 32
+412 Giga-tech wolf 45
+415 Mechanicalchacer 45
+416 Blocker 45
+538 Niwatori 90
+552 Winged dragon #2 90
+672 Harpie's Feather Duster 64
+676 Commencement dance 32
+684 Invisible wire 36
+685 Acid trap hole 36
+687 Goblin fan 36
+690 Fake trap 32
+
+Bandit Keith
+------------------------------------------------------------------------
+9 Shadow Specter 36
+19 Right Arm of the Forbidden One 10
+24 Skull Servant 36
+30 Zombie Warrior 36
+96 Armored Zombie 108
+97 Dragon Zombie 108
+98 Clown Zombie 108
+108 Graveyard and the Hand of Invitation 36
+132 The 13th grave 36
+135 Fiend's Hand 36
+139 Blue-eyed Silver Zombie 36
+154 Fire Reaper 36
+197 Mech Mole Zombie 36
+203 Phantom ghost 36
+215 Flame ghost 36
+228 Wood remains 36
+275 Ground Attacker Bugroth 8
+283 Holograh 36
+297 Cyber Soldier of Darkworld 8
+319 Mystical moon 64
+320 Stop defense 64
+322 Violet crystal 36
+325 Machine Conversion Factory 36
+331 Wasteland 32
+335 Yami 32
+406 Yaiba robo 36
+410 Mechanical spider 36
+411 Bat 36
+412 Giga-tech wolf 36
+414 Shovel crusher 36
+415 Mechanicalchacer 36
+416 Blocker 36
+417 Blast juggler 36
+418 Golgoil 8
+420 Cyber-stein 36
+421 Cyber commander 36
+422 Jinzo #7 36
+498 Morinphen 8
+514 Brave scizzar 36
+544 Dharma cannon 36
+548 Bone mouse 36
+556 The wandering doomed 36
+585 Mechanical snail 36
+614 Hunter spider 8
+643 Disk magician 36
+658 Metalmorph 64
+660 Stain storm 64
+679 Novox's prayer 30
+684 Invisible wire 32
+685 Acid trap hole 36
+688 Bad reaction to simochi 36
+690 Fake trap 36
+695 Puppet ritual 32
+
+Shadi
+------------------------------------------------------------------------
+5 Ryu-kishin 10
+8 Mushroom man 12
+20 Left Arm of the Forbidden One 6
+29 Mountain Warrior 12
+45 Oscillo Hero #2 12
+48 Sangan 12
+50 Basic Insect 12
+96 Armored Zombie 12
+97 Dragon Zombie 12
+98 Clown Zombie 12
+101 Wings of Wicked Flame 12
+107 Kageningen 12
+108 Graveyard and the Hand of Invitation 12
+122 Yamatano Dragon Scroll 12
+129 Nemuriko 12
+134 Mystical Capture Chain 12
+135 Fiend's Hand 12
+139 Blue-eyed Silver Zombie 12
+144 Djinn the Watcher of the Wind 12
+145 The Bewitching Phantom Thief 12
+147 Monster Egg 12
+148 The Shadow Who Controls the Dark 12
+152 The Melting Red Shadow 32
+154 Fire Reaper 12
+156 Hard Armor 12
+157 Firegrass 12
+158 Man Eater 12
+159 Dig Beak 12
+160 M-Warrior #1 12
+161 M-Warrior #2 12
+173 Dark Prisoner 12
+176 Fire Eye 12
+177 Monsturtle 24
+179 Phantom Dewan 12
+182 Masked Clown 12
+183 Lucky Trinket 12
+184 Genin 12
+187 Gate Deeg 12
+189 Fusionist 12
+191 Lala Li-oon 12
+195 Doron 12
+198 Happy Lover 12
+199 Penguin Knight 20
+200 Petit Dragon 12
+203 Phantom ghost 12
+205 Dorover 20
+206 Twin long rods #1 30
+208 Petit angel 12
+209 Winged cleaver 12
+211 Kaminarikozou 12
+212 Meotoko 12
+214 Kagemusha of the Blue Flame 12
+218 Two-mouth darkruler 12
+222 Midnight fiend 12
+224 Trap master 12
+227 Hitodenchak 30
+229 Hourglass of life 12
+232 Madjinn gunn 12
+239 Vishwar randi 12
+240 The drdek 12
+242 Candle of fate 12
+243 Water element 30
+245 Meda bat 12
+247 Root water 20
+254 Embryonic beast 12
+261 Wicked mirror 12
+265 The furious sea king 32
+266 Princess of tsurugi 12
+267 Unknown warrior of fiend 12
+268 Sectarian of secrets 12
+270 Wetha 20
+271 Megirus light 12
+277 Gorgon egg 12
+285 Serpent marauder 32
+289 Change slime 20
+292 Psychic kappa 32
+300 Kurama 12
+308 Beast fangs 24
+309 Steel shell 24
+324 Invigoration 24
+328 Power of kaishin 24
+334 Umi 36
+337 Raigeki 36
+393 Zone eater 20
+398 Ooguchi 20
+420 Cyber-stein 12
+421 Cyber commander 12
+432 Waterdragon fairy 20
+436 White Dolphin 20
+444 Turu-purun 20
+446 Aqua snake 20
+451 Kanikabuto 30
+452 Zarigun 30
+475 Sinister Serpent 20
+476 Ganigumo 12
+484 Ameba 20
+490 Needle ball 12
+492 Hoshiningen 12
+503 Turtle Raccoon 30
+506 Gale dogra 12
+510 Laughing Flower 12
+524 Star boy 20
+534 Minar 12
+536 Mechaleon 30
+540 Skelengel 12
+544 Dharma cannon 12
+549 Frog the jam 30
+556 The wandering doomed 12
+569 Drooling lizard 20
+590 Beaked snake 20
+591 Morphing jar 12
+602 Penguin soldier 30
+604 Obese marmot of nefariousness 12
+605 Liquid beast 20
+606 Twin Long Rods 2 30
+609 Bladefly 12
+664 Eternal Draught 40
+682 Eatgaboon 24
+683 Bear trap 24
+687 Goblin fan 24
+690 Fake trap 24
+693 Contruct of mask 24
+
+Yami Bakura
+------------------------------------------------------------------------
+16 Time wizard 40
+20 Left Arm of the Forbidden One 6
+104 Curtain of the Dark Ones 40
+114 White Magical Hat 40
+128 Lamoon 6
+129 Nemuriko 40
+130 Weather Control 40
+134 Mystical Capture Chain 40
+142 Flame Manipulator 40
+143 Necrolancer the Timelord 40
+144 Djinn the Watcher of the Wind 40
+145 The Bewitching Phantom Thief 40
+174 Hurricail 40
+179 Phantom Dewan 40
+183 Lucky Trinket 40
+184 Genin 40
+190 Akakieisu 40
+192 Key Mace 40
+198 Happy Lover 40
+208 Petit angel 40
+216 Dryad 6
+229 Hourglass of life 40
+253 Angelwitch 40
+260 Lunar queen elzaim 40
+264 Wing egg elf 40
+268 Sectarian of secrets 40
+276 Ray & temperature 40
+287 Ogre of the black shadow 6
+311 Black pendant 36
+312 Silver bow and arrow 36
+323 Book of secret arts 40
+334 Umi 64
+350 Dark-piercing Light 40
+387 Mystic lamp 40
+395 Dancing elf 40
+433 Ancient elf 6
+486 Boo koo 40
+492 Hoshiningen 40
+540 Skelengel 40
+578 Leo wizard 6
+587 Mon larvas 6
+612 Lady of faith 40
+630 Ancient lizard warrior 6
+653 Warrior elimination 32
+661 Crush card 2
+665 Curse of Millennium Shield 32
+666 Yamadron ritual 74
+668 Bright castle 32
+671 Zera ritual 8
+672 Harpie's Feather Duster 32
+673 War-lion ritual 8
+674 Beastry mirror ritual 8
+676 Commencement dance 8
+677 Hamburger recipe 8
+678 Revival of Sennen Genjin 10
+679 Novox's prayer 32
+680 Curse of tri-horned dragon 10
+684 Invisible wire 32
+685 Acid trap hole 34
+688 Bad reaction to simochi 34
+690 Fake trap 32
+691 Revived of Serpent Night Dragon 10
+692 Turtle Oath 10
+693 Contruct of mask 32
+694 Resurrection of Chakra 10
+695 Puppet ritual 32
+697 Garma sword oath 10
+698 Cosmo queen's prayer 10
+699 Revival of skeleton rider 32
+700 Fortress whale's oath 10
+
+Pegasus
+------------------------------------------------------------------------
+4 Baby Dragon 32
+19 Right Arm of the Forbidden One 8
+29 Mountain Warrior 32
+40 Dragon Piper 64
+45 Oscillo Hero #2 34
+47 Torike 34
+61 Wolf 34
+65 Silver Fang 34
+113 Dark Gray 34
+117 Spirit of the Books 6
+122 Yamatano Dragon Scroll 34
+155 Larvas 34
+159 Dig Beak 34
+187 Gate Deeg 34
+188 Synchar 34
+189 Fusionist 34
+200 Petit Dragon 34
+202 Air marmot of nefariousness 34
+207 Droll bird 34
+212 Meotoko 34
+219 Solitude 34
+282 Mystical sheep #2 36
+296 One-eyed shield dragon 36
+298 Wicked dragon with the ersatz head 36
+300 Kurama 36
+315 Dragon treasure 36
+316 Electro-whip 36
+325 Machine Conversion Factory 36
+329 Dragon capture jar 64
+330 Forest 64
+334 Umi 64
+404 Tatsunootoshigo 8
+481 Burglar 36
+496 Wilmee 36
+527 Milus radiant 36
+538 Niwatori 36
+595 Fiend refrection #1 8
+598 Little chimera 36
+604 Obese marmot of nefariousness 36
+629 Armored rat 36
+642 Mystical sheep #1 36
+652 Magical Labyrinth 36
+657 Megamorph 64
+661 Crush card 2
+665 Curse of Millennium Shield 32
+666 Yamadron ritual 32
+668 Bright castle 64
+672 Harpie's Feather Duster 32
+676 Commencement dance 32
+677 Hamburger recipe 32
+685 Acid trap hole 64
+686 Widespread ruin 64
+687 Goblin fan 32
+690 Fake trap 32
+693 Contruct of mask 32
+695 Puppet ritual 32
+699 Revival of skeleton rider 32
+
+Isis
+------------------------------------------------------------------------
+4 Baby Dragon 56
+20 Left Arm of the Forbidden One 8
+122 Yamatano Dragon Scroll 56
+140 Toad master 56
+152 The Melting Red Shadow 56
+177 Monsturtle 56
+199 Penguin Knight 56
+200 Petit Dragon 56
+205 Dorover 54
+206 Twin long rods #1 54
+227 Hitodenchak 54
+243 Water element 54
+247 Root water 54
+249 Water omotics 10
+265 The furious sea king 54
+270 Wetha 54
+289 Change slime 54
+292 Psychic kappa 54
+296 One-eyed shield dragon 54
+298 Wicked dragon with the ersatz head 54
+307 Elf's light 36
+311 Black pendant 32
+315 Dragon treasure 36
+316 Electro-whip 64
+317 Cyber shield 64
+319 Mystical moon 36
+321 Malevolent Nuzzler 36
+322 Violet crystal 36
+328 Power of kaishin 36
+331 Wasteland 32
+334 Umi 32
+340 Goblin's secret remedy 36
+393 Zone eater 54
+431 Ice water 84
+448 Spike Seadra 10
+454 Destroyer golem 10
+456 Minomushi warrior 10
+517 Sand stone 10
+530 Eldeen 42
+621 Succubus knight 10
+656 Eternal rest 32
+661 Crush card 2
+663 Breath of light 64
+664 Eternal Draught 32
+665 Curse of Millennium Shield 32
+672 Harpie's Feather Duster 36
+676 Commencement dance 32
+686 Widespread ruin 36
+687 Goblin fan 36
+690 Fake trap 36
+
+Kaiba
+------------------------------------------------------------------------
+4 Baby Dragon 86
+5 Ryu-kishin 174
+19 Right Arm of the Forbidden One 12
+66 Kojikocy 12
+117 Spirit of the Books 12
+122 Yamatano Dragon Scroll 84
+128 Lamoon 12
+151 Rhaimundos of the Red Sword 12
+163 Lisark 12
+200 Petit Dragon 84
+216 Dryad 12
+249 Water omotics 12
+275 Ground Attacker Bugroth 12
+281 Mystic clown 12
+287 Ogre of the black shadow 12
+296 One-eyed shield dragon 84
+297 Cyber Soldier of Darkworld 12
+298 Wicked dragon with the ersatz head 84
+302 Sword of dark destruction 56
+303 Dark energy 56
+329 Dragon capture jar 56
+333 Sogen 88
+404 Tatsunootoshigo 12
+418 Golgoil 12
+448 Spike Seadra 12
+454 Destroyer golem 12
+456 Minomushi warrior 12
+498 Morinphen 12
+517 Sand stone 12
+578 Leo wizard 12
+587 Mon larvas 12
+595 Fiend refrection #1 12
+614 Hunter spider 12
+621 Succubus knight 12
+630 Ancient lizard warrior 12
+653 Warrior elimination 80
+661 Crush card 40
+665 Curse of Millennium Shield 40
+666 Yamadron ritual 40
+668 Bright castle 40
+672 Harpie's Feather Duster 40
+676 Commencement dance 40
+677 Hamburger recipe 40
+679 Novox's prayer 40
+685 Acid trap hole 84
+686 Widespread ruin 84
+687 Goblin fan 84
+688 Bad reaction to simochi 84
+690 Fake trap 40
+693 Contruct of mask 40
+695 Puppet ritual 40
+699 Revival of skeleton rider 40
+
+Mage Soldier
+------------------------------------------------------------------------
+5 Ryu-kishin 40
+20 Left Arm of the Forbidden One 12
+25 Horn Imp 40
+48 Sangan 40
+58 Kuriboh 40
+103 Job-Change Mirror 40
+115 Kamion Wizard 40
+119 Trial of Nightmares 40
+121 Sleeping Lion 40
+137 Mystery Hand 38
+148 The Shadow Who Controls the Dark 38
+162 Tainted Wisdom 38
+164 Lord of Zemia 38
+169 Dark King of the Abyss 38
+171 Big Eye 38
+173 Dark Prisoner 38
+175 Ancient Brain 38
+178 Claw Reacher 38
+181 Dark Shade 38
+222 Midnight fiend 38
+232 Madjinn gunn 38
+233 Dark titan of terror 32
+240 The drdek 38
+242 Candle of fate 38
+245 Meda bat 38
+254 Embryonic beast 38
+255 Prevent rat 38
+261 Wicked mirror 38
+269 Versago the destroyer 38
+271 Megirus light 38
+277 Gorgon egg 38
+279 King fog 38
+281 Mystic clown 12
+295 Bio plant 38
+303 Dark energy 72
+304 Axe of despair 76
+321 Malevolent Nuzzler 40
+325 Machine Conversion Factory 40
+335 Yami 72
+402 Monster eye 38
+490 Needle ball 38
+504 Fungi of the musk 38
+563 Wretched ghost of the attic 38
+611 Hiro's shadow scout 38
+655 Cursebreaker 36
+683 Bear trap 40
+684 Invisible wire 40
+685 Acid trap hole 40
+686 Widespread ruin 40
+688 Bad reaction to simochi 72
+690 Fake trap 40
+
+Jono 2nd
+------------------------------------------------------------------------
+4 Baby Dragon 18
+20 Left Arm of the Forbidden One 4
+29 Mountain Warrior 18
+43 Karbonala Warrior 18
+50 Basic Insect 38
+61 Wolf 18
+78 Axe raider 18
+100 Battle Warrior 18
+104 Curtain of the Dark Ones 38
+105 Tomozaurus 38
+122 Yamatano Dragon Scroll 38
+130 Weather Control 38
+135 Fiend's Hand 38
+137 Mystery Hand 38
+152 The Melting Red Shadow 38
+154 Fire Reaper 38
+174 Hurricail 38
+182 Masked Clown 38
+185 Eyearmor 38
+191 Lala Li-oon 38
+197 Mech Mole Zombie 38
+202 Air marmot of nefariousness 38
+207 Droll bird 38
+210 Hinotama soul 38
+214 Kagemusha of the Blue Flame 38
+237 Haniwa 38
+242 Candle of fate 44
+245 Meda bat 44
+268 Sectarian of secrets 44
+301 Legendary sword 20
+302 Sword of dark destruction 20
+310 Vile germs 21
+311 Black pendant 21
+333 Sogen 20
+336 Dark hole 20
+344 Hinotama 22
+345 Final flame 22
+410 Mechanical spider 44
+420 Cyber-stein 44
+422 Jinzo #7 44
+436 White Dolphin 44
+444 Turu-purun 44
+485 Korogashi 44
+486 Boo koo 44
+488 Rainbow flower 44
+492 Hoshiningen 44
+501 Man-eater bug 44
+516 Muka muka 44
+524 Star boy 44
+549 Frog the jam 44
+558 Pot the trick 44
+563 Wretched ghost of the attic 44
+579 Abyss flower 44
+589 Tentacle plant 44
+598 Little chimera 44
+611 Hiro's shadow scout 44
+651 Kunai with chain 22
+654 Salamandra 22
+677 Hamburger recipe 20
+681 House of adhesive tape 16
+
+Teana 2nd
+------------------------------------------------------------------------
+19 Right Arm of the Forbidden One 6
+24 Skull Servant 172
+58 Kuriboh 172
+167 Ancient Jar 172
+302 Sword of dark destruction 18
+312 Silver bow and arrow 18
+330 Forest 30
+336 Dark hole 16
+345 Final flame 18
+350 Dark-piercing Light 32
+393 Zone eater 172
+395 Dancing elf 172
+398 Ooguchi 172
+399 Swordsman from a Foreign Land 172
+402 Monster eye 172
+469 Armed ninja 172
+475 Sinister Serpent 172
+527 Milus radiant 172
+681 House of adhesive tape 16
+699 Revival of skeleton rider 2
+
+Ocean Mage
+------------------------------------------------------------------------
+5 Ryu-kishin 12
+8 Mushroom man 12
+20 Left Arm of the Forbidden One 6
+29 Mountain Warrior 12
+45 Oscillo Hero #2 12
+48 Sangan 12
+50 Basic Insect 12
+70 Fiend Kraken 50
+71 Jellyfish 50
+77 Grappler 22
+96 Armored Zombie 12
+97 Dragon Zombie 12
+98 Clown Zombie 12
+101 Wings of Wicked Flame 12
+107 Kageningen 12
+108 Graveyard and the Hand of Invitation 12
+122 Yamatano Dragon Scroll 12
+129 Nemuriko 12
+134 Mystical Capture Chain 12
+135 Fiend's Hand 12
+139 Blue-eyed Silver Zombie 12
+140 Toad master 22
+144 Djinn the Watcher of the Wind 12
+145 The Bewitching Phantom Thief 12
+147 Monster Egg 12
+148 The Shadow Who Controls the Dark 12
+152 The Melting Red Shadow 36
+154 Fire Reaper 12
+156 Hard Armor 12
+157 Firegrass 12
+158 Man Eater 12
+159 Dig Beak 12
+160 M-Warrior #1 12
+161 M-Warrior #2 12
+173 Dark Prisoner 12
+176 Fire Eye 12
+177 Monsturtle 22
+179 Phantom Dewan 12
+182 Masked Clown 12
+183 Lucky Trinket 12
+184 Genin 12
+187 Gate Deeg 10
+189 Fusionist 10
+191 Lala Li-oon 10
+193 Turtle Tiger 20
+195 Doron 10
+196 Arma Knight 20
+198 Happy Lover 10
+199 Penguin Knight 20
+200 Petit Dragon 10
+203 Phantom ghost 10
+205 Dorover 20
+206 Twin long rods #1 34
+208 Petit angel 10
+209 Winged cleaver 10
+211 Kaminarikozou 10
+212 Meotoko 10
+214 Kagemusha of the Blue Flame 10
+218 Two-mouth darkruler 10
+222 Midnight fiend 10
+224 Trap master 10
+227 Hitodenchak 34
+229 Hourglass of life 10
+230 Rare fish 20
+232 Madjinn gunn 10
+239 Vishwar randi 10
+240 The drdek 10
+242 Candle of fate 10
+243 Water element 34
+245 Meda bat 10
+247 Root water 20
+251 Enchanting mermaid 20
+254 Embryonic beast 10
+258 Beastking of the Swamps 20
+261 Wicked mirror 10
+265 The furious sea king 34
+266 Princess of tsurugi 10
+267 Unknown warrior of fiend 10
+268 Sectarian of secrets 10
+270 Wetha 20
+271 Megirus light 10
+277 Gorgon egg 10
+285 Serpent marauder 34
+292 Psychic kappa 34
+308 Beast fangs 24
+309 Steel shell 24
+324 Invigoration 24
+328 Power of kaishin 24
+334 Umi 30
+337 Raigeki 36
+346 Ookazi 24
+420 Cyber-stein 10
+421 Cyber commander 10
+432 Waterdragon fairy 20
+446 Aqua snake 20
+451 Kanikabuto 34
+452 Zarigun 34
+476 Ganigumo 10
+490 Needle ball 10
+492 Hoshiningen 10
+503 Turtle Raccoon 34
+506 Gale dogra 10
+510 Laughing Flower 10
+524 Star boy 20
+534 Minar 10
+536 Mechaleon 34
+540 Skelengel 10
+544 Dharma cannon 10
+549 Frog the jam 34
+556 The wandering doomed 10
+569 Drooling lizard 20
+590 Beaked snake 20
+591 Morphing jar 10
+602 Penguin soldier 34
+604 Obese marmot of nefariousness 10
+605 Liquid beast 20
+606 Twin Long Rods 2 34
+609 Bladefly 10
+664 Eternal Draught 24
+682 Eatgaboon 20
+683 Bear trap 20
+687 Goblin fan 20
+
+High Mage Secmeton
+------------------------------------------------------------------------
+2 Mystical Elf 42
+20 Left Arm of the Forbidden One 4
+34 Saggi the Dark Clown 42
+44 Rogue Doll 42
+104 Curtain of the Dark Ones 42
+109 Goddess with the Third Eye 42
+114 White Magical Hat 42
+115 Kamion Wizard 42
+129 Nemuriko 42
+130 Weather Control 42
+134 Mystical Capture Chain 44
+142 Flame Manipulator 44
+143 Necrolancer the Timelord 44
+144 Djinn the Watcher of the Wind 44
+145 The Bewitching Phantom Thief 44
+170 Spirit of the Harp 44
+174 Hurricail 44
+179 Phantom Dewan 44
+183 Lucky Trinket 44
+184 Genin 44
+190 Akakieisu 44
+198 Happy Lover 44
+208 Petit angel 44
+220 Masked sorcerer 44
+229 Hourglass of life 44
+253 Angelwitch 44
+259 Ancient sorcerer 44
+260 Lunar queen elzaim 44
+264 Wing egg elf 44
+268 Sectarian of secrets 44
+276 Ray & temperature 44
+311 Black pendant 32
+312 Silver bow and arrow 32
+323 Book of secret arts 32
+334 Umi 48
+350 Dark-piercing Light 32
+486 Boo koo 44
+492 Hoshiningen 44
+540 Skelengel 44
+584 Binding chain 44
+601 Tenderness 44
+608 Shining friendship 44
+612 Lady of faith 44
+653 Warrior elimination 32
+661 Crush card 2
+665 Curse of Millennium Shield 32
+666 Yamadron ritual 64
+672 Harpie's Feather Duster 32
+684 Invisible wire 32
+685 Acid trap hole 32
+688 Bad reaction to simochi 32
+
+Forest Mage
+------------------------------------------------------------------------
+8 Mushroom man 39
+19 Right Arm of the Forbidden One 5
+40 Dragon Piper 19
+50 Basic Insect 19
+75 Man-eating Plant 105
+76 Krokodilus 39
+98 Clown Zombie 19
+101 Wings of Wicked Flame 39
+104 Curtain of the Dark Ones 19
+107 Kageningen 19
+122 Yamatano Dragon Scroll 19
+130 Weather Control 19
+133 Charubin the fire knight 19
+134 Mystical Capture Chain 19
+135 Fiend's Hand 19
+145 The Bewitching Phantom Thief 19
+152 The Melting Red Shadow 19
+154 Fire Reaper 19
+157 Firegrass 38
+158 Man Eater 38
+159 Dig Beak 18
+174 Hurricail 18
+176 Fire Eye 38
+179 Phantom Dewan 18
+180 Arlownay 18
+182 Masked Clown 18
+183 Lucky Trinket 18
+185 Eyearmor 18
+191 Lala Li-oon 18
+195 Doron 18
+198 Happy Lover 18
+200 Petit Dragon 18
+202 Air marmot of nefariousness 18
+203 Phantom ghost 18
+207 Droll bird 18
+209 Winged cleaver 18
+210 Hinotama soul 38
+211 Kaminarikozou 18
+212 Meotoko 18
+214 Kagemusha of the Blue Flame 18
+222 Midnight fiend 18
+227 Hitodenchak 18
+229 Hourglass of life 18
+232 Madjinn gunn 18
+237 Haniwa 18
+242 Candle of fate 18
+245 Meda bat 18
+254 Embryonic beast 18
+261 Wicked mirror 18
+268 Sectarian of secrets 18
+273 Ancient tree of enlightenment 18
+274 Green phantom king 18
+285 Serpent marauder 18
+291 Fireyarou 18
+292 Psychic kappa 18
+302 Sword of dark destruction 20
+308 Beast fangs 20
+310 Vile germs 20
+324 Invigoration 20
+328 Power of kaishin 20
+330 Forest 36
+343 Sparks 18
+344 Hinotama 18
+346 Ookazi 20
+420 Cyber-stein 18
+452 Zarigun 18
+476 Ganigumo 18
+486 Boo koo 18
+492 Hoshiningen 18
+501 Man-eater bug 18
+506 Gale dogra 18
+510 Laughing Flower 38
+511 Bean soldier 18
+524 Star boy 18
+536 Mechaleon 18
+540 Skelengel 18
+544 Dharma cannon 18
+549 Frog the jam 18
+556 The wandering doomed 18
+567 Darkworld thorns 18
+579 Abyss flower 38
+589 Tentacle plant 38
+591 Morphing jar 18
+598 Little chimera 18
+602 Penguin soldier 18
+609 Bladefly 18
+611 Hiro's shadow scout 18
+620 Snakeyashi 18
+656 Eternal rest 36
+677 Hamburger recipe 18
+682 Eatgaboon 18
+683 Bear trap 18
+684 Invisible wire 18
+687 Goblin fan 18
+688 Bad reaction to simochi 18
+
+High Mage Anubisius
+------------------------------------------------------------------------
+3 Hitotsu-me Giant 21
+8 Mushroom man 21
+10 Blackland Fire Dragon 21
+13 Tyhone 21
+19 Right Arm of the Forbidden One 5
+25 Horn Imp 21
+41 Celtic Guardian 21
+44 Rogue Doll 21
+49 Big Insect 66
+50 Basic Insect 66
+53 Killer Needle 93
+54 Gokibore 93
+55 Giant Flea 66
+70 Fiend Kraken 21
+77 Grappler 21
+80 Uraby 21
+109 Goddess with the Third Eye 21
+115 Kamion Wizard 21
+116 Nightmare Scorpion 21
+119 Trial of Nightmares 21
+121 Sleeping Lion 21
+125 Faith Bird 20
+141 Spiked Snail 20
+149 Lord of the Lamp 20
+157 Firegrass 20
+158 Man Eater 20
+164 Lord of Zemia 20
+166 Mysterious Puppeteer 20
+171 Big Eye 20
+180 Arlownay 20
+186 Fiend Refrection #2 20
+193 Turtle Tiger 20
+194 Terra the Terrible 20
+196 Arma Knight 20
+201 Frenzied panda 20
+209 Winged cleaver 20
+220 Masked sorcerer 20
+221 Kumootoko 20
+225 Fiend sword 20
+233 Dark titan of terror 20
+236 Guardian of the labyrinth 20
+248 Master & expert 20
+255 Prevent rat 20
+256 Dimensional warrior 20
+259 Ancient sorcerer 20
+272 Mavelus 20
+273 Ancient tree of enlightenment 20
+274 Green phantom king 20
+280 Protector of the throne 20
+291 Fireyarou 20
+293 Masaki the legendary swordsman 20
+305 Laser cannon armor 36
+306 Insect Armor with Laser Cannon 36
+325 Machine Conversion Factory 36
+330 Forest 36
+406 Yaiba robo 20
+412 Giga-tech wolf 20
+459 Tripwire beast 20
+476 Ganigumo 20
+477 Alinsection 20
+478 Insect soldiers of the sky 20
+479 Cockroach knight 20
+496 Wilmee 20
+501 Man-eater bug 20
+506 Gale dogra 20
+510 Laughing Flower 20
+511 Bean soldier 20
+514 Brave scizzar 20
+534 Minar 20
+552 Winged dragon #2 20
+567 Darkworld thorns 20
+576 Giant scorpion of the tundra 20
+579 Abyss flower 20
+589 Tentacle plant 20
+608 Shining friendship 20
+609 Bladefly 20
+620 Snakeyashi 42
+643 Disk magician 20
+662 Eradicating Aerosol 40
+683 Bear trap 26
+684 Invisible wire 26
+688 Bad reaction to simochi 26
+
+Mountain Mage
+------------------------------------------------------------------------
+9 Shadow Specter 56
+20 Left Arm of the Forbidden One 4
+24 Skull Servant 56
+58 Kuriboh 56
+112 That Which Feeds on Life 8
+123 Dark Plant 56
+146 Temple of Skulls 8
+153 Dokuroizo the Grim Reaper 8
+165 The Judgement Hand 8
+167 Ancient Jar 56
+192 Key Mace 56
+234 Beautiful Headhuntress 8
+241 Dark Assailant 8
+289 Change slime 56
+307 Elf's light 18
+308 Beast fangs 18
+309 Steel shell 18
+311 Black pendant 18
+312 Silver bow and arrow 18
+323 Book of secret arts 20
+327 Follow wind 20
+332 Mountain 36
+336 Dark hole 20
+338 Mooyan Curry 36
+339 Red medicine 36
+340 Goblin's secret remedy 36
+341 Soul of the pure 24
+342 Dian keto the cure master 10
+345 Final flame 18
+350 Dark-piercing Light 36
+384 Dark rabbit 8
+387 Mystic lamp 56
+393 Zone eater 56
+397 Leghul 56
+398 Ooguchi 56
+399 Swordsman from a Foreign Land 60
+402 Monster eye 60
+411 Bat 60
+435 Water girl 8
+450 Kappa avenger 8
+469 Armed ninja 60
+475 Sinister Serpent 60
+480 Kuwagata α 8
+484 Ameba 60
+502 D. human 8
+504 Fungi of the musk 60
+527 Milus radiant 60
+547 Griggle 60
+548 Bone mouse 60
+558 Pot the trick 60
+570 Trakadon 8
+580 Patrol robo 8
+635 Queen's double 60
+655 Cursebreaker 18
+659 Winged trumpeter 12
+665 Curse of Millennium Shield 8
+666 Yamadron ritual 8
+671 Zera ritual 8
+673 War-lion ritual 8
+674 Beastry mirror ritual 8
+676 Commencement dance 8
+677 Hamburger recipe 8
+678 Revival of Sennen Genjin 8
+679 Novox's prayer 8
+680 Curse of tri-horned dragon 8
+681 House of adhesive tape 12
+683 Bear trap 16
+690 Fake trap 12
+691 Revived of Serpent Night Dragon 8
+692 Turtle Oath 8
+693 Contruct of mask 8
+694 Resurrection of Chakra 8
+695 Puppet ritual 8
+697 Garma sword oath 8
+698 Cosmo queen's prayer 8
+699 Revival of skeleton rider 8
+700 Fortress whale's oath 8
+
+High Mage Atenza
+------------------------------------------------------------------------
+2 Mystical Elf 28
+6 Feral Imp 28
+13 Tyhone 64
+20 Left Arm of the Forbidden One 2
+26 Battle Ox 28
+27 Beaver Warrior 28
+31 Koumori Dragon 28
+32 Two-headed King Rex 28
+36 The Snake Hair 28
+41 Celtic Guardian 28
+43 Karbonala Warrior 28
+44 Rogue Doll 28
+46 Griffore 28
+49 Big Insect 28
+54 Gokibore 28
+55 Giant Flea 28
+70 Fiend Kraken 28
+71 Jellyfish 28
+78 Axe raider 28
+81 Crawling dragon #2 30
+83 Castle of Dark Illusions 30
+86 Barox 30
+91 Mystic Horseman 30
+95 Crass Clown 30
+125 Faith Bird 64
+127 Ansatsu 30
+136 Witty Phantom 30
+149 Lord of the Lamp 30
+168 Darkfire Dragon 30
+170 Spirit of the Harp 30
+186 Fiend Refrection #2 40
+207 Droll bird 40
+230 Rare fish 24
+272 Mavelus 40
+307 Elf's light 28
+312 Silver bow and arrow 28
+313 Horn of light 28
+316 Electro-whip 48
+317 Cyber shield 48
+321 Malevolent Nuzzler 32
+325 Machine Conversion Factory 28
+327 Follow wind 28
+332 Mountain 40
+368 Shadow ghoul 24
+379 La jinn the mystical genie 24
+405 Saber slasher 24
+412 Giga-tech wolf 24
+415 Mechanicalchacer 24
+416 Blocker 24
+460 Bolt Escargot 30
+462 The immortal of thunder 30
+466 Skull red bird 64
+468 Queen bird 40
+511 Bean soldier 24
+512 Cannon soldier 24
+538 Niwatori 40
+552 Winged dragon #2 40
+597 Pale beast 30
+636 Blue-winged Crown 64
+648 Machine Attacker 24
+672 Harpie's Feather Duster 40
+676 Commencement dance 24
+684 Invisible wire 24
+685 Acid trap hole 24
+687 Goblin fan 24
+
+Desert Mage
+------------------------------------------------------------------------
+5 Ryu-kishin 16
+8 Mushroom man 16
+19 Right Arm of the Forbidden One 4
+29 Mountain Warrior 16
+32 Two-headed King Rex 64
+45 Oscillo Hero #2 16
+47 Torike 16
+48 Sangan 16
+59 Mammoth Graveyard 32
+80 Uraby 62
+81 Crawling dragon #2 62
+96 Armored Zombie 16
+97 Dragon Zombie 16
+100 Battle Warrior 16
+107 Kageningen 16
+108 Graveyard and the Hand of Invitation 16
+113 Dark Gray 16
+114 White Magical Hat 16
+116 Nightmare Scorpion 16
+129 Nemuriko 16
+134 Mystical Capture Chain 16
+139 Blue-eyed Silver Zombie 16
+143 Necrolancer the Timelord 16
+144 Djinn the Watcher of the Wind 16
+145 The Bewitching Phantom Thief 16
+147 Monster Egg 16
+148 The Shadow Who Controls the Dark 16
+155 Larvas 16
+156 Hard Armor 16
+158 Man Eater 16
+160 M-Warrior #1 16
+161 M-Warrior #2 16
+173 Dark Prisoner 16
+175 Ancient Brain 16
+176 Fire Eye 16
+177 Monsturtle 16
+178 Claw Reacher 16
+180 Arlownay 16
+183 Lucky Trinket 16
+184 Genin 16
+187 Gate Deeg 16
+188 Synchar 16
+189 Fusionist 16
+190 Akakieisu 16
+195 Doron 16
+199 Penguin Knight 16
+203 Phantom ghost 16
+205 Dorover 16
+206 Twin long rods #1 16
+208 Petit angel 16
+209 Winged cleaver 16
+215 Flame ghost 16
+218 Two-mouth darkruler 52
+222 Midnight fiend 16
+224 Trap master 16
+226 Skull stalker 16
+232 Madjinn gunn 16
+239 Vishwar randi 16
+240 The drdek 16
+243 Water element 16
+247 Root water 16
+253 Angelwitch 16
+264 Wing egg elf 16
+265 The furious sea king 16
+266 Princess of tsurugi 16
+267 Unknown warrior of fiend 16
+271 Megirus light 16
+277 Gorgon egg 16
+282 Mystical sheep #2 16
+283 Holograh 16
+292 Psychic kappa 16
+298 Wicked dragon with the ersatz head 16
+308 Beast fangs 26
+324 Invigoration 26
+326 Raise body heat 26
+331 Wasteland 50
+332 Mountain 50
+346 Ookazi 24
+417 Blast juggler 16
+421 Cyber commander 16
+432 Waterdragon fairy 16
+451 Kanikabuto 16
+463 Electric Snake 16
+476 Ganigumo 16
+477 Alinsection 16
+478 Insect soldiers of the sky 16
+479 Cockroach knight 16
+481 Burglar 16
+490 Needle ball 16
+503 Turtle Raccoon 16
+510 Laughing Flower 16
+534 Minar 16
+536 Mechaleon 16
+538 Niwatori 16
+544 Dharma cannon 16
+556 The wandering doomed 16
+568 Anthrosaurus 30
+569 Drooling lizard 16
+573 Little D 52
+585 Mechanical snail 16
+590 Beaked snake 16
+604 Obese marmot of nefariousness 16
+605 Liquid beast 16
+606 Twin Long Rods 2 16
+682 Eatgaboon 24
+683 Bear trap 24
+
+High Mage Martis
+------------------------------------------------------------------------
+3 Hitotsu-me Giant 12
+4 Baby Dragon 12
+5 Ryu-kishin 25
+6 Feral Imp 12
+20 Left Arm of the Forbidden One 6
+23 The Wicked Worm Beast 12
+25 Horn Imp 12
+26 Battle Ox 12
+29 Mountain Warrior 12
+34 Saggi the Dark Clown 25
+40 Dragon Piper 12
+42 Illusionist Faceless Mage 12
+44 Rogue Doll 12
+47 Torike 12
+48 Sangan 25
+59 Mammoth Graveyard 12
+61 Wolf 12
+65 Silver Fang 12
+77 Grappler 12
+83 Castle of Dark Illusions 12
+86 Barox 12
+91 Mystic Horseman 12
+95 Crass Clown 12
+97 Dragon Zombie 12
+100 Battle Warrior 12
+103 Job-Change Mirror 12
+104 Curtain of the Dark Ones 12
+108 Graveyard and the Hand of Invitation 12
+113 Dark Gray 12
+114 White Magical Hat 25
+115 Kamion Wizard 12
+116 Nightmare Scorpion 12
+118 Supporter in the Shadows 12
+119 Trial of Nightmares 12
+129 Nemuriko 12
+133 Charubin the fire knight 12
+136 Witty Phantom 12
+138 Dragon Statue 12
+139 Blue-eyed Silver Zombie 12
+140 Toad master 12
+141 Spiked Snail 12
+142 Flame Manipulator 25
+143 Necrolancer the Timelord 25
+144 Djinn the Watcher of the Wind 25
+145 The Bewitching Phantom Thief 12
+148 The Shadow Who Controls the Dark 12
+149 Lord of the Lamp 12
+155 Larvas 12
+162 Tainted Wisdom 12
+164 Lord of Zemia 12
+169 Dark King of the Abyss 25
+171 Big Eye 12
+172 Armaill 12
+173 Dark Prisoner 25
+174 Hurricail 12
+175 Ancient Brain 25
+177 Monsturtle 12
+178 Claw Reacher 25
+179 Phantom Dewan 12
+180 Arlownay 12
+181 Dark Shade 25
+183 Lucky Trinket 12
+184 Genin 12
+188 Synchar 12
+189 Fusionist 12
+190 Akakieisu 25
+194 Terra the Terrible 12
+199 Penguin Knight 12
+205 Dorover 12
+206 Twin long rods #1 12
+215 Flame ghost 12
+218 Two-mouth darkruler 12
+220 Masked sorcerer 12
+222 Midnight fiend 12
+224 Trap master 12
+226 Skull stalker 12
+228 Wood remains 10
+231 Wood clown 10
+232 Madjinn gunn 10
+233 Dark titan of terror 10
+239 Vishwar randi 10
+240 The drdek 10
+242 Candle of fate 10
+243 Water element 10
+244 Dissolverock 10
+245 Meda bat 10
+247 Root water 10
+250 Hyo 10
+253 Angelwitch 20
+254 Embryonic beast 10
+257 Stone armadiller 10
+259 Ancient sorcerer 10
+260 Lunar queen elzaim 10
+261 Wicked mirror 10
+264 Wing egg elf 10
+266 Princess of tsurugi 10
+268 Sectarian of secrets 10
+269 Versago the destroyer 20
+270 Wetha 10
+271 Megirus light 10
+276 Ray & temperature 10
+277 Gorgon egg 20
+279 King fog 20
+282 Mystical sheep #2 10
+283 Holograh 10
+295 Bio plant 20
+296 One-eyed shield dragon 10
+298 Wicked dragon with the ersatz head 10
+303 Dark energy 24
+321 Malevolent Nuzzler 25
+323 Book of secret arts 25
+331 Wasteland 32
+346 Ookazi 25
+379 La jinn the mystical genie 20
+417 Blast juggler 10
+432 Waterdragon fairy 10
+446 Aqua snake 10
+461 Bolt penguin 10
+463 Electric Snake 10
+477 Alinsection 10
+478 Insect soldiers of the sky 10
+479 Cockroach knight 10
+481 Burglar 10
+486 Boo koo 10
+490 Needle ball 10
+503 Turtle Raccoon 10
+534 Minar 10
+538 Niwatori 10
+568 Anthrosaurus 10
+569 Drooling lizard 10
+573 Little D 10
+585 Mechanical snail 10
+590 Beaked snake 10
+605 Liquid beast 10
+611 Hiro's shadow scout 10
+612 Lady of faith 20
+676 Commencement dance 25
+682 Eatgaboon 25
+683 Bear trap 25
+684 Invisible wire 25
+687 Goblin fan 25
+688 Bad reaction to simochi 25
+693 Contruct of mask 36
+695 Puppet ritual 36
+
+Meadow Mage
+------------------------------------------------------------------------
+2 Mystical Elf 46
+6 Feral Imp 46
+9 Shadow Specter 150
+10 Blackland Fire Dragon 46
+19 Right Arm of the Forbidden One 4
+25 Horn Imp 46
+27 Beaver Warrior 46
+30 Zombie Warrior 46
+31 Koumori Dragon 46
+41 Celtic Guardian 46
+46 Griffore 46
+47 Torike 46
+48 Sangan 46
+59 Mammoth Graveyard 46
+65 Silver Fang 46
+102 Mask of Darkness 20
+130 Weather Control 90
+238 Yashinoki 20
+301 Legendary sword 64
+313 Horn of light 64
+314 Horn of the unicorn 64
+333 Sogen 64
+336 Dark hole 64
+345 Final flame 64
+349 Spellbinding circle 64
+381 Toon alligator 2
+422 Jinzo #7 88
+436 White Dolphin 80
+444 Turu-purun 84
+485 Korogashi 80
+516 Muka muka 80
+563 Wretched ghost of the attic 80
+676 Commencement dance 32
+677 Hamburger recipe 32
+681 House of adhesive tape 64
+682 Eatgaboon 64
+690 Fake trap 32
+
+High Mage Kepura
+------------------------------------------------------------------------
+3 Hitotsu-me Giant 100
+4 Baby Dragon 56
+5 Ryu-kishin 100
+10 Blackland Fire Dragon 56
+19 Right Arm of the Forbidden One 4
+23 The Wicked Worm Beast 100
+26 Battle Ox 100
+31 Koumori Dragon 56
+34 Saggi the Dark Clown 100
+77 Grappler 100
+91 Mystic Horseman 100
+122 Yamatano Dragon Scroll 48
+168 Darkfire Dragon 48
+200 Petit Dragon 48
+296 One-eyed shield dragon 46
+298 Wicked dragon with the ersatz head 46
+302 Sword of dark destruction 40
+303 Dark energy 40
+329 Dragon capture jar 40
+333 Sogen 80
+379 La jinn the mystical genie 100
+653 Warrior elimination 80
+661 Crush card 40
+665 Curse of Millennium Shield 40
+666 Yamadron ritual 40
+668 Bright castle 40
+672 Harpie's Feather Duster 40
+684 Invisible wire 40
+685 Acid trap hole 80
+686 Widespread ruin 80
+687 Goblin fan 80
+688 Bad reaction to simochi 80
+
+Labyrinth Mage
+------------------------------------------------------------------------
+10 Blackland Fire Dragon 14
+19 Right Arm of the Forbidden One 5
+23 The Wicked Worm Beast 14
+25 Horn Imp 14
+30 Zombie Warrior 30
+34 Saggi the Dark Clown 14
+36 The Snake Hair 14
+40 Dragon Piper 14
+45 Oscillo Hero #2 14
+53 Killer Needle 14
+59 Mammoth Graveyard 14
+61 Wolf 14
+65 Silver Fang 14
+70 Fiend Kraken 14
+71 Jellyfish 14
+80 Uraby 14
+96 Armored Zombie 14
+97 Dragon Zombie 14
+98 Clown Zombie 14
+103 Job-Change Mirror 14
+108 Graveyard and the Hand of Invitation 14
+109 Goddess with the Third Eye 14
+110 Hero of the East 14
+115 Kamion Wizard 14
+118 Supporter in the Shadows 14
+119 Trial of Nightmares 14
+120 Dream Clown 14
+121 Sleeping Lion 14
+132 The 13th grave 30
+135 Fiend's Hand 14
+138 Dragon Statue 14
+139 Blue-eyed Silver Zombie 14
+140 Toad master 30
+141 Spiked Snail 13
+152 The Melting Red Shadow 13
+154 Fire Reaper 13
+162 Tainted Wisdom 13
+164 Lord of Zemia 13
+169 Dark King of the Abyss 13
+171 Big Eye 13
+172 Armaill 13
+177 Monsturtle 13
+181 Dark Shade 13
+191 Lala Li-oon 13
+193 Turtle Tiger 13
+196 Arma Knight 28
+199 Penguin Knight 13
+201 Frenzied panda 13
+203 Phantom ghost 13
+205 Dorover 13
+206 Twin long rods #1 13
+211 Kaminarikozou 13
+215 Flame ghost 13
+219 Solitude 13
+220 Masked sorcerer 13
+221 Kumootoko 13
+225 Fiend sword 13
+227 Hitodenchak 13
+228 Wood remains 13
+231 Wood clown 13
+233 Dark titan of terror 13
+236 Guardian of the labyrinth 13
+237 Haniwa 13
+243 Water element 13
+244 Dissolverock 13
+246 One who hunts souls 13
+248 Master & expert 13
+250 Hyo 13
+251 Enchanting mermaid 13
+256 Dimensional warrior 13
+257 Stone armadiller 28
+258 Beastking of the Swamps 28
+259 Ancient sorcerer 13
+262 The little swordsman of aile 13
+263 Rock ogre grotto #2 28
+265 The furious sea king 13
+269 Versago the destroyer 13
+270 Wetha 13
+272 Mavelus 13
+273 Ancient tree of enlightenment 13
+274 Green phantom king 13
+276 Ray & temperature 13
+280 Protector of the throne 13
+290 Moon envoy 13
+291 Fireyarou 13
+292 Psychic kappa 13
+293 Masaki the legendary swordsman 13
+294 Dragoness the wicked knight 13
+296 One-eyed shield dragon 13
+304 Axe of despair 24
+305 Laser cannon armor 24
+316 Electro-whip 12
+319 Mystical moon 12
+321 Malevolent Nuzzler 24
+326 Raise body heat 24
+335 Yami 36
+338 Mooyan Curry 12
+339 Red medicine 12
+340 Goblin's secret remedy 12
+345 Final flame 12
+368 Shadow ghoul 28
+406 Yaiba robo 13
+414 Shovel crusher 13
+432 Waterdragon fairy 13
+446 Aqua snake 13
+451 Kanikabuto 13
+452 Zarigun 13
+459 Tripwire beast 13
+460 Bolt Escargot 13
+461 Bolt penguin 13
+462 The immortal of thunder 12
+463 Electric Snake 12
+496 Wilmee 12
+503 Turtle Raccoon 12
+514 Brave scizzar 12
+524 Star boy 12
+549 Frog the jam 12
+552 Winged dragon #2 12
+556 The wandering doomed 12
+567 Darkworld thorns 12
+576 Giant scorpion of the tundra 12
+584 Binding chain 12
+591 Morphing jar 12
+601 Tenderness 12
+602 Penguin soldier 12
+605 Liquid beast 12
+606 Twin Long Rods 2 12
+608 Shining friendship 12
+620 Snakeyashi 12
+629 Armored rat 12
+642 Mystical sheep #1 13
+643 Disk magician 13
+652 Magical Labyrinth 24
+655 Cursebreaker 24
+683 Bear trap 24
+684 Invisible wire 24
+687 Goblin fan 24
+688 Bad reaction to simochi 24
+
+Seto 2nd
+------------------------------------------------------------------------
+2 Mystical Elf 32
+6 Feral Imp 32
+10 Blackland Fire Dragon 32
+12 Swamp Battleguard 12
+15 Flame swordsman 12
+21 Exodia the Forbidden 4
+25 Horn Imp 32
+27 Beaver Warrior 32
+30 Zombie Warrior 32
+31 Koumori Dragon 32
+33 Judge Man 12
+41 Celtic Guardian 48
+43 Karbonala Warrior 12
+46 Griffore 32
+47 Torike 32
+48 Sangan 32
+59 Mammoth Graveyard 32
+65 Silver Fang 32
+74 Giant Soldier of Stone 32
+78 Axe raider 12
+89 Catapult Turtle 32
+93 Zanki 12
+100 Battle Warrior 12
+107 Kageningen 12
+110 Hero of the East 12
+118 Supporter in the Shadows 12
+120 Dream Clown 12
+127 Ansatsu 12
+138 Dragon Statue 12
+147 Monster Egg 12
+156 Hard Armor 12
+160 M-Warrior #1 12
+161 M-Warrior #2 12
+166 Mysterious Puppeteer 12
+172 Armaill 12
+182 Masked Clown 12
+185 Eyearmor 12
+195 Doron 12
+214 Kagemusha of the Blue Flame 12
+224 Trap master 12
+225 Fiend sword 12
+226 Skull stalker 12
+231 Wood clown 12
+236 Guardian of the labyrinth 12
+239 Vishwar randi 12
+250 Hyo 12
+256 Dimensional warrior 12
+262 The little swordsman of aile 12
+266 Princess of tsurugi 12
+267 Unknown warrior of fiend 12
+280 Protector of the throne 12
+290 Moon envoy 12
+293 Masaki the legendary swordsman 12
+294 Dragoness the wicked knight 12
+302 Sword of dark destruction 24
+308 Beast fangs 24
+310 Vile germs 24
+314 Horn of the unicorn 24
+315 Dragon treasure 24
+324 Invigoration 24
+328 Power of kaishin 24
+336 Dark hole 24
+337 Raigeki 24
+343 Sparks 24
+344 Hinotama 24
+345 Final flame 24
+349 Spellbinding circle 48
+376 Monster Tamer 12
+445 Guardian of the sea 40
+447 Giant Red Seasnake 24
+474 Sea kamen 40
+493 Maha vailo 24
+495 Musician King 10
+507 Crazy fish 24
+515 The statue of easter island 24
+546 Wow warrior 40
+559 Oscillo hero 40
+561 Lesser dragon 40
+565 Man-eating black shark 10
+583 Weather report 24
+622 Ill witch 10
+624 High tide gyojin 10
+653 Warrior elimination 24
+656 Eternal rest 48
+661 Crush card 24
+665 Curse of Millennium Shield 24
+666 Yamadron ritual 24
+668 Bright castle 24
+672 Harpie's Feather Duster 24
+679 Novox's prayer 24
+682 Eatgaboon 24
+683 Bear trap 24
+684 Invisible wire 24
+685 Acid trap hole 24
+686 Widespread ruin 24
+687 Goblin fan 24
+688 Bad reaction to simochi 24
+
+Sebek
+------------------------------------------------------------------------
+2 Mystical Elf 24
+14 Battle steer 24
+19 Right Arm of the Forbidden One 4
+30 Zombie Warrior 24
+32 Two-headed King Rex 24
+36 The Snake Hair 70
+78 Axe raider 24
+81 Crawling dragon #2 24
+83 Castle of Dark Illusions 24
+86 Barox 24
+87 Dark Chimera 24
+89 Catapult Turtle 24
+91 Mystic Horseman 24
+93 Zanki 70
+95 Crass Clown 46
+97 Dragon Zombie 70
+106 Spirit of the Winds 24
+108 Graveyard and the Hand of Invitation 24
+124 Ancient Tool 46
+127 Ansatsu 24
+131 Octoberser 24
+132 The 13th grave 24
+139 Blue-eyed Silver Zombie 24
+150 Akihiron 24
+170 Spirit of the Harp 24
+204 Mabarrel 24
+213 Aqua madoor 24
+215 Flame ghost 24
+228 Wood remains 24
+283 Holograh 24
+286 Gatekeeper 24
+319 Mystical moon 40
+320 Stop defense 40
+322 Violet crystal 20
+325 Machine Conversion Factory 20
+331 Wasteland 40
+335 Yami 40
+347 Tremendous fire 40
+366 Labyrinth wall 24
+368 Shadow ghoul 46
+379 La jinn the mystical genie 24
+405 Saber slasher 46
+406 Yaiba robo 24
+412 Giga-tech wolf 24
+413 Cyber soldier 46
+414 Shovel crusher 24
+415 Mechanicalchacer 24
+416 Blocker 24
+417 Blast juggler 24
+423 Dice armadillo 24
+425 Thunder dragon 24
+441 Mech bass 24
+460 Bolt Escargot 24
+462 The immortal of thunder 24
+468 Queen bird 24
+491 Peacock 24
+508 Cyber saurus 46
+512 Cannon soldier 24
+513 Guardian of the throne room 24
+514 Brave scizzar 24
+557 Steel ogre grotto #1 4
+585 Mechanical snail 24
+633 Winged egg of new life 24
+636 Blue-winged Crown 24
+643 Disk magician 24
+648 Machine Attacker 46
+658 Metalmorph 40
+660 Stain storm 40
+684 Invisible wire 20
+685 Acid trap hole 20
+688 Bad reaction to simochi 20
+
+Neku
+------------------------------------------------------------------------
+6 Feral Imp 42
+13 Tyhone 21
+20 Left Arm of the Forbidden One 4
+25 Horn Imp 21
+26 Battle Ox 21
+27 Beaver Warrior 21
+31 Koumori Dragon 21
+32 Two-headed King Rex 21
+36 The Snake Hair 21
+41 Celtic Guardian 21
+43 Karbonala Warrior 21
+44 Rogue Doll 21
+46 Griffore 21
+48 Sangan 21
+49 Big Insect 21
+54 Gokibore 21
+55 Giant Flea 21
+70 Fiend Kraken 21
+71 Jellyfish 21
+77 Grappler 21
+81 Crawling dragon #2 21
+83 Castle of Dark Illusions 67
+84 Reaper of the Cards 67
+86 Barox 67
+87 Dark Chimera 67
+88 Metal Guardian 67
+95 Crass Clown 43
+103 Job-Change Mirror 21
+115 Kamion Wizard 21
+119 Trial of Nightmares 21
+121 Sleeping Lion 21
+125 Faith Bird 21
+136 Witty Phantom 42
+149 Lord of the Lamp 42
+162 Tainted Wisdom 20
+164 Lord of Zemia 20
+166 Mysterious Puppeteer 20
+168 Darkfire Dragon 20
+169 Dark King of the Abyss 20
+170 Spirit of the Harp 20
+171 Big Eye 20
+173 Dark Prisoner 20
+175 Ancient Brain 20
+178 Claw Reacher 20
+181 Dark Shade 20
+186 Fiend Refrection #2 20
+193 Turtle Tiger 20
+194 Terra the Terrible 42
+204 Mabarrel 20
+230 Rare fish 20
+233 Dark titan of terror 42
+255 Prevent rat 20
+269 Versago the destroyer 20
+277 Gorgon egg 20
+279 King fog 20
+295 Bio plant 20
+303 Dark energy 20
+304 Axe of despair 20
+321 Malevolent Nuzzler 20
+325 Machine Conversion Factory 20
+335 Yami 36
+379 La jinn the mystical genie 42
+412 Giga-tech wolf 20
+415 Mechanicalchacer 20
+416 Blocker 20
+459 Tripwire beast 20
+462 The immortal of thunder 20
+466 Skull red bird 20
+511 Bean soldier 20
+512 Cannon soldier 20
+597 Pale beast 20
+608 Shining friendship 20
+636 Blue-winged Crown 20
+650 Whiptail crow 20
+655 Cursebreaker 18
+683 Bear trap 20
+684 Invisible wire 20
+685 Acid trap hole 20
+686 Widespread ruin 20
+688 Bad reaction to simochi 36
+690 Fake trap 20
+
+Heishin 2nd
+------------------------------------------------------------------------
+2 Mystical Elf 26
+19 Right Arm of the Forbidden One 4
+30 Zombie Warrior 26
+34 Saggi the Dark Clown 26
+36 The Snake Hair 26
+42 Illusionist Faceless Mage 26
+44 Rogue Doll 26
+74 Giant Soldier of Stone 26
+96 Armored Zombie 26
+97 Dragon Zombie 26
+98 Clown Zombie 26
+104 Curtain of the Dark Ones 26
+106 Spirit of the Winds 26
+108 Graveyard and the Hand of Invitation 26
+114 White Magical Hat 26
+115 Kamion Wizard 26
+129 Nemuriko 26
+132 The 13th grave 26
+135 Fiend's Hand 26
+139 Blue-eyed Silver Zombie 26
+142 Flame Manipulator 26
+143 Necrolancer the Timelord 26
+144 Djinn the Watcher of the Wind 26
+145 The Bewitching Phantom Thief 26
+154 Fire Reaper 26
+174 Hurricail 24
+179 Phantom Dewan 24
+183 Lucky Trinket 24
+184 Genin 24
+190 Akakieisu 24
+203 Phantom ghost 24
+213 Aqua madoor 24
+215 Flame ghost 24
+220 Masked sorcerer 24
+228 Wood remains 24
+237 Haniwa 24
+244 Dissolverock 22
+253 Angelwitch 22
+257 Stone armadiller 22
+259 Ancient sorcerer 22
+263 Rock ogre grotto #2 22
+268 Sectarian of secrets 22
+303 Dark energy 24
+313 Horn of light 24
+315 Dragon treasure 24
+320 Stop defense 1
+321 Malevolent Nuzzler 24
+322 Violet crystal 24
+323 Book of secret arts 24
+331 Wasteland 48
+336 Dark hole 48
+337 Raigeki 20
+342 Dian keto the cure master 1
+343 Sparks 24
+344 Hinotama 24
+345 Final flame 24
+347 Tremendous fire 1
+366 Labyrinth wall 22
+368 Shadow ghoul 22
+455 Barrel rock 46
+457 Stone Ghost 46
+470 Magical ghost 24
+505 Prisman 46
+525 Spirit of the mountain 10
+532 Gemini elf 24
+593 Giant turtle who feeds on flames 10
+599 Violent rain 46
+623 The thing that hides in the mud 24
+631 Maiden of the moonlight 24
+632 Stone ogre grotto 10
+634 Night lizard 24
+646 Gruesome goo 46
+657 Megamorph 2
+661 Crush card 2
+665 Curse of Millennium Shield 24
+672 Harpie's Feather Duster 1
+676 Commencement dance 24
+682 Eatgaboon 24
+683 Bear trap 24
+684 Invisible wire 24
+686 Widespread ruin 20
+687 Goblin fan 24
+688 Bad reaction to simochi 24
+690 Fake trap 24
+693 Contruct of mask 24
+695 Puppet ritual 24
+
+Seto 3rd
+------------------------------------------------------------------------
+6 Feral Imp 16
+20 Left Arm of the Forbidden One 2
+25 Horn Imp 16
+48 Sangan 12
+83 Castle of Dark Illusions 20
+84 Reaper of the Cards 20
+86 Barox 20
+87 Dark Chimera 20
+88 Metal Guardian 20
+95 Crass Clown 20
+103 Job-Change Mirror 16
+119 Trial of Nightmares 16
+136 Witty Phantom 20
+137 Mystery Hand 16
+148 The Shadow Who Controls the Dark 16
+149 Lord of the Lamp 20
+162 Tainted Wisdom 20
+164 Lord of Zemia 20
+169 Dark King of the Abyss 20
+171 Big Eye 20
+173 Dark Prisoner 16
+175 Ancient Brain 18
+178 Claw Reacher 20
+181 Dark Shade 20
+194 Terra the Terrible 20
+204 Mabarrel 20
+222 Midnight fiend 20
+232 Madjinn gunn 20
+233 Dark titan of terror 20
+240 The drdek 20
+242 Candle of fate 20
+245 Meda bat 20
+254 Embryonic beast 20
+261 Wicked mirror 20
+269 Versago the destroyer 20
+271 Megirus light 20
+277 Gorgon egg 20
+279 King fog 20
+295 Bio plant 20
+302 Sword of dark destruction 25
+303 Dark energy 25
+308 Beast fangs 25
+311 Black pendant 25
+314 Horn of the unicorn 25
+315 Dragon treasure 25
+324 Invigoration 25
+328 Power of kaishin 25
+329 Dragon capture jar 25
+336 Dark hole 25
+337 Raigeki 25
+343 Sparks 25
+344 Hinotama 25
+345 Final flame 25
+349 Spellbinding circle 25
+379 La jinn the mystical genie 20
+449 30,000-year white turtle 8
+497 Yado karu 24
+523 The bistro butcher 24
+535 Kamakiriman 24
+539 Corroding shark 40
+551 Dark elf 24
+553 Mushroom man #2 40
+560 Invader from Another Dimension 40
+574 Witch of the black forest 40
+600 Key mace #2 40
+639 Amphibious bugroth 10
+641 Invader of the throne 10
+647 Hyosube 24
+650 Whiptail crow 20
+653 Warrior elimination 25
+656 Eternal rest 24
+661 Crush card 48
+665 Curse of Millennium Shield 24
+666 Yamadron ritual 8
+668 Bright castle 24
+671 Zera ritual 8
+672 Harpie's Feather Duster 24
+673 War-lion ritual 8
+674 Beastry mirror ritual 8
+675 Ultimate Dragon 16
+676 Commencement dance 8
+677 Hamburger recipe 8
+678 Revival of Sennen Genjin 8
+679 Novox's prayer 24
+680 Curse of tri-horned dragon 8
+684 Invisible wire 24
+685 Acid trap hole 48
+686 Widespread ruin 48
+687 Goblin fan 48
+688 Bad reaction to simochi 48
+691 Revived of Serpent Night Dragon 8
+692 Turtle Oath 8
+693 Contruct of mask 8
+694 Resurrection of Chakra 8
+695 Puppet ritual 8
+697 Garma sword oath 8
+698 Cosmo queen's prayer 8
+699 Revival of skeleton rider 8
+700 Fortress whale's oath 8
+
+DarkNite
+------------------------------------------------------------------------
+3 Hitotsu-me Giant 22
+4 Baby Dragon 22
+10 Blackland Fire Dragon 22
+13 Tyhone 22
+14 Battle steer 22
+15 Flame swordsman 22
+19 Right Arm of the Forbidden One 4
+23 The Wicked Worm Beast 22
+26 Battle Ox 22
+27 Beaver Warrior 22
+29 Mountain Warrior 22
+31 Koumori Dragon 22
+40 Dragon Piper 52
+42 Illusionist Faceless Mage 70
+44 Rogue Doll 46
+46 Griffore 20
+47 Torike 20
+61 Wolf 20
+65 Silver Fang 20
+68 Garoozis 20
+91 Mystic Horseman 20
+113 Dark Gray 20
+121 Sleeping Lion 20
+125 Faith Bird 20
+155 Larvas 20
+168 Darkfire Dragon 20
+186 Fiend Refrection #2 20
+188 Synchar 20
+189 Fusionist 20
+200 Petit Dragon 20
+201 Frenzied panda 20
+219 Solitude 20
+246 One who hunts souls 20
+248 Master & expert 20
+255 Prevent rat 20
+272 Mavelus 20
+282 Mystical sheep #2 20
+296 One-eyed shield dragon 22
+298 Wicked dragon with the ersatz head 22
+315 Dragon treasure 24
+316 Electro-whip 24
+325 Machine Conversion Factory 24
+329 Dragon capture jar 48
+330 Forest 48
+334 Umi 48
+347 Tremendous fire 24
+376 Monster Tamer 22
+403 Leogun 22
+423 Dice armadillo 22
+464 Wing eagle 22
+466 Skull red bird 22
+468 Queen bird 22
+481 Burglar 22
+491 Peacock 22
+496 Wilmee 22
+528 Togex 46
+538 Niwatori 22
+552 Winged dragon #2 22
+577 Crow goblin 46
+597 Pale beast 22
+629 Armored rat 22
+636 Blue-winged Crown 22
+642 Mystical sheep #1 22
+652 Magical Labyrinth 24
+657 Megamorph 48
+659 Winged trumpeter 8
+661 Crush card 24
+665 Curse of Millennium Shield 24
+666 Yamadron ritual 24
+668 Bright castle 48
+672 Harpie's Feather Duster 24
+676 Commencement dance 24
+677 Hamburger recipe 24
+685 Acid trap hole 48
+686 Widespread ruin 48
+687 Goblin fan 24
+690 Fake trap 24
+693 Contruct of mask 24
+695 Puppet ritual 24
+699 Revival of skeleton rider 24
+
+Nitemare
+------------------------------------------------------------------------
+4 Baby Dragon 30
+10 Blackland Fire Dragon 30
+20 Left Arm of the Forbidden One 4
+31 Koumori Dragon 30
+70 Fiend Kraken 30
+71 Jellyfish 30
+89 Catapult Turtle 32
+131 Octoberser 32
+140 Toad master 32
+150 Akihiron 32
+168 Darkfire Dragon 32
+177 Monsturtle 32
+193 Turtle Tiger 32
+196 Arma Knight 32
+199 Penguin Knight 32
+200 Petit Dragon 32
+205 Dorover 30
+206 Twin long rods #1 30
+230 Rare fish 30
+243 Water element 30
+247 Root water 30
+251 Enchanting mermaid 30
+258 Beastking of the Swamps 30
+270 Wetha 30
+296 One-eyed shield dragon 30
+298 Wicked dragon with the ersatz head 30
+307 Elf's light 30
+311 Black pendant 30
+315 Dragon treasure 30
+316 Electro-whip 60
+317 Cyber shield 60
+319 Mystical moon 30
+321 Malevolent Nuzzler 30
+322 Violet crystal 30
+328 Power of kaishin 30
+331 Wasteland 30
+334 Umi 30
+340 Goblin's secret remedy 30
+341 Soul of the pure 30
+342 Dian keto the cure master 30
+347 Tremendous fire 60
+349 Spellbinding circle 30
+350 Dark-piercing Light 30
+430 Water magician 42
+431 Ice water 42
+434 Beautiful Beast Trainer 10
+440 7 colored fish 24
+494 Rainbow Marine Mermaid 10
+519 Fire kraken 10
+530 Eldeen 42
+550 Behegon 42
+596 Ghoul with an appetite 24
+615 Armored starfish 42
+617 Marine beast 10
+625 Fairy of the fountain 24
+626 Amazon of the seas 24
+649 Hibikime 24
+656 Eternal rest 25
+659 Winged trumpeter 8
+661 Crush card 25
+663 Breath of light 48
+664 Eternal Draught 25
+665 Curse of Millennium Shield 25
+672 Harpie's Feather Duster 25
+676 Commencement dance 24
+685 Acid trap hole 25
+686 Widespread ruin 25
+687 Goblin fan 25
+688 Bad reaction to simochi 24
+
+Duel Master K
+------------------------------------------------------------------------
+4 Baby Dragon 15
+9 Shadow Specter 15
+20 Left Arm of the Forbidden One 4
+24 Skull Servant 15
+45 Oscillo Hero #2 15
+47 Torike 15
+96 Armored Zombie 15
+97 Dragon Zombie 15
+98 Clown Zombie 17
+108 Graveyard and the Hand of Invitation 17
+133 Charubin the fire knight 17
+135 Fiend's Hand 17
+139 Blue-eyed Silver Zombie 17
+140 Toad master 20
+142 Flame Manipulator 17
+152 The Melting Red Shadow 17
+154 Fire Reaper 17
+155 Larvas 17
+167 Ancient Jar 17
+177 Monsturtle 26
+178 Claw Reacher 16
+180 Arlownay 16
+190 Akakieisu 16
+191 Lala Li-oon 16
+197 Mech Mole Zombie 16
+199 Penguin Knight 16
+203 Phantom ghost 16
+205 Dorover 16
+206 Twin long rods #1 16
+211 Kaminarikozou 16
+215 Flame ghost 26
+227 Hitodenchak 16
+228 Wood remains 26
+237 Haniwa 16
+243 Water element 16
+244 Dissolverock 26
+253 Angelwitch 16
+260 Lunar queen elzaim 16
+264 Wing egg elf 16
+265 The furious sea king 16
+270 Wetha 26
+279 King fog 16
+282 Mystical sheep #2 16
+283 Holograh 16
+289 Change slime 16
+290 Moon envoy 16
+292 Psychic kappa 16
+295 Bio plant 16
+298 Wicked dragon with the ersatz head 16
+304 Axe of despair 32
+306 Insect Armor with Laser Cannon 32
+317 Cyber shield 32
+319 Mystical moon 32
+321 Malevolent Nuzzler 32
+326 Raise body heat 32
+331 Wasteland 32
+334 Umi 32
+335 Yami 48
+336 Dark hole 32
+338 Mooyan Curry 32
+339 Red medicine 32
+340 Goblin's secret remedy 32
+345 Final flame 32
+350 Dark-piercing Light 32
+393 Zone eater 16
+394 Steel scorpion 12
+398 Ooguchi 16
+432 Waterdragon fairy 26
+444 Turu-purun 16
+446 Aqua snake 26
+451 Kanikabuto 16
+452 Zarigun 16
+461 Bolt penguin 26
+463 Electric Snake 16
+478 Insect soldiers of the sky 16
+484 Ameba 16
+503 Turtle Raccoon 16
+516 Muka muka 16
+524 Star boy 16
+548 Bone mouse 16
+549 Frog the jam 16
+556 The wandering doomed 16
+558 Pot the trick 16
+568 Anthrosaurus 16
+573 Little D 16
+585 Mechanical snail 16
+588 Living vase 12
+591 Morphing jar 16
+592 Muse-a 12
+602 Penguin soldier 16
+605 Liquid beast 16
+606 Twin Long Rods 2 16
+612 Lady of faith 16
+652 Magical Labyrinth 26
+655 Cursebreaker 23
+683 Bear trap 32
+684 Invisible wire 32
+687 Goblin fan 32
+688 Bad reaction to simochi 32
+690 Fake trap 32
+693 Contruct of mask 32

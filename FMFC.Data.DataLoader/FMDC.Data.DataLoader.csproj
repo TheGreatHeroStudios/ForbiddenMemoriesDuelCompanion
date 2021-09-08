@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\BCD_POW_TECDrops.txt" />
+    <None Remove="Files\Equips.txt" />
+    <None Remove="Files\GeneralFusions.txt" />
+    <None Remove="Files\NPCLinks.csv" />
+    <None Remove="Files\SA_POWDrops.txt" />
+    <None Remove="Files\SA_TECDrops.txt" />
+    <None Remove="Files\SecondaryTypes.txt" />
+    <None Remove="Files\SpecificFusions.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Files\BCD_POW_TECDrops.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Equips.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\GeneralFusions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\NPCLinks.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\SA_POWDrops.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\SA_TECDrops.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\SecondaryTypes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\SpecificFusions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FMDC.Utility\FMDC.Utility.csproj" />
+    <ProjectReference Include="..\FMFC.Model\FMDC.Model.csproj" />
+  </ItemGroup>
+
+</Project>

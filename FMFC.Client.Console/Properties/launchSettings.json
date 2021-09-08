@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FMDC.Client.DataLoader": {
+      "commandName": "Project",
+      "commandLineArgs": "-verbose -wait"
+    }
+  }
+}

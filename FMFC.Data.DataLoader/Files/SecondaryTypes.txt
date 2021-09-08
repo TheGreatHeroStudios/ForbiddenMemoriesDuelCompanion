@@ -1,0 +1,201 @@
+Card Name                            | Official Type | Secondary Types
+------------------------------------------------------------------------------
+30,000-Year White Turtle             | Aqua          | Turtle
+Air Marmot of Nefariousness          | Beast         | Animal, Special-B
+Akakieisu                            | Spellcaster   | Dark Magic, Dark Spellcaster
+Amazon of the Seas                   | Fish          | Female
+Ancient Brain                        | Fiend         | Dark Magic, Special-A
+Ancient Elf                          | Spellcaster   | Elf, Female
+Ancient Jar                          | Rock          | Jar
+Ancient One of the Deep Forest       | Beast         | Animal
+Ancient Sorcerer                     | Spellcaster   | Dark Magic, Dark Spellcaster
+Angelwitch                           | Spellcaster   | Dark Magic, Dark Spellcaster, Female, Special-A
+Ansatsu                              | Warrior       | Dark Magic
+Aqua Dragon                          | SeaSerpent    | Dragon
+Arlownay                             | Plant         | Female
+Armaill                              | Warrior       | Pyro
+Armored Rat                          | Beast         | Animal
+Beautiful Beast Trainer              | Warrior       | Female
+Beautiful Headhuntress               | Warrior       | Dark Magic, Female
+Blackland Fire Dragon                | Dragon        | Dark Magic
+Blast Juggler                        | Machine       | Pyro
+Blue-winged Crown                    | WingedBeast   | Special-D
+Boo Koo                              | Spellcaster   | Special-C
+Boulder Tortoise                     | Aqua          | Turtle
+Burglar                              | Beast         | Animal
+Candle of Fate                       | Fiend         | Pyro
+Castle of Dark Illusions             | Fiend         | Dark Magic
+Catapult Turtle                      | Aqua          | Turtle
+Celtic Guardian                      | Warrior       | Elf
+Charubin the Fire Knight             | Pyro          | Warrior
+Cosmo Queen                          | Spellcaster   | Female
+Crab Turtle                          | Aqua          | Turtle
+Crawling Dragon #2                   | Dinosaur      | Dragon
+Curtain of the Dark Ones             | Spellcaster   | Dark Magic, Dark Spellcaster
+Dancing Elf                          | Fairy         | Elf, Female, Special-A
+Dark Elf                             | Spellcaster   | Dark Magic, Dark Spellcaster, Elf, Female
+Dark Gray                            | Beast         | Animal
+Dark King of the Abyss               | Fiend         | Dark Magic
+Dark Magician                        | Spellcaster   | Dark Magic, Dark Spellcaster
+Dark Prisoner                        | Fiend         | Dark Magic
+Dark Rabbit                          | Beast         | Special-B
+Dark Titan of Terror                 | Fiend         | Dark Magic
+Dark Witch                           | Fairy         | Female, Special-A
+Darkfire Dragon                      | Dragon        | Pyro
+Dissolverock                         | Rock          | Pyro
+Dragon Piper                         | Pyro          | Jar
+Dragon Statue                        | Warrior       | Dragon
+Dragon Zombie                        | Zombie        | Dragon
+Dryad                                | Spellcaster   | Female
+Eldeen                               | Spellcaster   | Dark Magic, Dark Spellcaster, Female
+Embryonic Beast                      | Fiend         | Special-B
+Empress Judge                        | Warrior       | Female
+Enchanting Mermaid                   | Fish          | Female
+Exodia the Forbidden                 | Spellcaster   | Dark Magic, Dark Spellcaster
+Faith Bird                           | WingedBeast   | Special-D
+Feral Imp                            | Fiend         | Special-B
+Fire Kraken                          | Aqua          | Pyro
+Fire Reaper                          | Zombie        | Pyro
+Firegrass                            | Plant         | Pyro
+Flame Ghost                          | Zombie        | Pyro
+Flame Manipulator                    | Spellcaster   | Pyro
+Flame Swordsman                      | Warrior       | Pyro
+Flower Wolf                          | Beast         | Animal
+Frenzied Panda                       | Beast         | Animal
+Fusionist                            | Beast         | Animal, Special-A
+Garvas                               | Beast         | Animal
+Gate Deeg                            | Beast         | Special-B
+Gemini Elf                           | Spellcaster   | Elf, Female
+Giant Turtle Who Feeds on Flames     | Aqua          | Turtle
+Goddess of Whim                      | Fairy         | Female
+Goddess with the Third Eye           | Fairy         | Female
+Gorgon Egg                           | Fiend         | Special-B
+Griffore                             | Beast         | Animal
+Guardian of the Labyrinth            | Warrior       | Dark Magic
+Gyakutenno Megami                    | Fairy         | Female
+Happy Lover                          | Fairy         | Special-A
+Harpie Lady                          | WingedBeast   | Female, Special-D
+Harpie Lady Sisters                  | WingedBeast   | Female
+Hibikime                             | Warrior       | Female
+Hiro's Shadow Scout                  | Fiend         | Special-B
+Hitotsu-me Giant                     | Beast-Warrior | Special-B
+Horn Imp                             | Fiend         | Special-B
+Hoshiningen                          | Fairy         | Special-C
+Hourglass of Life                    | Fairy         | Special-C
+Ice Water                            | Aqua          | Female
+Ill Witch                            | Spellcaster   | Female
+Invader of the Throne                | Warrior       | Female
+Job-Change Mirror                    | Fiend         | Dark Magic
+Kagemusha of the Blue Flame          | Warrior       | Pyro
+Kairyu-Shin                          | SeaSerpent    | Dragon
+Kamion Wizard                        | Spellcaster   | Dark Magic, Dark Spellcaster
+Kanan the Swordmistress              | Warrior       | Female
+Key Mace                             | Fairy         | Female, Special-C
+King Fog                             | Fiend         | Dark Magic
+Kuriboh                              | Fiend         | Special-B
+Lady of Faith                        | Spellcaster   | Female
+LaMoon                               | Spellcaster   | Female
+Left Arm of the Forbidden One        | Spellcaster   | Dark Magic, Dark Spellcaster
+Left Leg of the Forbidden One        | Spellcaster   | Dark Magic, Dark Spellcaster
+Leo Wizard                           | Spellcaster   | Dark Magic, Dark Spellcaster
+Leogun                               | Beast         | Animal
+Lesser Dragon                        | Dragon        | Special-B
+Little Chimera                       | Beast         | Animal
+Lord of the Lamp                     | Fiend         | Dark Magic
+Lord of Zemia                        | Fiend         | Dark Magic
+Lucky Trinket                        | Spellcaster   | Special-C
+Lunar Queen Elzaim                   | Fairy         | Female, Special-A, Special-C
+Madjinn Gunn                         | Fiend         | Special-B
+Magician of Faith                    | Spellcaster   | Female, Special-C
+Maiden of the Moonlight              | Spellcaster   | Female
+Mammoth Graveyard                    | Dinosaur      | Special-B
+Mask of Darkness                     | Fiend         | Dark Magic
+Masked Clown                         | Warrior       | Dark Magic
+Masked Sorcerer                      | Spellcaster   | Dark Magic, Dark Spellcaster
+Master & Expert                      | Beast         | Animal
+Mavelus                              | WingedBeast   | Pyro, Special-D
+Meda Bat                             | Fiend         | Special-B
+Megirus Light                        | Fiend         | Dark Magic
+Meotoko                              | Beast         | Special-B
+Metal Dragon                         | Machine       | Dragon, Pyro
+Metal Guardian                       | Fiend         | Special-B
+Midnight Fiend                       | Fiend         | Special-B
+Milus Radiant                        | Beast         | Animal
+Monstrous Bird                       | WingedBeast   | Special-D
+Monsturtle                           | Aqua          | Turtle
+Morphing Jar                         | Rock          | Jar
+Muse-A                               | Fairy         | Female
+Mystery Hand                         | Fiend         | Special-B
+Mystic Lamp                          | Spellcaster   | Dark Magic, Dark Spellcaster
+Mystical Capture Chain               | Fairy         | Special-C
+Mystical Elf                         | Spellcaster   | Elf, Female
+Mystical Sand                        | Rock          | Female
+Mystical Sheep #1                    | Beast         | Animal
+Mystical Sheep #2                    | Beast         | Animal
+Needle Ball                          | Fiend         | Special-B
+Nekogal #2                           | Beast-Warrior | Female
+Nemuriko                             | Spellcaster   | Dark Magic, Dark Spellcaster, Female
+Obese Marmot of Nefariousness        | Beast         | Animal, Special-B
+Ocubeam                              | Fairy         | Special-A
+Peacock                              | WingedBeast   | Special-D
+Petit Angel                          | Fairy         | Special-A
+Phantom Dewan                        | Spellcaster   | Dark Magic, Dark Spellcaster
+Pot the Trick                        | Rock          | Jar
+Prevent Rat                          | Beast         | Animal
+Princess of Tsurugi                  | Warrior       | Female
+Protector of the Throne              | Warrior       | Female
+Punished Eagle                       | WingedBeast   | Special-D
+Queen of Autumn Leaves               | Plant         | Female
+Queen's Double                       | Warrior       | Female
+Right Arm of the Forbidden One       | Spellcaster   | Dark Magic, Dark Spellcaster
+Right Leg of the Forbidden One       | Spellcaster   | Dark Magic, Dark Spellcaster
+Rose Spectre of Dunn                 | Plant         | Female
+Saggi the Dark Clown                 | Spellcaster   | Dark Magic, Dark Spellcaster
+Sangan                               | Fiend         | Special-B
+Sea King Dragon                      | SeaSerpent    | Dragon, Turtle
+Sectarian of Secrets                 | Spellcaster   | Dark Magic, Dark Spellcaster
+Shining Friendship                   | Fairy         | Special-A
+Silver Fang                          | Beast         | Animal
+Skelengel                            | Fairy         | Special-A
+Skelgon                              | Zombie        | Dragon
+Skull Red Bird                       | WingedBeast   | Special-D
+Sleeping Lion                        | Beast         | Animal
+Solitude                             | Beast-Warrior | Special-B
+Sonic Maid                           | Warrior       | Female
+Spike Seadra                         | SeaSerpent    | Dragon
+Stone D.                             | Rock          | Dragon
+Succubus Knight                      | Warrior       | Female
+Sword Arm of Dragon                  | Dinosaur      | Dragon
+Synchar                              | Beast         | Animal
+Tainted Wisdom                       | Fiend         | Special-B
+Takuhee                              | WingedBeast   | Special-D
+Tenderness                           | Fairy         | Special-A, Special-C
+Terra the Terrible                   | Fiend         | Special-B
+That Which Feeds on Life             | Fiend         | Dark Magic
+The Drdek                            | Fiend         | Special-B
+The Shadow Who Controls the Dark     | Fiend         | Dark Magic
+Thunder Dragon                       | Thunder       | Dragon
+Torike                               | Beast         | Animal
+Trial of Nightmares                  | Fiend         | Special-B
+Turtle Bird                          | Aqua          | Turtle
+Turtle Raccoon                       | Aqua          | Turtle
+Turtle Tiger                         | Aqua          | Turtle
+Twin-headed Thunder Dragon           | Thunder       | Dragon
+Unknown Warrior of Fiend             | Warrior       | Dark Magic
+Versago the Destroyer                | Fiend         | Dark Magic
+Vishwar Randi                        | Warrior       | Dark Magic, Female
+Warrior of Tradition                 | Warrior       | Female
+Water Element                        | Aqua          | Female
+Water Girl                           | Aqua          | Female
+Water Magician                       | Aqua          | Female
+Water Omotics                        | Aqua          | Female
+Waterdragon Fairy                    | Aqua          | Female
+Weather Control                      | Fairy         | Special-C
+Wicked Dragon with the Ersatz Head   | Dragon        | Special-B
+Wing Egg Elf                         | Fairy         | Elf, Special-A
+Witch of the Black Forest            | Spellcaster   | Female
+Witch's Apprentice                   | Spellcaster   | Female
+Witty Phantom                        | Fiend         | Dark Magic
+Wolf                                 | Beast         | Animal
+Wood Clown                           | Warrior       | Dark Magic
+Wretched Ghost of the Attic          | Fiend         | Dark Magic
