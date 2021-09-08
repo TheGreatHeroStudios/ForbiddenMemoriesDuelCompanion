@@ -1,20 +1,13 @@
 ﻿using FMDC.Model;
-using FMDC.Utility;
-using FMDC.Utility.PubSubUtility;
-using FMDC.Utility.PubSubUtility.PubSubEventTypes;
-using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace FMDC.Data.DataLoader
+namespace FMDC.DataLoader
 {
-    public static class DataLoaderExtensions
-    {
-        public static async Task<HttpResponseMessage> GetAsyncWithAutoRetry(this HttpClient client, string requestURL, int retryCount = 5)
+	public static class DataLoaderExtensions
+	{
+		public static async Task<HttpResponseMessage> GetAsyncWithAutoRetry(this HttpClient client, string requestURL, int retryCount = 5)
 		{
 			int initialRetries = retryCount;
 
@@ -26,7 +19,7 @@ namespace FMDC.Data.DataLoader
 					response.EnsureSuccessStatusCode();
 					return response;
 				}
-				catch(Exception)
+				catch (Exception)
 				{
 					retryCount--;
 					/*if(retryCount > 0)
@@ -38,5 +31,5 @@ namespace FMDC.Data.DataLoader
 
 			throw new HttpRequestException(MessageConstants.HTTP_REQUEST_RETRY_FAILURE);
 		}
-    }
+	}
 }

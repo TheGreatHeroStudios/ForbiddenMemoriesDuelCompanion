@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FMDC.Data.DataLoader.Exceptions
+namespace FMDC.DataLoader.Exceptions
 {
 	public class FileParsingAnomalyException : Exception
 	{

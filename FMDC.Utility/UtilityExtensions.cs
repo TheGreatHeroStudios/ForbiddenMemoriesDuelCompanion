@@ -1,10 +1,8 @@
 ﻿using FMDC.Model;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
 
 namespace FMDC.Utility
 {
@@ -21,7 +19,7 @@ namespace FMDC.Utility
 					return (Bitmap)Image.FromStream(bitmapStream);
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(string.Format(MessageConstants.BASE64_CONVERSION_ERROR_TEMPLATE, ex.Message));
 				return null;
@@ -39,7 +37,7 @@ namespace FMDC.Utility
 					return Convert.ToBase64String(bitmapStream.ToArray());
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(string.Format(MessageConstants.BITMAP_CONVERSION_ERROR_TEMPLATE, ex.Message));
 				return null;

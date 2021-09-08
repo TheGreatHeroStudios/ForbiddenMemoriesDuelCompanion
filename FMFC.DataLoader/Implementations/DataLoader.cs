@@ -1,19 +1,17 @@
-﻿using FMDC.Data.DataLoader.Interfaces;
+﻿using FMDC.DataLoader.Interfaces;
 using FMDC.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public abstract class DataLoader<DataType> : IDataLoader<DataType>
-	{		
+	{
 		#region Private Fields
 		private HttpClient _dataLoaderClient;
 		#endregion
@@ -30,7 +28,7 @@ namespace FMDC.Data.DataLoader.Implementations
 		#region Constructor
 		public DataLoader(string remoteContentURL = null, int requestTimeoutSeconds = 100, IEnumerable<(string Key, string Value)> defaultRequestHeaders = null)
 		{
-			if(remoteContentURL != null)
+			if (remoteContentURL != null)
 			{
 				_dataLoaderClient = new HttpClient();
 				_dataLoaderClient.BaseAddress = new Uri(remoteContentURL);
@@ -50,7 +48,7 @@ namespace FMDC.Data.DataLoader.Implementations
 		#region Base Class Method(s)
 		protected void AddRequestHeader(string key, string value)
 		{
-			if(_dataLoaderClient != null)
+			if (_dataLoaderClient != null)
 			{
 				_dataLoaderClient.DefaultRequestHeaders.Add(key, value);
 			}
@@ -63,7 +61,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 		protected async Task<HttpResponseMessage> GetRemoteContentAsync(string relativePath)
 		{
-			if(_dataLoaderClient == null)
+			if (_dataLoaderClient == null)
 			{
 				throw new NotSupportedException($"{MessageConstants.REMOTE_CONTENT_ACCESS_FAILURE}  {MessageConstants.HTTP_CLIENT_NOT_SPECIFIED}");
 			}
@@ -75,7 +73,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return response;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				throw ex;
 			}

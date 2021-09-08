@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace FMDC.Utility.PubSubUtility
 {
@@ -37,7 +35,7 @@ namespace FMDC.Utility.PubSubUtility
 		/// The type of event to subscribe to.  This derives from <see cref="PubSubEventBase"/>
 		/// </typeparam>
 		/// <param name="callback">The method to fire when an event of the specified type is published</param>
-		public static void Subscribe<EventType>(Action<EventType> callback) 
+		public static void Subscribe<EventType>(Action<EventType> callback)
 			where EventType : PubSubEventBase
 		{
 			//Get the name of the file subscribing to the current event.  
@@ -73,7 +71,7 @@ namespace FMDC.Utility.PubSubUtility
 		public static void Unsubscribe<EventType>()
 			where EventType : PubSubEventBase
 		{
-			if(_eventSubscriptions.ContainsKey(typeof(EventType)))
+			if (_eventSubscriptions.ContainsKey(typeof(EventType)))
 			{
 				//Get the file name of the method that called 'Unsubscribe()'.  We want to remove the 
 				//callback subscribed by this file for the specified event.
@@ -88,15 +86,15 @@ namespace FMDC.Utility.PubSubUtility
 					.ForEach(e => _eventSubscriptions[typeof(EventType)].Remove(e));
 			}
 		}
-		
-		
+
+
 		public static void Publish<EventType>(EventType e)
 			where EventType : PubSubEventBase
 		{
 			//If the dictionary of subscriptions contains the event type being published
 			//(meaning we have subscribers for it), loop through the list of subscriptions and
 			//execute the registered callback for each
-			if(_eventSubscriptions.ContainsKey(typeof(EventType)))
+			if (_eventSubscriptions.ContainsKey(typeof(EventType)))
 			{
 				((IEnumerable<(string subscribingFile, Action<EventType> callback)>)_eventSubscriptions[typeof(EventType)])
 					.ToList()

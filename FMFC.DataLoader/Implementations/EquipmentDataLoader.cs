@@ -1,13 +1,12 @@
-﻿using FMDC.Data.DataLoader.Exceptions;
+﻿using FMDC.DataLoader.Exceptions;
 using FMDC.Model;
 using FMDC.Model.Models;
 using FMDC.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class EquipmentDataLoader : DataLoader<Equippable>
 	{
@@ -26,7 +25,6 @@ namespace FMDC.Data.DataLoader.Implementations
 
 
 		#region Constructor
-		//TODO: Retrieve card/character list from Unity Container.  Implement in DataLoader base class
 		public EquipmentDataLoader(IEnumerable<Card> cardList)
 		{
 			if (cardList == null)
@@ -67,7 +65,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					)
 					.ToList();
 
-				if(EquipmentAnomalies.Any())
+				if (EquipmentAnomalies.Any())
 				{
 					LoggingUtility.LogWarning(MessageConstants.EQUIPMENT_LOAD_FAILURE_WARNING_TEMPLATE);
 				}
@@ -78,7 +76,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return equips.Where(equip => equip != null);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(MessageConstants.EQUIPMENT_LOAD_FAILURE);
 				throw ex;
@@ -97,7 +95,7 @@ namespace FMDC.Data.DataLoader.Implementations
 		#region Public Methods
 		public void LogAnomalies(FileLogger logger)
 		{
-			if(EquipmentAnomalies.Any())
+			if (EquipmentAnomalies.Any())
 			{
 				logger.WriteLine("");
 
@@ -140,13 +138,13 @@ namespace FMDC.Data.DataLoader.Implementations
 			{
 				rowType = DetermineEquipmentRowType(rowData);
 
-				switch(rowType)
+				switch (rowType)
 				{
 					//If the row contains a target for equipment, cross-reference it with the card list and store the target id
 					case DataRowType.Target:
 					{
 						//Verify that the target is either the first record, or it is preceeded by a delimiter
-						if(lineNumber != 1 && _lastEquipRowType != DataRowType.Delimiter)
+						if (lineNumber != 1 && _lastEquipRowType != DataRowType.Delimiter)
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.TARGET_NO_DELIMITER);
 						}
@@ -155,7 +153,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						string cardIdString = rowData.Substring(1, 3);
 						string cardName = rowData.Substring(5, rowData.IndexOf('(') - 6).Trim();
 
-						if(!int.TryParse(cardIdString, out int targetCardId))
+						if (!int.TryParse(cardIdString, out int targetCardId))
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.CARD_ID_PARSING_ERROR);
 						}
@@ -189,7 +187,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						//If the current row is a delimiter, invalidate the last target id.  (The next row should also be the second delimiter or new target.)
 						_lastTargetId = 0;
 
-						if(!(new[] {DataRowType.Delimiter, DataRowType.Equip }.Contains(_lastEquipRowType)))
+						if (!new[] { DataRowType.Delimiter, DataRowType.Equip }.Contains(_lastEquipRowType))
 						{
 							//If the previous row was not an equip or other delimiter, it is an anomaly
 							throw new FileParsingAnomalyException(AnomalyConstants.DELIMITER_NO_VALID_PRECEEDING);
@@ -199,7 +197,7 @@ namespace FMDC.Data.DataLoader.Implementations
 							//If the previous row was a delimeter and this delimiter is more than just whitespace, log an anomaly
 							throw new FileParsingAnomalyException(AnomalyConstants.SECOND_DELIMITER_NO_FIRST);
 						}
-						else if(_lastEquipRowType == DataRowType.Equip && rowData.Any(c => c != '='))
+						else if (_lastEquipRowType == DataRowType.Equip && rowData.Any(c => c != '='))
 						{
 							//If the previous row was not a delimiter, but the current row is not the primary delimiter, log an anomaly
 							throw new FileParsingAnomalyException(AnomalyConstants.PRIMARY_DELIMITER_INVALID);
@@ -213,7 +211,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					case DataRowType.Equip:
 					{
 						//Verify that the equipment card is preceeded either by another equip card or a divider
-						if (!(new[] {DataRowType.Equip, DataRowType.Divider }.Contains(_lastEquipRowType)))
+						if (!new[] { DataRowType.Equip, DataRowType.Divider }.Contains(_lastEquipRowType))
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.EQUIP_INVALID_PRECEEDING);
 						}
@@ -233,7 +231,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						//Ensure that a valid target card is set for the equipemnt
 						Card lastTargetCard = _cardList.Where(card => card.Id == _lastTargetId).FirstOrDefault();
 
-						if(lastTargetCard == null)
+						if (lastTargetCard == null)
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.NO_VALID_TARGET_FOR_EQUIP);
 						}
@@ -254,7 +252,7 @@ namespace FMDC.Data.DataLoader.Implementations
 								_lastTargetId.ToString("000"),
 								lastTargetCard.Name
 							)
-						); 
+						);
 
 						return equipment;
 					}
@@ -265,7 +263,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					}
 				}
 			}
-			catch(FileParsingAnomalyException ex)
+			catch (FileParsingAnomalyException ex)
 			{
 				EquipmentAnomalies.Add((lineNumber, ex.Message));
 				return null;
@@ -283,22 +281,22 @@ namespace FMDC.Data.DataLoader.Implementations
 
 			rowData = rowData.Trim();
 
-			if(string.IsNullOrEmpty(rowData) || !rowData.Any(c => c != '='))
+			if (string.IsNullOrEmpty(rowData) || !rowData.Any(c => c != '='))
 			{
 				//If the row data has only whitespace or equals signs it is a delimiting row
 				rowType = DataRowType.Delimiter;
 			}
-			else if(rowData.Contains('('))
+			else if (rowData.Contains('('))
 			{
 				//If the row data contains an open parentheses it denotes a target with a certain number of equips
 				rowType = DataRowType.Target;
 			}
-			else if(!rowData.Any(c => c != '-'))
+			else if (!rowData.Any(c => c != '-'))
 			{
 				//If the row data contains only dashes, it is a divider between targets and their equips
 				rowType = DataRowType.Divider;
 			}
-			else if(rowData.StartsWith("#"))
+			else if (rowData.StartsWith("#"))
 			{
 				//If all else fails, and the row starts with a number sign (#), treat it as an equip for the former target
 				rowType = DataRowType.Equip;

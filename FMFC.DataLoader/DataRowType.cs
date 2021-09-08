@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FMDC.Data.DataLoader
+﻿namespace FMDC.DataLoader
 {
 	/// <summary>
 	/// Represents the possible types of row data that can be parsed out of the SpecificFusion data file.

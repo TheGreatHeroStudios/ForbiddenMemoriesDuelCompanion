@@ -1,42 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FMDC.Model.Enums
+﻿namespace FMDC.Model.Enums
 {
-    public enum MonsterType
-    {
-        Unknown,
+	public enum MonsterType
+	{
+		Unknown,
 		Animal,
-        Aqua,
-        Beast,
-        BeastWarrior,
+		Aqua,
+		Beast,
+		BeastWarrior,
 		DarkMagic,
 		DarkSpellcaster,
-        Dinosaur,
-        Dragon,
+		Dinosaur,
+		Dragon,
 		Elf,
-        Fairy,
+		Fairy,
 		Female,
-        Fiend,
-        Fish,
-        Insect,
+		Fiend,
+		Fish,
+		Insect,
 		Jar,
-        Machine,
-        Plant,
-        Pyro,
-        Reptile,
-        Rock,
-        SeaSerpent,
-        Spellcaster,
-        Thunder,
+		Machine,
+		Plant,
+		Pyro,
+		Reptile,
+		Rock,
+		SeaSerpent,
+		Spellcaster,
+		Thunder,
 		Turtle,
-        Warrior,
-        WingedBeast,
-        Zombie,
+		Warrior,
+		WingedBeast,
+		Zombie,
 		SpecialA,
 		SpecialB,
 		SpecialC,
 		SpecialD
-    }
+	}
 }

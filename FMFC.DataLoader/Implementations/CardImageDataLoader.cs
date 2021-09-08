@@ -1,5 +1,4 @@
-﻿using FMDC.Data.DataLoader.Interfaces;
-using FMDC.Model;
+﻿using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.Utility;
@@ -8,13 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class CardImageDataLoader : DataLoader<GameImage>
 	{
@@ -40,7 +37,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				cardGalleryResponse = GetRemoteContentAsync(URLConstants.CARD_GALLERY_PATH);
 				cardGalleryResponse.Wait();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(MessageConstants.CARD_IMAGE_REPO_ACCESS_FAILURE);
 				throw ex;
@@ -82,7 +79,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return images;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogWarning(MessageConstants.CARD_IMAGE_RETRIEVAL_FAILURE);
 				LoggingUtility.LogWarning(ex.Message);
@@ -120,15 +117,15 @@ namespace FMDC.Data.DataLoader.Implementations
 					.Where
 					(
 						node =>
-							node.Ancestors().Where(ancestor => ancestor.HasClass("gallery")).Any() && 
-							node.Name == "img" && 
+							node.Ancestors().Where(ancestor => ancestor.HasClass("gallery")).Any() &&
+							node.Name == "img" &&
 							node.ParentNode.HasClass("image")
 					)
 					.Select(async node => await ParseImageNode(node));
 
 				return cardImages;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				throw new Exception
 				(
@@ -151,7 +148,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				//Clean the image url to get the non-thumbnail version.  Remove '/thumb/' from the route
 				//and remove additional file info after the image extension
 				string imgURL = node.GetAttributeValue("src", null).Replace("/thumb/", "");
-				imgURL = imgURL.Substring(0, (imgURL.IndexOf(".png") + 4));
+				imgURL = imgURL.Substring(0, imgURL.IndexOf(".png") + 4);
 
 				//Set a default name for the card based on the image URL in case parsing the image data fails
 				//(So we can still log which card's image failed to load)

@@ -6,10 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class CharacterImageDataLoader : DataLoader<GameImage>
 	{
@@ -30,7 +29,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				LoggingUtility.LogInfo(MessageConstants.LOADING_CHARACTER_IMAGES);
 				IEnumerable<CharacterLoadingInfo> imageRelativePaths = ReadCharacterImageInfo();
 
-				IEnumerable<Task<GameImage>> characterImageTasks = 
+				IEnumerable<Task<GameImage>> characterImageTasks =
 					imageRelativePaths
 						.Select
 						(
@@ -57,7 +56,7 @@ namespace FMDC.Data.DataLoader.Implementations
 										ImageBase64 = base64
 									};
 								}
-								catch(Exception ex)
+								catch (Exception ex)
 								{
 									LoggingUtility.LogError
 									(
@@ -93,7 +92,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return images;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogWarning(MessageConstants.CHARACTER_IMAGE_RETRIEVAL_FAILURE);
 				LoggingUtility.LogWarning(ex.Message);
@@ -126,7 +125,7 @@ namespace FMDC.Data.DataLoader.Implementations
 								CharacterId = int.Parse(dataFields[0]),
 								CharacterName = dataFields[1],
 								CharacterImagePath = dataFields[4]
-							}; 
+							};
 						}
 					);
 		}

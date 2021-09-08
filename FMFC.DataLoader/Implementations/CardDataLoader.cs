@@ -1,10 +1,7 @@
-﻿using FMDC.Data.DataLoader.Interfaces;
-using FMDC.Model;
+﻿using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.Utility;
-using FMDC.Utility.PubSubUtility;
-using FMDC.Utility.PubSubUtility.PubSubEventTypes;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -15,18 +12,18 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
-    public class CardDataLoader : DataLoader<Card>
-    {
-        #region Fields
-        
+	public class CardDataLoader : DataLoader<Card>
+	{
+		#region Fields
+
 		#endregion
 
 
 
 		#region Constructor
-		public CardDataLoader() : base(URLConstants.YUGIOH_FANDOM_URL){}
+		public CardDataLoader() : base(URLConstants.YUGIOH_FANDOM_URL) { }
 		#endregion
 
 
@@ -43,14 +40,14 @@ namespace FMDC.Data.DataLoader.Implementations
 				cardListResponse = GetRemoteContentAsync(URLConstants.CARD_LIST_PATH);
 				cardListResponse.Wait();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(MessageConstants.CARD_REPO_ACCESS_FAILURE);
 				throw ex;
 			}
 
 			try
-			{ 
+			{
 				LoggingUtility.LogInfo(MessageConstants.PARSING_CARD_DATA);
 
 				string cardListHTML = cardListResponse.Result.Content.ReadAsStringAsync().Result;
@@ -90,15 +87,15 @@ namespace FMDC.Data.DataLoader.Implementations
 
 
 		#region Private Methods        
-        private IEnumerable<Task<Card>> ParseCardData(string cardDataHtml)
-        {
-            try
-            {
-                //Load the HTML Document
-                HtmlDocument document = new HtmlDocument();
-                document.LoadHtml(cardDataHtml);
+		private IEnumerable<Task<Card>> ParseCardData(string cardDataHtml)
+		{
+			try
+			{
+				//Load the HTML Document
+				HtmlDocument document = new HtmlDocument();
+				document.LoadHtml(cardDataHtml);
 
-				if(document == null || document.DocumentNode == null)
+				if (document == null || document.DocumentNode == null)
 				{
 					throw new Exception(MessageConstants.CARD_DATA_DOM_ERROR);
 				}
@@ -152,12 +149,12 @@ namespace FMDC.Data.DataLoader.Implementations
 						);
 
 				return cardList;
-            }
-            catch(Exception ex)
-            {
+			}
+			catch (Exception ex)
+			{
 				throw new Exception(string.Format(MessageConstants.CARD_SITE_PARSING_ERROR_TEMPLATE, ex.Message));
-            }
-        }
+			}
+		}
 
 
 		private async Task<Card> BuildCardObject(HtmlNode rowNode)
@@ -198,7 +195,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					Id = int.Parse(data[0].InnerText),
 					Name = HttpUtility.HtmlDecode(data[1].FirstChild.InnerText),
 					CardType = cardType,
-					MonsterType = (monsterType == MonsterType.Unknown) ? (MonsterType?)null : monsterType,
+					MonsterType = monsterType == MonsterType.Unknown ? (MonsterType?)null : monsterType,
 					Description = cardDescription,
 					FirstGuardianStar = guardianStars?.FirstOrDefault(),
 					SecondGuardianStar = guardianStars?.Skip(1).FirstOrDefault(),
@@ -209,7 +206,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					StarchipCost = string.IsNullOrEmpty(data[8].InnerText) ? (int?)null : int.Parse(data[8].InnerText, NumberStyles.Any)
 				};
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				//If we failed to parse data for an individual card, return null (rather than bubbling-up the exception)
 				//At the program level, we will check to make sure we have the correct number of non-null card objects.
@@ -267,8 +264,8 @@ namespace FMDC.Data.DataLoader.Implementations
 				return null;
 			}
 		}
-		
-		
+
+
 		private static IEnumerable<GuardianStar?> ParseGuardianStars(string cardDetailHTML)
 		{
 			//Load the HTML Document
@@ -286,7 +283,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					.ChildNodes[1]
 					.ChildNodes[1]
 					.InnerText
-					.Split(new[]{'\n'}, StringSplitOptions.RemoveEmptyEntries)
+					.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
 					.Select
 					(
 						guardianStarText =>

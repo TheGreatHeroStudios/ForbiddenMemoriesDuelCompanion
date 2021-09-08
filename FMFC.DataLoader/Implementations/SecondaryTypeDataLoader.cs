@@ -1,4 +1,4 @@
-﻿using FMDC.Data.DataLoader.Exceptions;
+﻿using FMDC.DataLoader.Exceptions;
 using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
@@ -6,9 +6,8 @@ using FMDC.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class SecondaryTypeDataLoader : DataLoader<SecondaryType>
 	{
@@ -19,7 +18,6 @@ namespace FMDC.Data.DataLoader.Implementations
 
 
 		#region Constructor
-		//TODO: Retrieve card list from Unity Container.  Implement in DataLoader base class
 		public SecondaryTypeDataLoader(IEnumerable<Card> cardList)
 		{
 			if (cardList == null)
@@ -71,7 +69,7 @@ namespace FMDC.Data.DataLoader.Implementations
 									cells[2].Replace(" ", "").Replace("-", "").Split(',')
 										.Select
 										(
-											type => 
+											type =>
 												new SecondaryType()
 												{
 													CardId = monsterId,
@@ -91,7 +89,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 								return monsterSecondaryTypes;
 							}
-							catch(Exception ex)
+							catch (Exception ex)
 							{
 								LoggingUtility.LogError(MessageConstants.SECONDARY_TYPE_PARSING_ERROR);
 								LoggingUtility.LogError(ex.Message);
@@ -119,7 +117,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return secondaryTypes.Where(type => type != null);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(MessageConstants.SECONDARY_TYPE_LOAD_FAILURE);
 				throw ex;
@@ -140,7 +138,7 @@ namespace FMDC.Data.DataLoader.Implementations
 		{
 			Card referencedCard = _cardList.FirstOrDefault(card => card.Name == monsterName);
 
-			if(referencedCard == null)
+			if (referencedCard == null)
 			{
 				throw new FileParsingAnomalyException
 				(

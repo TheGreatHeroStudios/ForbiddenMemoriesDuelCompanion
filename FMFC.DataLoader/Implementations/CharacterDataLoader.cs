@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class CharacterDataLoader : DataLoader<Character>
 	{
@@ -33,7 +33,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				IEnumerable<CharacterLoadingInfo> characterLoadingInfo = ReadCharacterLoadingInfo();
 
 				//Load each character's data into memory
-				IEnumerable<Task<Character>> characterTasks = 
+				IEnumerable<Task<Character>> characterTasks =
 					characterLoadingInfo
 						.Select(loadingInfo => LoadCharacter(loadingInfo))
 						.Where(character => character != null);
@@ -48,7 +48,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						.Where(character => character != null);
 
 				//Make sure that the correct number of chracters were loaded successfully
-				if(characters.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
+				if (characters.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
 				{
 					LoggingUtility.LogWarning(MessageConstants.CHARACTER_COUNT_MISMATCH);
 					LoggingUtility.LogWarning(MessageConstants.CHARACTER_DISPLAY_WARNING);
@@ -60,7 +60,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return characters;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError(MessageConstants.CHARACTER_LOAD_FAILURE);
 				throw ex;
@@ -120,7 +120,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				}
 
 				string biography = ParseCharacterBiography(infoHTML);
-				List<CardPercentage> deckCards = loadingInfo.DeckListOrdinal > 0 ? 
+				List<CardPercentage> deckCards = loadingInfo.DeckListOrdinal > 0 ?
 					ParseCharacterDeckList(infoHTML, loadingInfo.DeckListOrdinal).ToList() :
 					null;
 
@@ -170,13 +170,13 @@ namespace FMDC.Data.DataLoader.Implementations
 					.Where(node => node.ParentNode?.ParentNode?.Id == "mw-content-text");
 
 				//Read all paragraph nodes leading up to the 'Deck' header node
-				foreach(HtmlNode currentNode in contentNodes)
+				foreach (HtmlNode currentNode in contentNodes)
 				{
-					if(currentNode.Name == "p")
+					if (currentNode.Name == "p")
 					{
 						characterBio.AppendLine(currentNode.InnerText);
 					}
-					else if(currentNode.Name == "h2" && currentNode.FirstChild.Id == "Deck")
+					else if (currentNode.Name == "h2" && currentNode.FirstChild.Id == "Deck")
 					{
 						break;
 					}
@@ -184,7 +184,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return characterBio.ToString();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				throw new Exception
 				(
@@ -202,7 +202,7 @@ namespace FMDC.Data.DataLoader.Implementations
 		{
 			//Get the card-list table corresponding to the character's deck loadout (as determined by the ordinal)
 			//Get all table rows (not including header row) and parse the relevant card data and percentages out of it
-			return 
+			return
 				infoHTML.DocumentNode.Descendants()
 					.Where(node => node.Name == "table" && node.HasClass("card-list"))
 					.Skip(deckListTableOrdinal - 1)
@@ -217,7 +217,7 @@ namespace FMDC.Data.DataLoader.Implementations
 							try
 							{
 								List<HtmlNode> dataNodes = rowNode.ChildNodes.Where(node => node.Name == "td").ToList();
-								double generationPercentage = double.Parse(dataNodes[8].InnerText) / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR;
+								double generationPercentage = double.Parse(dataNodes[8].InnerText) / DataLoaderConstants.DROP_RATE_DENOMINATOR;
 								int generationRate = int.Parse(dataNodes[8].InnerText);
 
 								CardPercentage cardPercentage = new CardPercentage()
@@ -230,7 +230,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 								return cardPercentage;
 							}
-							catch(Exception ex)
+							catch (Exception ex)
 							{
 								throw new Exception
 								(

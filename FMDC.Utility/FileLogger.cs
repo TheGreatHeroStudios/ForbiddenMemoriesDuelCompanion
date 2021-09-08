@@ -2,9 +2,7 @@
 using FMDC.Utility.PubSubUtility;
 using FMDC.Utility.PubSubUtility.PubSubEventTypes;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FMDC.Utility
 {
@@ -38,7 +36,7 @@ namespace FMDC.Utility
 
 			//If the provided path is valid, set it as the location to write log data.
 			//Otherwise, write the log file data to the current executable's directory
-			if(logFilePath != null && Directory.Exists(logFilePath))
+			if (logFilePath != null && Directory.Exists(logFilePath))
 			{
 				_filePath = logFilePath;
 			}
@@ -77,7 +75,7 @@ namespace FMDC.Utility
 		#region PubSub Event Handlers
 		private void HandleLogMessageEvent(LogMessageEvent e)
 		{
-			if(e.Level >= _minimumLogLevel)
+			if (e.Level >= _minimumLogLevel)
 			{
 				_fileStream.WriteLine($"[{e.Level.ToString()}] {e.Message}");
 			}

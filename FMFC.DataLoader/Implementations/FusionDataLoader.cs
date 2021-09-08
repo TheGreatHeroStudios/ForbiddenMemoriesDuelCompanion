@@ -1,4 +1,4 @@
-﻿using FMDC.Data.DataLoader.Exceptions;
+﻿using FMDC.DataLoader.Exceptions;
 using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
@@ -6,15 +6,14 @@ using FMDC.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class FusionDataLoader : DataLoader<Fusion>
 	{
 		#region Properties
-		public List<(int LineNumber, string Info)> GeneralFusionAnomalies { get;} = new List<(int lineNumber, string content)>();
+		public List<(int LineNumber, string Info)> GeneralFusionAnomalies { get; } = new List<(int lineNumber, string content)>();
 		public List<(int LineNumber, string Info)> SpecificFusionAnomalies { get; } = new List<(int lineNumber, string content)>();
 		#endregion
 
@@ -30,14 +29,13 @@ namespace FMDC.Data.DataLoader.Implementations
 
 
 		#region Constructor
-		//TODO: Retrieve card list from Unity Container.  Implement in DataLoader base class
 		public FusionDataLoader(IEnumerable<Card> cardList)
 		{
-			if(cardList == null)
+			if (cardList == null)
 			{
 				throw new ArgumentException(MessageConstants.FUSION_LOADER_CARD_LIST_NULL);
 			}
-			else if(cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
+			else if (cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 			{
 				LoggingUtility.LogWarning(MessageConstants.FUSION_LOADER_CARD_LIST_INCOMPLETE);
 			}
@@ -83,7 +81,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				GeneralFusionAnomalies
 					.ForEach
 					(
-						anomaly => 
+						anomaly =>
 							logger.WriteLine
 							(
 								string.Format
@@ -140,7 +138,7 @@ namespace FMDC.Data.DataLoader.Implementations
 			{
 				int currentRowNum = 0;
 				bool loadSpecificFusions = fusionType == FusionType.Specific;
-				
+
 				//Load either specific or general fusion data depending on how the method is called
 				string fusionDataFilePath = loadSpecificFusions ?
 					FileConstants.SPECIFIC_FUSION_FILEPATH :
@@ -197,7 +195,7 @@ namespace FMDC.Data.DataLoader.Implementations
 				//Split the fusion 'equation' into left and right operands
 				string[] operands = rowData.Split('=');
 
-				if(operands.Count() != 2)
+				if (operands.Count() != 2)
 				{
 					//If there was no equal sign in the line, there is no fusion result
 					throw new FileParsingAnomalyException(AnomalyConstants.INCORRECT_NUM_OPERANDS);
@@ -214,15 +212,15 @@ namespace FMDC.Data.DataLoader.Implementations
 					string[] fusionComponents = operands[0].Split('+').Select(component => component.Trim()).ToArray();
 
 					//There should be exactly 2 components for fusion.  If there are more/fewer, the fusion can't be parsed
-					if(fusionComponents.Count() != 2)
+					if (fusionComponents.Count() != 2)
 					{
 						throw new FileParsingAnomalyException(AnomalyConstants.INCORRECT_NUM_COMPONENTS);
 					}
 
 					//Parse the target and fusionComponent cards from the two components in the row...
-					for(int i = 0; i < fusionComponents.Count(); i++)
+					for (int i = 0; i < fusionComponents.Count(); i++)
 					{
-						if(Regex.IsMatch(fusionComponents[i].Replace("-", "").Replace(" ", ""), RegexConstants.GENERAL_TYPE_REGEX))
+						if (Regex.IsMatch(fusionComponents[i].Replace("-", "").Replace(" ", ""), RegexConstants.GENERAL_TYPE_REGEX))
 						{
 							//...If either component matches the generic type syntax, try to parse just the type...
 							fusionComponents[i] = fusionComponents[i].Replace("[", "").Replace("]", "").Replace("-", "").Replace(" ", "");
@@ -261,7 +259,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					//We will store the results of this fusion to re-use for subsequent rows if needed
 					_lastGeneralFusion = generalFusion;
 				}
-				else if(string.IsNullOrEmpty(operands[0].Trim()))
+				else if (string.IsNullOrEmpty(operands[0].Trim()))
 				{
 					//If the left operand is empty, the right operand is a different result of the last fusion, 
 					//so copy the data from the last fusion
@@ -278,7 +276,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return generalFusion;
 			}
-			catch(FileParsingAnomalyException ex)
+			catch (FileParsingAnomalyException ex)
 			{
 				GeneralFusionAnomalies.Add((lineNumber, ex.Message));
 				return null;
@@ -302,10 +300,10 @@ namespace FMDC.Data.DataLoader.Implementations
 						rowData = rowData.Trim();
 						string cardIdString = rowData.Substring(rowData.Length - 3, 3);
 
-						if 
+						if
 						(
 							//Store this ID, as it will apply to any fusions that follow it
-							!int.TryParse(cardIdString, out _lastSpecificTargetId) || 
+							!int.TryParse(cardIdString, out _lastSpecificTargetId) ||
 							!_cardList.Where(card => card.Id == _lastSpecificTargetId).Any()
 						)
 						{
@@ -342,7 +340,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						_lastSpecificTargetId = 0;
 
 						//If the previous row was a target (or additional delimiter), log an anomaly
-						if(_lastSpecificFusionRowType == DataRowType.Target || _lastSpecificFusionRowType == DataRowType.Delimiter)
+						if (_lastSpecificFusionRowType == DataRowType.Target || _lastSpecificFusionRowType == DataRowType.Delimiter)
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.DELIMITER_NO_FUSION);
 						}
@@ -353,7 +351,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					case DataRowType.Fusion:
 					{
 						//Ensure that a valid target card is set before attempting to create the fusion
-						if(!_cardList.Where(card => card.Id == _lastSpecificTargetId).Any())
+						if (!_cardList.Where(card => card.Id == _lastSpecificTargetId).Any())
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.NO_VALID_TARGET_FOR_FUSION);
 						}
@@ -367,7 +365,7 @@ namespace FMDC.Data.DataLoader.Implementations
 							.ToArray();
 
 						//Ensure that there are exactly 2 operands (a fusion material and a result)
-						if(operands.Count() != 2)
+						if (operands.Count() != 2)
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.INCORRECT_NUM_OPERANDS);
 						}
@@ -440,17 +438,17 @@ namespace FMDC.Data.DataLoader.Implementations
 		{
 			DataRowType rowType = DataRowType.Unknown;
 
-			if(string.IsNullOrEmpty(rowData.Trim()))
+			if (string.IsNullOrEmpty(rowData.Trim()))
 			{
 				//If the row data contains only whitespace, it is a delimiting row
 				rowType = DataRowType.Delimiter;
 			}
-			else if(string.IsNullOrEmpty(rowData.Trim().Replace("-", "")))
+			else if (string.IsNullOrEmpty(rowData.Trim().Replace("-", "")))
 			{
 				//If the row data contains only dashes, it is a divider between the target and fusions materials
 				rowType = DataRowType.Divider;
 			}
-			else if(rowData.Contains('='))
+			else if (rowData.Contains('='))
 			{
 				//If the row data contains an equals sign, it is a fusion row
 				rowType = DataRowType.Fusion;
@@ -460,12 +458,12 @@ namespace FMDC.Data.DataLoader.Implementations
 				//If we were able to parse a valid card id from the right of the data row, the card is a target
 				rowType = DataRowType.Target;
 			}
-			else if(rowData.Contains("(Equip)"))
+			else if (rowData.Contains("(Equip)"))
 			{
 				//If all else fails and the row contains the term '(Equip)', treat the row as an 'equip' fusion and ignore it
 				rowType = DataRowType.Equip;
 			}
-			
+
 
 			return rowType;
 		}

@@ -1,4 +1,4 @@
-﻿using FMDC.Data.DataLoader.Exceptions;
+﻿using FMDC.DataLoader.Exceptions;
 using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
@@ -8,9 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 
-namespace FMDC.Data.DataLoader.Implementations
+namespace FMDC.DataLoader.Implementations
 {
 	public class CardDropDataLoader : DataLoader<CardPercentage>
 	{
@@ -32,14 +31,13 @@ namespace FMDC.Data.DataLoader.Implementations
 
 
 		#region Constructor
-		//TODO: Retrieve card/character list from Unity Container.  Implement in DataLoader base class
 		public CardDropDataLoader(IEnumerable<Card> cardList, IEnumerable<Character> characterList)
 		{
 			if (cardList == null)
 			{
 				throw new ArgumentException(MessageConstants.DROP_LOADER_CARD_LIST_NULL);
 			}
-			else if(cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
+			else if (cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 			{
 				LoggingUtility.LogWarning(MessageConstants.DROP_LOADER_CARD_LIST_INCOMPLETE);
 				LoggingUtility.LogWarning(MessageConstants.DROP_RATE_DISPLAY_WARNING);
@@ -50,7 +48,7 @@ namespace FMDC.Data.DataLoader.Implementations
 			{
 				throw new ArgumentException(MessageConstants.DROP_LOADER_CHARACTER_LIST_NULL);
 			}
-			else if(characterList.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
+			else if (characterList.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
 			{
 				LoggingUtility.LogWarning(MessageConstants.DROP_LOADER_CHARACTER_LIST_INCOMPLETE);
 				LoggingUtility.LogWarning(MessageConstants.DROP_RATE_DISPLAY_WARNING);
@@ -84,14 +82,14 @@ namespace FMDC.Data.DataLoader.Implementations
 		public void LogAnomalies(FileLogger logger)
 		{
 			//Get the properties logging anomalies for each type of drop
-			foreach(PropertyInfo anomalyPropertyInfo in GetType().GetProperties())
+			foreach (PropertyInfo anomalyPropertyInfo in GetType().GetProperties())
 			{
 				//Get the value of each anomaly list property
-				List<(int LineNumber, string Info)> anomalyList = 
+				List<(int LineNumber, string Info)> anomalyList =
 					anomalyPropertyInfo.GetValue(this) as List<(int LineNumber, string Info)>;
 
 				//If the property was not an anomaly list, do nothing else for the current property
-				if(anomalyList == null)
+				if (anomalyList == null)
 				{
 					continue;
 				}
@@ -170,7 +168,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 				return dropRates;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				LoggingUtility.LogError
 				(
@@ -193,14 +191,14 @@ namespace FMDC.Data.DataLoader.Implementations
 			{
 				rowType = DetermineDropRateRowType(rowData);
 
-				switch(rowType)
+				switch (rowType)
 				{
 					//If the row contains the name of a character, cross-reference it with the character list to get and store the character's Id
 					case DataRowType.Character:
 					{
 						Character currentCharacter = _characterList.Where(c => c.Name == rowData.Trim()).FirstOrDefault();
 
-						if(currentCharacter == null)
+						if (currentCharacter == null)
 						{
 							//If a valid character could not be found based on the name provided, log an anomaly and invalidate the last character
 							_lastCharacterId = 0;
@@ -217,7 +215,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						_lastCharacterId = currentCharacter.Id;
 
 						//If the preceeding row was not a delimiter, log an anomaly
-						if(lineNumber != 1 && _lastDropRateRowType != DataRowType.Delimiter)
+						if (lineNumber != 1 && _lastDropRateRowType != DataRowType.Delimiter)
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.CHARACTER_NO_DELIMITER);
 						}
@@ -229,7 +227,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					case DataRowType.Divider:
 					{
 						//If the current row is a divider, ensure that the previous row was a Character.
-						if(_lastDropRateRowType != DataRowType.Character)
+						if (_lastDropRateRowType != DataRowType.Character)
 						{
 							//If it wasn't, log an anomaly and invalidate the last character id (so we don't associate a drop with the wrong character)
 							_lastCharacterId = 0;
@@ -246,7 +244,7 @@ namespace FMDC.Data.DataLoader.Implementations
 						_lastCharacterId = 0;
 
 						//If the delimiter was not preceeded by a target card drop, log an anomaly
-						if(_lastDropRateRowType != DataRowType.Target)
+						if (_lastDropRateRowType != DataRowType.Target)
 						{
 							throw new FileParsingAnomalyException(AnomalyConstants.DELIMITER_NO_DROP);
 						}
@@ -286,12 +284,12 @@ namespace FMDC.Data.DataLoader.Implementations
 									sb => sb.ToString().Trim()
 								);
 
-							if(!int.TryParse(dropRateString, out int dropRate))
+							if (!int.TryParse(dropRateString, out int dropRate))
 							{
 								throw new FileParsingAnomalyException(AnomalyConstants.DROP_RATE_PARSING_ERROR);
 							}
 
-							if(!int.TryParse(cardIdString, out int targetCardId))
+							if (!int.TryParse(cardIdString, out int targetCardId))
 							{
 								throw new FileParsingAnomalyException(AnomalyConstants.CARD_ID_PARSING_ERROR);
 							}
@@ -305,7 +303,7 @@ namespace FMDC.Data.DataLoader.Implementations
 							{
 								CardId = targetCardId,
 								PercentageDiscriminator = dropPercentageType,
-								GenerationPercentage = ((double)dropRate / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR) * 100,
+								GenerationPercentage = dropRate / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR * 100,
 								GenerationRatePer2048 = dropRate
 							};
 
@@ -323,7 +321,7 @@ namespace FMDC.Data.DataLoader.Implementations
 
 							return cardPercentage;
 						}
-						catch(Exception ex)
+						catch (Exception ex)
 						{
 							throw new FileParsingAnomalyException(ex.Message);
 						}
@@ -335,7 +333,7 @@ namespace FMDC.Data.DataLoader.Implementations
 					}
 				}
 			}
-			catch(FileParsingAnomalyException ex)
+			catch (FileParsingAnomalyException ex)
 			{
 				GetAnomalyLoggingProperty(dropPercentageType).Add((lineNumber, ex.Message));
 				return null;

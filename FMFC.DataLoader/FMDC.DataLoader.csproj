@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,14 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.36" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FMDC.Utility\FMDC.Utility.csproj" />
-    <ProjectReference Include="..\FMFC.Model\FMDC.Model.csproj" />
   </ItemGroup>
 
 </Project>
