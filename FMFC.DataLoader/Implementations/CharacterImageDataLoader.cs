@@ -4,6 +4,7 @@ using FMDC.Model.Models;
 using FMDC.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -37,8 +38,14 @@ namespace FMDC.DataLoader.Implementations
 							{
 								try
 								{
-									HttpResponseMessage imageResponse = await GetRemoteContentAsync(imageInfo.CharacterImagePath);
-									string base64 = Convert.ToBase64String(await imageResponse.Content.ReadAsByteArrayAsync());
+									HttpResponseMessage imageResponse = 
+										await GetRemoteContentAsync(imageInfo.CharacterImagePath);
+
+									byte[] imageBytes = 
+										await imageResponse.Content.ReadAsByteArrayAsync();
+
+									string imageRelativePath = 
+										SaveCharacterImageFile(imageBytes, imageInfo.CharacterName);
 
 									LoggingUtility.LogVerbose
 									(
@@ -53,7 +60,7 @@ namespace FMDC.DataLoader.Implementations
 									{
 										EntityType = ImageEntityType.Character,
 										EntityId = imageInfo.CharacterId,
-										ImageRelativePath = base64
+										ImageRelativePath = imageRelativePath
 									};
 								}
 								catch (Exception ex)
@@ -119,7 +126,12 @@ namespace FMDC.DataLoader.Implementations
 					(
 						row =>
 						{
-							string[] dataFields = row.Split(',').Select(field => field.Trim()).ToArray();
+							string[] dataFields = 
+								row
+									.Split(',')
+									.Select(field => field.Trim())
+									.ToArray();
+
 							return new CharacterLoadingInfo()
 							{
 								CharacterId = int.Parse(dataFields[0]),
@@ -128,6 +140,31 @@ namespace FMDC.DataLoader.Implementations
 							};
 						}
 					);
+		}
+
+
+		private string SaveCharacterImageFile(byte[] imageBytes, string characterName)
+		{
+			string characterImageRootedDirectory =
+				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
+				$"{ApplicationConstants.CHARACTER_IMAGE_SUBDIRECTORY}";
+
+			//Create the directory for the character image (if it doesn't already exist)
+			Directory.CreateDirectory(characterImageRootedDirectory);
+
+			string characterImageFileName = $"{characterName}.png";
+
+			string characterImageRelativePath =
+				$"{ApplicationConstants.CHARACTER_IMAGE_SUBDIRECTORY}{characterImageFileName}";
+
+			//Create an image file for the character image
+			File.WriteAllBytes
+			(
+				$"{characterImageRootedDirectory}{characterImageFileName}",
+				imageBytes
+			);
+
+			return characterImageRelativePath;
 		}
 		#endregion
 	}

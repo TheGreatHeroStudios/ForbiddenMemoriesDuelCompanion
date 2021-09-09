@@ -213,7 +213,6 @@ namespace FMDC.DataLoader.Implementations
 			Bitmap cardThumbnailBitmap = 
 				cardDetailsBitmap.Clone(cardThumbnailRect, cardDetailsBitmap.PixelFormat);
 
-			//Create the directories for the card images (if they don't already exist)
 			string detailImageRootedDirectory =
 				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
 				$"{ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY}";
@@ -222,6 +221,7 @@ namespace FMDC.DataLoader.Implementations
 				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
 				$"{ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY}";
 
+			//Create the directories for the card images (if they don't already exist)
 			Directory.CreateDirectory(detailImageRootedDirectory);
 			Directory.CreateDirectory(thumbnailImageRootedDirectory);
 
