@@ -40,7 +40,7 @@ namespace FMDC.DataLoader
 					new FileLogger
 					(
 						FileConstants.DATA_LOADER_LOG_FILE_NAME,
-						Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+						ApplicationConstants.APPLICATION_DATA_FOLDER
 					);
 
 				PrepareConsole(args);
@@ -108,12 +108,12 @@ namespace FMDC.DataLoader
 			SecondaryTypeDataLoader secondaryTypeLoader = new SecondaryTypeDataLoader(_cardList);
 			_secondaryTypes = secondaryTypeLoader.LoadDataIntoMemory();
 			#endregion
-
+			
 			#region Card Image Loader
 			CardImageDataLoader cardImageLoader = new CardImageDataLoader();
 			_cardImages = cardImageLoader.LoadDataIntoMemory();
 			#endregion
-
+			
 			#region Fusion Loader
 			FusionDataLoader fusionLoader = new FusionDataLoader(_cardList);
 			_fusions = fusionLoader.LoadDataIntoMemory();

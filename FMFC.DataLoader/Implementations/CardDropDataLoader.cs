@@ -302,7 +302,7 @@ namespace FMDC.DataLoader.Implementations
 							CardPercentage cardPercentage = new CardPercentage()
 							{
 								CardId = targetCardId,
-								PercentageDiscriminator = dropPercentageType,
+								PercentageType = dropPercentageType,
 								GenerationPercentage = dropRate / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR * 100,
 								GenerationRatePer2048 = dropRate
 							};

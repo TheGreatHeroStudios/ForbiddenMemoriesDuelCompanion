@@ -1,8 +1,34 @@
 ﻿using System;
 using System.Reflection;
+using CommonFileConstants = TGH.Common.FileConstants;
 
 namespace FMDC.Model
 {
+	public static class ApplicationConstants
+	{
+		public const string APPLICATION_NAME = "Yu-Gi-Oh! Forbidden Memories Duel Companion";
+		public const string APPLICATION_FILE_NAME = "ForbiddenMemoriesDuelCompanion";
+
+		public static readonly string APPLICATION_DATA_FOLDER =
+			$"{CommonFileConstants.APP_DATA_DIRECTORY}" +
+			$"{APPLICATION_FILE_NAME}" +
+			$"{CommonFileConstants.PATH_SEPARATOR}";
+
+		public static readonly string THUMBNAIL_IMAGE_SUBDIRECTORY =
+			$"Images{CommonFileConstants.PATH_SEPARATOR}CardThumbnails" +
+			$"{CommonFileConstants.PATH_SEPARATOR}";
+
+		public static readonly string DETAIL_IMAGE_SUBDIRECTORY =
+			$"Images{CommonFileConstants.PATH_SEPARATOR}CardDetails" +
+			$"{CommonFileConstants.PATH_SEPARATOR}";
+
+		public static readonly string CHARACTER_IMAGE_SUBDIRECTORY =
+			$"Images{CommonFileConstants.PATH_SEPARATOR}Characters" +
+			$"{CommonFileConstants.PATH_SEPARATOR}";
+	}
+
+
+
 	public static class DataLoaderConstants
 	{
 		/// <summary>
@@ -24,6 +50,16 @@ namespace FMDC.Model
 		///		Represents the max of a random number generated to determine random drop rates
 		/// </summary>
 		public const int DROP_RATE_DENOMINATOR = 2048;
+	}
+
+
+
+	public class PersistenceConstants
+	{
+		public const string DEFAULT_DB_NAME = "FMDC.db3";
+
+		public static readonly string SQLITE_TEMPLATE_FILEPATH =
+			$"{CommonFileConstants.EXECUTABLE_DIRECTORY}{DEFAULT_DB_NAME}";
 	}
 
 
@@ -138,7 +174,8 @@ namespace FMDC.Model
 		public const string SECONDARY_TYPE_PARSING_ERROR = "Error Parsing Secondary Type Record.";
 		public const string HTTP_REQUEST_RETRY_FAILURE = "Could not execute GET request.  Exceeded the maximum number of retries.";
 		public const string BASE64_CONVERSION_ERROR_TEMPLATE = "Error converting base64 to bitmap: {0}";
-		public const string BITMAP_CONVERSION_ERROR_TEMPLATE = "Error converting bitmap to base64: {0}";
+		public const string BITMAP_BASE64_CONVERSION_ERROR_TEMPLATE = "Error converting bitmap to base64: {0}";
+		public const string BITMAP_BYTEARRAY_CONVERSION_ERROR_TEMPLATE = "Error converting bitmap to byte array: {0}";
 		public const string FUSION_LOADING_ERROR_TEMPLATE = "Error Loading {0} Fusion Data.";
 		public const string CHARACTER_LOAD_FAILURE = "Error Loading Character Data into memory.";
 		public const string CHARACTER_RETRIEVAL_FAILURE_TEMPLATE = "Failed to load character information for '{0}'";

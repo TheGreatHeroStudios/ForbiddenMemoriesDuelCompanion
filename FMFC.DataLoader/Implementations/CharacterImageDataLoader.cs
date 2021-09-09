@@ -53,7 +53,7 @@ namespace FMDC.DataLoader.Implementations
 									{
 										EntityType = ImageEntityType.Character,
 										EntityId = imageInfo.CharacterId,
-										ImageBase64 = base64
+										ImageRelativePath = base64
 									};
 								}
 								catch (Exception ex)

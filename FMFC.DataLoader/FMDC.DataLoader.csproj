@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Images\**" />
+    <EmbeddedResource Remove="Images\**" />
+    <None Remove="Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Files\BCD_POW_TECDrops.txt" />
     <None Remove="Files\Equips.txt" />
     <None Remove="Files\GeneralFusions.txt" />

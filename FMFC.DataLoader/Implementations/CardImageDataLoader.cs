@@ -7,9 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -150,22 +152,19 @@ namespace FMDC.DataLoader.Implementations
 				string imgURL = node.GetAttributeValue("src", null).Replace("/thumb/", "");
 				imgURL = imgURL.Substring(0, imgURL.IndexOf(".png") + 4);
 
-				//Set a default name for the card based on the image URL in case parsing the image data fails
-				//(So we can still log which card's image failed to load)
-				cardName = imgURL.Substring(imgURL.LastIndexOf('/'), imgURL.Length - imgURL.LastIndexOf('/'));
-
 				//Traverse the DOM from the image element to get to the node containing the card's identifying information
 				//From here, we can get the card's id (number) and its name.
 				HtmlNode imageInfoNode = node.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes[3].ChildNodes[1];
 				int cardId = int.Parse(imageInfoNode.FirstChild.InnerText.Substring(1), NumberStyles.Any);
-				cardName = imageInfoNode.ChildNodes[3].InnerText;
+				cardName = imageInfoNode.ChildNodes[3].InnerText.Replace("&amp;", "&");
 
 				//Make a request to get the image data from the source of the image node
 				HttpResponseMessage imageResponse = await GetRemoteContentAsync(imgURL);
-				string base64 = Convert.ToBase64String(await imageResponse.Content.ReadAsByteArrayAsync());
+				byte[] imageBytes = await imageResponse.Content.ReadAsByteArrayAsync();
 
 				//Build the two images for the respective card
-				IEnumerable<GameImage> cardImages = BuildCardImages(cardId, base64);
+				IEnumerable<GameImage> cardImages = BuildCardImages(cardId, cardName, imageBytes);
+
 				LoggingUtility.LogVerbose
 				(
 					string.Format
@@ -175,6 +174,7 @@ namespace FMDC.DataLoader.Implementations
 						cardId.ToString("000")
 					)
 				);
+
 				return cardImages;
 			}
 			catch (Exception ex)
@@ -203,31 +203,68 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private IEnumerable<GameImage> BuildCardImages(int cardId, string base64Data)
+		private IEnumerable<GameImage> BuildCardImages(int cardId, string cardName, byte[] cardDetailsImageBytes)
 		{
-			//Grab subset of card summary image to get just the image representing the card itself 
-			Bitmap cardSummaryBitmap = base64Data.ConvertToBitmap();
-			Rectangle cardRect = new Rectangle(3, 5, 138, 194);
-			Bitmap cardBitmap = cardSummaryBitmap.Clone(cardRect, cardSummaryBitmap.PixelFormat);
+			//Grab subset of card details image to get just the thumbnail of the card itself 
+			Bitmap cardDetailsBitmap = cardDetailsImageBytes.ConvertToBitmap();
+
+			Rectangle cardThumbnailRect = new Rectangle(3, 5, 138, 194);
+
+			Bitmap cardThumbnailBitmap = 
+				cardDetailsBitmap.Clone(cardThumbnailRect, cardDetailsBitmap.PixelFormat);
+
+			//Create the directories for the card images (if they don't already exist)
+			string detailImageRootedDirectory =
+				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
+				$"{ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY}";
+
+			string thumbnailImageRootedDirectory =
+				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
+				$"{ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY}";
+
+			Directory.CreateDirectory(detailImageRootedDirectory);
+			Directory.CreateDirectory(thumbnailImageRootedDirectory);
+
+			//Build the file paths for the images being generated from the card's name and id
+			string cardFileName = $"{cardId}_{cardName}.png";
+
+			string cardDetailsRelativePath = 
+				$"{ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY}{cardFileName}";
+
+			string cardThumbnailRelativePath = 
+				$"{ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY}{cardFileName}";
+
+			//Create an image file for both the card information and card thumbnail
+			File.WriteAllBytes
+			(
+				$"{detailImageRootedDirectory}{cardFileName}", 
+				cardDetailsImageBytes
+			);
+
+			File.WriteAllBytes
+			(
+				$"{thumbnailImageRootedDirectory}{cardFileName}",
+				cardThumbnailBitmap.ConvertToByteArray()
+			);
 
 			return
 				new List<GameImage>
 				{
+					//Card Details Image
+					new GameImage()
+					{
+						EntityType = ImageEntityType.CardDetails,
+						EntityId = cardId,
+						ImageRelativePath = cardDetailsRelativePath
+					},
+
 					//Card Image
 					new GameImage()
 					{
 						EntityType = ImageEntityType.Card,
 						EntityId = cardId,
-						ImageBase64 = cardBitmap.ConvertToBase64()
-					},
-
-					//Card Description Image
-					new GameImage()
-					{
-						EntityType = ImageEntityType.CardDescription,
-						EntityId = cardId,
-						ImageBase64 = base64Data
-					},
+						ImageRelativePath = cardThumbnailRelativePath
+					}
 				};
 		}
 		#endregion

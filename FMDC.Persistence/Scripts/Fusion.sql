@@ -1,0 +1,25 @@
+﻿DROP TABLE Fusion
+GO
+
+CREATE TABLE Fusion
+(
+	FusionId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	FusionType TINYINT NOT NULL,
+	TargetCardId INTEGER NULL,
+	TargetMonsterType TINYINT NULL,
+	FusionMaterialCardId INTEGER NULL,
+	FusionMaterialMonsterType TINYINT NULL,
+	ResultantCardId INTEGER NOT NULL,
+	CONSTRAINT FK_Fusion_FusionType FOREIGN KEY (FusionType) 
+		REFERENCES C_FusionType (FusionTypeCode) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT FK_Fusion_TargetCard FOREIGN KEY (TargetCardId) 
+		REFERENCES Card (CardId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT FK_Fusion_TargetMonsterType FOREIGN KEY (TargetMonsterType) 
+		REFERENCES C_MonsterType (MonsterTypeCode) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT FK_Fusion_FusionMaterialCard FOREIGN KEY (FusionMaterialCardId) 
+		REFERENCES Card (CardId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT FK_Fusion_FusionMaterialMonsterType FOREIGN KEY (FusionMaterialMonsterType) 
+		REFERENCES C_MonsterType (MonsterTypeCode) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT FK_Fusion_ResultantCard FOREIGN KEY (ResultantCardId) 
+		REFERENCES Card (CardId) ON DELETE NO ACTION ON UPDATE NO ACTION
+)

@@ -4,7 +4,7 @@
 	{
 		Unknown,
 		Card,
-		CardDescription,
+		CardDetails,
 		Character
 	}
 }

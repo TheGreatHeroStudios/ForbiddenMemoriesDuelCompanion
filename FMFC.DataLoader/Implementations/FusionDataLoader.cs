@@ -232,11 +232,11 @@ namespace FMDC.DataLoader.Implementations
 
 							if (i == 0)
 							{
-								generalFusion.TargetCardType = componentType;
+								generalFusion.TargetMonsterType = componentType;
 							}
 							else
 							{
-								generalFusion.FusionMaterialCardType = componentType;
+								generalFusion.FusionMaterialMonsterType = componentType;
 							}
 						}
 						else
@@ -264,9 +264,9 @@ namespace FMDC.DataLoader.Implementations
 					//If the left operand is empty, the right operand is a different result of the last fusion, 
 					//so copy the data from the last fusion
 					generalFusion.TargetCardId = _lastGeneralFusion.TargetCardId;
-					generalFusion.TargetCardType = _lastGeneralFusion.TargetCardType;
+					generalFusion.TargetMonsterType = _lastGeneralFusion.TargetMonsterType;
 					generalFusion.FusionMaterialCardId = _lastGeneralFusion.FusionMaterialCardId;
-					generalFusion.FusionMaterialCardType = _lastGeneralFusion.FusionMaterialCardType;
+					generalFusion.FusionMaterialMonsterType = _lastGeneralFusion.FusionMaterialMonsterType;
 				}
 				else
 				{

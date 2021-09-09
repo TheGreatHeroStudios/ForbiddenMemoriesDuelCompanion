@@ -7,9 +7,9 @@ namespace FMDC.Model.Models
 		public int FusionId { get; set; }
 		public FusionType FusionType { get; set; }
 		public int? TargetCardId { get; set; }
-		public MonsterType? TargetCardType { get; set; }
+		public MonsterType? TargetMonsterType { get; set; }
 		public int? FusionMaterialCardId { get; set; }
-		public MonsterType? FusionMaterialCardType { get; set; }
+		public MonsterType? FusionMaterialMonsterType { get; set; }
 		public int ResultantCardId { get; set; }
 	}
 }

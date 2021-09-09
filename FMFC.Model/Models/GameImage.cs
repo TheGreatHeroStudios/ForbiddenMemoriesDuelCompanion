@@ -6,6 +6,6 @@ namespace FMDC.Model.Models
 	{
 		public int EntityId { get; set; }
 		public ImageEntityType EntityType { get; set; }
-		public string ImageBase64 { get; set; }
+		public string ImageRelativePath { get; set; }
 	}
 }

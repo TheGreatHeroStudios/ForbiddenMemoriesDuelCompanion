@@ -223,7 +223,7 @@ namespace FMDC.DataLoader.Implementations
 								CardPercentage cardPercentage = new CardPercentage()
 								{
 									CardId = int.Parse(dataNodes[0].InnerText),
-									PercentageDiscriminator = PercentageType.DeckInclusion,
+									PercentageType = PercentageType.DeckInclusion,
 									GenerationPercentage = generationPercentage * 100,
 									GenerationRatePer2048 = generationRate
 								};

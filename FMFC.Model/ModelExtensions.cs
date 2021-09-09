@@ -188,8 +188,8 @@ namespace FMDC.Model
 		{
 			List<Terrain> favorableTerrains = new List<Terrain>();
 
-			//For each of the terrains, check to see if it benefits the monster type of the provided card.
-			//If so, add it to the list of favorable terrains for the card.
+			//For each of the terrains, check to see if it benefits the monster type of
+			//the provided card. If so, add it to the list of favorable terrains for the card.
 			((IEnumerable<Terrain>)Enum.GetValues(typeof(Terrain)))
 				.ToList()
 				.ForEach

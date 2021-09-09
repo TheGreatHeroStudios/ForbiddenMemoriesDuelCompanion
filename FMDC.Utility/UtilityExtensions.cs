@@ -9,12 +9,11 @@ namespace FMDC.Utility
 	public static class UtilityExtensions
 	{
 		//Base64 Image Extensions
-		public static Bitmap ConvertToBitmap(this string base64)
+		public static Bitmap ConvertToBitmap(this byte[] imageBytes)
 		{
 			try
 			{
-				byte[] bitmapData = Convert.FromBase64String(base64.CleanseBase64());
-				using (MemoryStream bitmapStream = new MemoryStream(bitmapData))
+				using (MemoryStream bitmapStream = new MemoryStream(imageBytes))
 				{
 					return (Bitmap)Image.FromStream(bitmapStream);
 				}
@@ -39,7 +38,41 @@ namespace FMDC.Utility
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(string.Format(MessageConstants.BITMAP_CONVERSION_ERROR_TEMPLATE, ex.Message));
+				LoggingUtility.LogError
+				(
+					string.Format
+					(
+						MessageConstants.BITMAP_BASE64_CONVERSION_ERROR_TEMPLATE, 
+						ex.Message
+					)
+				);
+
+				return null;
+			}
+		}
+
+
+		public static byte[] ConvertToByteArray(this Bitmap bitmap)
+		{
+			try
+			{
+				using (MemoryStream bitmapStream = new MemoryStream())
+				{
+					bitmap.Save(bitmapStream, ImageFormat.Bmp);
+					return bitmapStream.ToArray();
+				}
+			}
+			catch (Exception ex)
+			{
+				LoggingUtility.LogError
+				(
+					string.Format
+					(
+						MessageConstants.BITMAP_BYTEARRAY_CONVERSION_ERROR_TEMPLATE, 
+						ex.Message
+					)
+				);
+
 				return null;
 			}
 		}
