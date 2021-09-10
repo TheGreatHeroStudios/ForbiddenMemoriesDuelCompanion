@@ -69,6 +69,21 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<CardPercentage> LoadDataIntoMemory()
 		{
+			if (ActualRecordCount == ExpectedRecordCount)
+			{
+				//If the correct count of card percentage records has already been loaded into the  
+				//database, skip the entire data load process and return the entities from the database.
+				LoggingUtility.LogInfo(MessageConstants.CARD_PERCENTAGE_LOADING_SKIPPED);
+
+				return
+					_cardRepository
+						.RetrieveEntities<CardPercentage>
+						(
+							entity => true
+						);
+
+			}
+
 			return
 				LoadDropPercentages(PercentageType.SA_POW)
 					.Concat(LoadDropPercentages(PercentageType.SA_TEC))

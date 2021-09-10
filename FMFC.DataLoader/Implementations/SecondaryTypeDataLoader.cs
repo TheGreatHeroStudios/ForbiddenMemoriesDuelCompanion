@@ -41,10 +41,25 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<SecondaryType> LoadDataIntoMemory()
 		{
-			LoggingUtility.LogInfo(MessageConstants.BEGIN_LOADING_SECONDARY_TYPES);
-
 			try
 			{
+				if (ActualRecordCount == ExpectedRecordCount)
+				{
+					//If the correct count of secondary type records has already been loaded into the  
+					//database, skip the entire data load process and return the entities from the database.
+					LoggingUtility.LogInfo(MessageConstants.SECONDARY_TYPE_LOADING_SKIPPED);
+
+					return
+						_cardRepository
+							.RetrieveEntities<SecondaryType>
+							(
+								entity => true
+							);
+
+				}
+
+				LoggingUtility.LogInfo(MessageConstants.BEGIN_LOADING_SECONDARY_TYPES);
+
 				//Read in the table of monsters and their secondary data types
 				IEnumerable<string> secondaryTypeData = LoadDataFile(FileConstants.SECONDARY_TYPE_FILEPATH);
 

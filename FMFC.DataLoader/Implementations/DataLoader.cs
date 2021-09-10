@@ -15,9 +15,11 @@ namespace FMDC.DataLoader.Implementations
 	public abstract class DataLoader<TDataType> : IDataLoader<TDataType>
 		where TDataType : class
 	{
-		#region Private Fields
+		#region Non-Public Member(s)
 		private HttpClient _dataLoaderClient;
-		private IGenericRepository _cardRepository;
+		private int? _actualRecordCount;
+
+		protected IGenericRepository _cardRepository;
 		#endregion
 
 
@@ -57,6 +59,22 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Interface Implementations
+		public int ActualRecordCount
+		{
+			get
+			{
+				if(!_actualRecordCount.HasValue)
+				{
+					//If the record count from the database has not
+					//yet been checked, check it and cache the result
+					_actualRecordCount = 
+						_cardRepository.GetRecordCount(RecordCountPredicate);
+				}
+
+				return _actualRecordCount.Value;
+			}
+		}
+
 		public virtual int ExpectedRecordCount => 0;
 
 		public abstract Func<TDataType, int> KeySelector { get; }
@@ -69,10 +87,7 @@ namespace FMDC.DataLoader.Implementations
 
 		public void LoadDataIntoDatabase(IEnumerable<TDataType> payload)
 		{
-			int recordCount = 
-				_cardRepository.RecordCount(RecordCountPredicate);
-
-			if (recordCount == 0)
+			if (ActualRecordCount == 0)
 			{
 				//If no entities have been loaded, load them into the database
 				_cardRepository
@@ -82,7 +97,7 @@ namespace FMDC.DataLoader.Implementations
 						KeySelector
 					);
 			}
-			else if(recordCount != ExpectedRecordCount)
+			else if(ActualRecordCount != ExpectedRecordCount)
 			{
 				//If the number of entities does not match the expected value 
 				//for the data loader, truncate the table before reloading

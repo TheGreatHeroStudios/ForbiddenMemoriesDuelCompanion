@@ -37,6 +37,21 @@ namespace FMDC.DataLoader.Implementations
 		{
 			try
 			{
+				if (ActualRecordCount == ExpectedRecordCount)
+				{
+					//If the correct count of character image records has already been loaded into the  
+					//database, skip the entire data load process and return the entities from the database.
+					LoggingUtility.LogInfo(MessageConstants.CHARACTER_IMAGE_LOADING_SKIPPED);
+
+					return
+						_cardRepository
+							.RetrieveEntities<GameImage>
+							(
+								entity => entity.EntityType == ImageEntityType.Character
+							);
+
+				}
+
 				LoggingUtility.LogInfo(MessageConstants.LOADING_CHARACTER_IMAGES);
 
 				IEnumerable<CharacterLoadingInfo> imageRelativePaths = ReadCharacterImageInfo();

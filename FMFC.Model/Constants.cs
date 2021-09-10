@@ -246,6 +246,7 @@ namespace FMDC.Model
 
 		//Info Messages
 		public const string EXIT_PROMPT = "Press any key to exit...";
+		public const string BEGIN_DATA_LOAD_PROCESS = "Beginning Data Load Process...";
 		public static readonly string BEGIN_CARD_LOADING = $"Loading Cards from Remote Repository ({URLConstants.YUGIOH_FANDOM_URL})...";
 		public const string PARSING_CARD_DATA = "Parsing Card Data...";
 		public const string CARD_LOADED_TEMPLATE = "Loaded '{0}' (#{1})";
@@ -265,6 +266,14 @@ namespace FMDC.Model
 		public const string BEGIN_EQUIPMENT_LOADING = "Loading Equipment Data...";
 		public const string EQUIPMENT_PARSED_TEMPLATE = "Equip card '{0}' parsed for target #{1} ({2})";
 		public const string BEGIN_DATABASE_LOADING = "Writing data to database...";
+		public const string CARD_IMAGE_LOADING_SKIPPED = "Card image data has already been loaded into the database.  Skipping Card Image Load Step...";
+		public const string CHARACTER_IMAGE_LOADING_SKIPPED = "Character image data has already been loaded into the database.  Skipping Character Image Load Step...";
+		public const string CARD_LOADING_SKIPPED = "Card data has already been loaded into the database.  Skipping Card Load Step...";
+		public const string CHARACTER_LOADING_SKIPPED = "Character data has already been loaded into the database.  Skipping Character Load Step...";
+		public const string CARD_PERCENTAGE_LOADING_SKIPPED = "Card Percentage data has already been loaded into the database.  Skipping Card Percentage Load Step...";
+		public const string FUSION_LOADING_SKIPPED = "Fusion data has already been loaded into the database.  Skipping Fusion Load Step...";
+		public const string EQUIPPABLE_LOADING_SKIPPED = "Equippable data has already been loaded into the database.  Skipping Equippable Load Step...";
+		public const string SECONDARY_TYPE_LOADING_SKIPPED = "Secondary Type data has already been loaded into the database.  Skipping Secondary Type Load Step...";
 	}
 
 

@@ -7,6 +7,7 @@ namespace FMDC.DataLoader.Interfaces
 	public interface IDataLoader<TDataType>
 		where TDataType : class
 	{
+		int ActualRecordCount { get; }
 		int ExpectedRecordCount { get; }
 
 		Func<TDataType, int> KeySelector { get; }

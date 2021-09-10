@@ -50,6 +50,21 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<Fusion> LoadDataIntoMemory()
 		{
+			if (ActualRecordCount == ExpectedRecordCount)
+			{
+				//If the correct count of fusion records has already been loaded into the  
+				//database, skip the entire data load process and return the entities from the database.
+				LoggingUtility.LogInfo(MessageConstants.FUSION_LOADING_SKIPPED);
+
+				return
+					_cardRepository
+						.RetrieveEntities<Fusion>
+						(
+							entity => true
+						);
+
+			}
+
 			return
 				LoadFusions(FusionType.General)
 					.Concat(LoadFusions(FusionType.Specific))

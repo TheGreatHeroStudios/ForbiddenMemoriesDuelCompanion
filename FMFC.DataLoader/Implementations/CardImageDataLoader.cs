@@ -43,6 +43,21 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<GameImage> LoadDataIntoMemory()
 		{
+			if (ActualRecordCount == ExpectedRecordCount)
+			{
+				//If the correct count of card image records has already been loaded into the database, 
+				//skip the entire data load process and return the entities from the database.
+				LoggingUtility.LogInfo(MessageConstants.CARD_IMAGE_LOADING_SKIPPED);
+
+				return
+					_cardRepository
+						.RetrieveEntities<GameImage>
+						(
+							entity => entity.EntityType != ImageEntityType.Character
+						);
+
+			}
+
 			Task<HttpResponseMessage> cardGalleryResponse = null;
 
 			//Retrieve the HTML for the card gallery

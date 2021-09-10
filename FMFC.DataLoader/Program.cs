@@ -144,7 +144,9 @@ namespace FMDC.DataLoader
 		
 		private static void LoadDataIntoMemory()
 		{
-			#region Card Loader
+			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATA_LOAD_PROCESS);
+
+			/*#region Card Loader
 			_cardLoader = new CardDataLoader();
 			_cardList = _cardLoader.LoadDataIntoMemory();
 			#endregion
@@ -152,14 +154,14 @@ namespace FMDC.DataLoader
 			#region Secondary Type Loader
 			_secondaryTypeLoader = new SecondaryTypeDataLoader(_cardList);
 			_secondaryTypes = _secondaryTypeLoader.LoadDataIntoMemory();
-			#endregion
-			
+			#endregion*/
+
 			#region Card Image Loader
 			_cardImageLoader = new CardImageDataLoader();
 			_cardImages = _cardImageLoader.LoadDataIntoMemory();
 			#endregion
 			
-			#region Fusion Loader
+			/*#region Fusion Loader
 			_fusionLoader = new FusionDataLoader(_cardList);
 			_fusions = _fusionLoader.LoadDataIntoMemory();
 			_fusionLoader.LogAnomalies(_fileLogger);
@@ -168,14 +170,14 @@ namespace FMDC.DataLoader
 			#region Character Loader
 			_characterLoader = new CharacterDataLoader();
 			_characterList = _characterLoader.LoadDataIntoMemory();
-			#endregion
+			#endregion*/
 
 			#region Character Image Loader
 			_characterImageLoader = new CharacterImageDataLoader();
 			_characterImages = _characterImageLoader.LoadDataIntoMemory();
 			#endregion
 
-			#region Drop Rate Loader
+			/*#region Drop Rate Loader
 			_dropRateLoader = new CardPercentageDataLoader(_cardList, _characterList);
 			_dropRates = _dropRateLoader.LoadDataIntoMemory();
 			_dropRateLoader.LogAnomalies(_fileLogger);
@@ -185,7 +187,7 @@ namespace FMDC.DataLoader
 			_equipmentLoader = new EquipmentDataLoader(_cardList);
 			_equipment = _equipmentLoader.LoadDataIntoMemory();
 			_equipmentLoader.LogAnomalies(_fileLogger);
-			#endregion
+			#endregion*/
 
 			LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
 		}
@@ -204,6 +206,8 @@ namespace FMDC.DataLoader
 			_cardImageLoader.LoadDataIntoDatabase(_cardImages);
 			_characterImageLoader.LoadDataIntoDatabase(_characterImages);
 
+			//_cardLoader.LoadDataIntoDatabase(_cardList);
+
 			LoggingUtility.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}
 		#endregion
@@ -214,7 +218,7 @@ namespace FMDC.DataLoader
 		private static void HandleLogMessageEvent(LogMessageEvent e)
 		{
 			ConsoleColor messageColor = ConsoleColor.White;
-			string prefix = $"[{e.Level.ToString()}] ";
+			string prefix = $"[{e.Level}] ";
 
 			switch (e.Level)
 			{

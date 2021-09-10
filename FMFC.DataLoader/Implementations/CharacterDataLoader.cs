@@ -30,6 +30,21 @@ namespace FMDC.DataLoader.Implementations
 		{
 			try
 			{
+				if (ActualRecordCount == ExpectedRecordCount)
+				{
+					//If the correct count of character records has already been loaded into the  
+					//database, skip the entire data load process and return the entities from the database.
+					LoggingUtility.LogInfo(MessageConstants.CHARACTER_LOADING_SKIPPED);
+
+					return
+						_cardRepository
+							.RetrieveEntities<Character>
+							(
+								entity => true
+							);
+
+				}
+
 				//Load the info required to instantiate character objects
 				LoggingUtility.LogInfo(MessageConstants.LOADING_CHARACTER_LIST);
 				IEnumerable<CharacterLoadingInfo> characterLoadingInfo = ReadCharacterLoadingInfo();

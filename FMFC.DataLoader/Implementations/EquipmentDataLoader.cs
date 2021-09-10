@@ -47,10 +47,25 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<Equippable> LoadDataIntoMemory()
 		{
-			LoggingUtility.LogInfo(MessageConstants.BEGIN_EQUIPMENT_LOADING);
-
 			try
 			{
+				if (ActualRecordCount == ExpectedRecordCount)
+				{
+					//If the correct count of card percentage records has already been loaded into the  
+					//database, skip the entire data load process and return the entities from the database.
+					LoggingUtility.LogInfo(MessageConstants.EQUIPPABLE_LOADING_SKIPPED);
+
+					return
+						_cardRepository
+							.RetrieveEntities<Equippable>
+							(
+								entity => true
+							);
+
+				}
+
+				LoggingUtility.LogInfo(MessageConstants.BEGIN_EQUIPMENT_LOADING);
+
 				int currentRowNum = 0;
 
 				//Load equipment data from file
