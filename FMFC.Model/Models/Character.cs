@@ -6,6 +6,7 @@ namespace FMDC.Model.Models
 	{
 		#region Propert(ies)
 		public int CharacterId { get; set; }
+		public int CharacterImageId { get; set; }
 		public string Name { get; set; }
 		public string Biography { get; set; }
 		#endregion
@@ -14,8 +15,7 @@ namespace FMDC.Model.Models
 
 		#region Navigation Propert(ies)
 		public GameImage CharacterImage { get; set; }
-		public IEnumerable<CardPercentage> DeckCards { get; set; }
-		public IEnumerable<CardPercentage> DropRates { get; set; }
+		public List<CharacterCardPercentage> CardPercentages { get; set; }
 		#endregion
 	}
 }

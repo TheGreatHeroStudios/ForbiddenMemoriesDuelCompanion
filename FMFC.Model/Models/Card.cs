@@ -7,6 +7,8 @@ namespace FMDC.Model.Models
 	{
 		#region Propert(ies)
 		public int CardId { get; set; }
+		public int CardImageId { get; set; }
+		public int CardDescriptionImageId { get; set; }
 		public string Name { get; set; }
 		public CardType CardType { get; set; }
 		public MonsterType? MonsterType { get; set; }
@@ -23,7 +25,6 @@ namespace FMDC.Model.Models
 
 
 		#region Navigation Propert(ies)
-		public List<CardPercentage> CardPercentages { get; set; }
 		public GameImage CardImage { get; set; }
 		public GameImage CardDescriptionImage { get; set; }
 		public List<SecondaryType> SecondaryTypes { get; set; }

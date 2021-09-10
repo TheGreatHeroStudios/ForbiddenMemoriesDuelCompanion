@@ -120,9 +120,6 @@ namespace FMDC.DataLoader.Implementations
 				}
 
 				string biography = ParseCharacterBiography(infoHTML);
-				List<CardPercentage> deckCards = loadingInfo.DeckListOrdinal > 0 ?
-					ParseCharacterDeckList(infoHTML, loadingInfo.DeckListOrdinal).ToList() :
-					null;
 
 				LoggingUtility.LogVerbose
 				(
@@ -133,14 +130,31 @@ namespace FMDC.DataLoader.Implementations
 					)
 				);
 
-				return new Character()
-				{
-					CharacterId = loadingInfo.CharacterId,
-					Name = loadingInfo.CharacterName,
-					Biography = biography,
-					DeckCards = deckCards
-					//NOTE: Character image and drop rates are loaded and associated to the character as part of separate data loaders
-				};
+				Character character =
+					new Character()
+					{
+						CharacterId = loadingInfo.CharacterId,
+						Name = loadingInfo.CharacterName,
+						Biography = biography
+						//NOTE: Character image and drop rates are
+						//loaded and associated to the character as
+						//part of separate data loaders
+					};
+
+				List<CharacterCardPercentage> deckCards =
+					loadingInfo.DeckListOrdinal > 0 ?
+						ParseCharacterDeckList
+						(
+							character,
+							infoHTML, 
+							loadingInfo.DeckListOrdinal
+						)
+						.ToList() :
+						null;
+
+				character.CardPercentages = deckCards;
+
+				return character;
 			}
 			catch (Exception ex)
 			{
@@ -198,7 +212,12 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private IEnumerable<CardPercentage> ParseCharacterDeckList(HtmlDocument infoHTML, int deckListTableOrdinal)
+		private IEnumerable<CharacterCardPercentage> ParseCharacterDeckList
+		(
+			Character targetCharacter,
+			HtmlDocument infoHTML, 
+			int deckListTableOrdinal
+		)
 		{
 			//Get the card-list table corresponding to the character's deck loadout (as determined by the ordinal)
 			//Get all table rows (not including header row) and parse the relevant card data and percentages out of it
@@ -220,13 +239,16 @@ namespace FMDC.DataLoader.Implementations
 								double generationPercentage = double.Parse(dataNodes[8].InnerText) / DataLoaderConstants.DROP_RATE_DENOMINATOR;
 								int generationRate = int.Parse(dataNodes[8].InnerText);
 
-								CardPercentage cardPercentage = new CardPercentage()
-								{
-									CardId = int.Parse(dataNodes[0].InnerText),
-									PercentageType = PercentageType.DeckInclusion,
-									GenerationPercentage = generationPercentage * 100,
-									GenerationRatePer2048 = generationRate
-								};
+								CharacterCardPercentage cardPercentage = 
+									new CharacterCardPercentage
+									{
+										CharacterId = targetCharacter.CharacterId,
+										CardId = int.Parse(dataNodes[0].InnerText),
+										PercentageType = PercentageType.DeckInclusion,
+										GenerationPercentage = generationPercentage * 100,
+										GenerationRatePer2048 = generationRate,
+										Character = targetCharacter
+									};
 
 								return cardPercentage;
 							}

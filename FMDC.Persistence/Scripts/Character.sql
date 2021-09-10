@@ -1,0 +1,12 @@
+﻿DROP TABLE Character
+GO
+
+CREATE TABLE Character
+(
+	CharacterId INTEGER PRIMARY KEY NOT NULL,
+	CharacterImageId INTEGER NOT NULL,
+	Name NVARCHAR(30) NOT NULL,
+	Biography NVARCHAR(4000) NOT NULL,
+	CONSTRAINT FK_Character_GameImage FOREIGN KEY (CharacterImageId) 
+		REFERENCES GameImage (EntityId) ON DELETE NO ACTION ON UPDATE NO ACTION
+)

@@ -24,7 +24,7 @@ namespace FMDC.DataLoader
 		private static IEnumerable<Fusion> _fusions;
 		private static IEnumerable<Character> _characterList;
 		private static IEnumerable<GameImage> _characterImages;
-		private static IEnumerable<CardPercentage> _dropRates;
+		private static IEnumerable<CharacterCardPercentage> _dropRates;
 		private static IEnumerable<Equippable> _equipment;
 		#endregion
 
@@ -131,7 +131,7 @@ namespace FMDC.DataLoader
 			#endregion
 
 			#region Drop Rate Loader
-			CardDropDataLoader dropRateLoader = new CardDropDataLoader(_cardList, _characterList);
+			CardPercentageDataLoader dropRateLoader = new CardPercentageDataLoader(_cardList, _characterList);
 			_dropRates = dropRateLoader.LoadDataIntoMemory();
 			dropRateLoader.LogAnomalies(_fileLogger);
 			#endregion

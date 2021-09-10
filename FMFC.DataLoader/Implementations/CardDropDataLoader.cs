@@ -11,7 +11,7 @@ using System.Text;
 
 namespace FMDC.DataLoader.Implementations
 {
-	public class CardDropDataLoader : DataLoader<CardPercentage>
+	public class CardPercentageDataLoader : DataLoader<CharacterCardPercentage>
 	{
 		#region Properties
 		public List<(int LineNumber, string Info)> SA_POWDropRateAnomalies { get; set; } = new List<(int LineNumber, string Info)>();
@@ -31,7 +31,11 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Constructor
-		public CardDropDataLoader(IEnumerable<Card> cardList, IEnumerable<Character> characterList)
+		public CardPercentageDataLoader
+		(
+			IEnumerable<Card> cardList, 
+			IEnumerable<Character> characterList
+		)
 		{
 			if (cardList == null)
 			{
@@ -60,7 +64,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
-		public override IEnumerable<CardPercentage> LoadDataIntoMemory()
+		public override IEnumerable<CharacterCardPercentage> LoadDataIntoMemory()
 		{
 			return
 				LoadDropPercentages(PercentageType.SA_POW)
@@ -70,7 +74,7 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<CardPercentage> data)
+		public override int LoadDataIntoDatabase(IEnumerable<CharacterCardPercentage> data)
 		{
 			throw new NotImplementedException();
 		}
@@ -131,39 +135,81 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Private Methods
-		private IEnumerable<CardPercentage> LoadDropPercentages(PercentageType dropPercentageType)
+		private IEnumerable<CharacterCardPercentage> LoadDropPercentages
+		(
+			PercentageType dropPercentageType
+		)
 		{
-			LoggingUtility.LogInfo(string.Format(MessageConstants.LOADING_DROPRATE_DATA_TEMPLATE, dropPercentageType));
+			LoggingUtility.LogInfo
+			(
+				string.Format
+				(
+					MessageConstants.LOADING_DROPRATE_DATA_TEMPLATE, 
+					dropPercentageType
+				)
+			);
 
 			try
 			{
 				int currentRowNum = 0;
 
-				//Load the file for the specified drop percentage type (POW/TEC and ranking)
-				IEnumerable<string> dropRateData = LoadDataFile(string.Format(FileConstants.DROP_RATE_FILEPATH_TEMPLATE, dropPercentageType));
+				//Load the file for the specified drop
+				//percentage type (POW/TEC and ranking)
+				IEnumerable<string> dropRateData = 
+					LoadDataFile
+					(
+						string.Format
+						(
+							FileConstants.DROP_RATE_FILEPATH_TEMPLATE, 
+							dropPercentageType
+						)
+					);
 
 				//Parse each row of the data file to build a list of drop percentages.
-				//NOTE: 'ToList()' must be called to materialize the collection so that any anomalies can be logged and notified
-				List<CardPercentage> dropRates = dropRateData
-					.Select
-					(
-						record =>
-						{
-							currentRowNum++;
-							return ParseCardPercentageRecord(record, currentRowNum, dropPercentageType);
-						}
-					)
-					.ToList();
+				//NOTE: 'ToList()' must be called to materialize the collection so that
+				//any anomalies can be logged and notified
+				List<CharacterCardPercentage> dropRates = 
+					dropRateData
+						.Select
+						(
+							record =>
+							{
+								currentRowNum++;
+								return ParseCardDropPercentageRecord
+								(
+									record, 
+									currentRowNum, 
+									dropPercentageType
+								);
+							}
+						)
+						.ToList();
 
 				//Use reflection to get the anomalies property for the type of card drops loaded
 				//If any anomalies exist, log a warning message to the console.  These should also be dumped to a file.
 				if (GetAnomalyLoggingProperty(dropPercentageType).Any())
 				{
-					LoggingUtility.LogWarning(string.Format(MessageConstants.DROPRATE_LOAD_FAILURE_WARNING_TEMPLATE, dropPercentageType));
+					LoggingUtility
+						.LogWarning
+						(
+							string.Format
+							(
+								MessageConstants.DROPRATE_LOAD_FAILURE_WARNING_TEMPLATE, 
+								dropPercentageType
+							)
+						);
 				}
 				else
 				{
-					LoggingUtility.LogInfo(string.Format(MessageConstants.DROPRATE_LOADING_SUCCESSFUL_TEMPLATE, dropPercentageType));
+					LoggingUtility
+						.LogInfo
+						(
+							string.Format
+							(
+								MessageConstants.DROPRATE_LOADING_SUCCESSFUL_TEMPLATE, 
+								dropPercentageType
+							)
+						);
 				}
 
 				return dropRates;
@@ -183,7 +229,12 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private CardPercentage ParseCardPercentageRecord(string rowData, int lineNumber, PercentageType dropPercentageType)
+		private CharacterCardPercentage ParseCardDropPercentageRecord
+		(
+			string rowData, 
+			int lineNumber, 
+			PercentageType dropPercentageType
+		)
 		{
 			DataRowType rowType = DataRowType.Unknown;
 
@@ -196,7 +247,10 @@ namespace FMDC.DataLoader.Implementations
 					//If the row contains the name of a character, cross-reference it with the character list to get and store the character's Id
 					case DataRowType.Character:
 					{
-						Character currentCharacter = _characterList.Where(c => c.Name == rowData.Trim()).FirstOrDefault();
+						Character currentCharacter = 
+							_characterList
+								.Where(c => c.Name == rowData.Trim())
+								.FirstOrDefault();
 
 						if (currentCharacter == null)
 						{
@@ -217,7 +271,10 @@ namespace FMDC.DataLoader.Implementations
 						//If the preceeding row was not a delimiter, log an anomaly
 						if (lineNumber != 1 && _lastDropRateRowType != DataRowType.Delimiter)
 						{
-							throw new FileParsingAnomalyException(AnomalyConstants.CHARACTER_NO_DELIMITER);
+							throw new FileParsingAnomalyException
+							(
+								AnomalyConstants.CHARACTER_NO_DELIMITER
+							);
 						}
 
 						//Character rows do not constitute their own drop, so return null
@@ -231,7 +288,10 @@ namespace FMDC.DataLoader.Implementations
 						{
 							//If it wasn't, log an anomaly and invalidate the last character id (so we don't associate a drop with the wrong character)
 							_lastCharacterId = 0;
-							throw new FileParsingAnomalyException(AnomalyConstants.DIVIDER_NO_CHARACTER);
+							throw new FileParsingAnomalyException
+							(
+								AnomalyConstants.DIVIDER_NO_CHARACTER
+							);
 						}
 
 						//Divider rows do not constitute their own drop, so return null
@@ -246,7 +306,10 @@ namespace FMDC.DataLoader.Implementations
 						//If the delimiter was not preceeded by a target card drop, log an anomaly
 						if (_lastDropRateRowType != DataRowType.Target)
 						{
-							throw new FileParsingAnomalyException(AnomalyConstants.DELIMITER_NO_DROP);
+							throw new FileParsingAnomalyException
+							(
+								AnomalyConstants.DELIMITER_NO_DROP
+							);
 						}
 
 						//Delimiters do not constitute their own drop, so return null
@@ -260,11 +323,20 @@ namespace FMDC.DataLoader.Implementations
 							rowData = rowData.Trim();
 
 							//If the current row is a target for dropping, first, ensure that a valid character is set for the drop
-							Character targetCharacter = _characterList.FirstOrDefault(character => character.CharacterId == _lastCharacterId);
+							Character targetCharacter = 
+								_characterList
+									.FirstOrDefault
+									(
+										character => 
+											character.CharacterId == _lastCharacterId
+									);
 
 							if (targetCharacter == null)
 							{
-								throw new FileParsingAnomalyException(AnomalyConstants.NO_VALID_CHARACTER);
+								throw new FileParsingAnomalyException
+								(
+									AnomalyConstants.NO_VALID_CHARACTER
+								);
 							}
 
 							//Next, attempt to parse the card Id from the start of the row data, 
@@ -286,12 +358,18 @@ namespace FMDC.DataLoader.Implementations
 
 							if (!int.TryParse(dropRateString, out int dropRate))
 							{
-								throw new FileParsingAnomalyException(AnomalyConstants.DROP_RATE_PARSING_ERROR);
+								throw new FileParsingAnomalyException
+								(
+									AnomalyConstants.DROP_RATE_PARSING_ERROR
+								);
 							}
 
 							if (!int.TryParse(cardIdString, out int targetCardId))
 							{
-								throw new FileParsingAnomalyException(AnomalyConstants.CARD_ID_PARSING_ERROR);
+								throw new FileParsingAnomalyException
+								(
+									AnomalyConstants.CARD_ID_PARSING_ERROR
+								);
 							}
 
 							//Verify that the card Id and name parsed from the row data are correctly correlated
@@ -299,13 +377,18 @@ namespace FMDC.DataLoader.Implementations
 
 							//If all the above validation has passed, we should have all the information we need 
 							//to build the CardPercentage object
-							CardPercentage cardPercentage = new CardPercentage()
-							{
-								CardId = targetCardId,
-								PercentageType = dropPercentageType,
-								GenerationPercentage = dropRate / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR * 100,
-								GenerationRatePer2048 = dropRate
-							};
+							CharacterCardPercentage cardPercentage = 
+								new CharacterCardPercentage()
+								{
+									CharacterId = targetCharacter.CharacterId,
+									CardId = targetCardId,
+									PercentageType = dropPercentageType,
+									GenerationPercentage = 
+										dropRate / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR * 100,
+									GenerationRatePer2048 = dropRate,
+									Character = targetCharacter,
+
+								};
 
 							LoggingUtility.LogVerbose
 							(
@@ -402,7 +485,10 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private List<(int LineNumber, string Info)> GetAnomalyLoggingProperty(PercentageType anomalyType)
+		private List<(int LineNumber, string Info)> GetAnomalyLoggingProperty
+		(
+			PercentageType anomalyType
+		)
 		{
 			return (List<(int LineNumber, string Info)>)GetType()
 				.GetProperty(string.Format(PropertyConstants.DROPRATE_ANOMALY_PROPERTY_NAME_TEMPLATE, anomalyType))
