@@ -24,7 +24,7 @@ namespace FMDC.DataLoader
 		private static IEnumerable<Fusion> _fusions;
 		private static IEnumerable<Character> _characterList;
 		private static IEnumerable<GameImage> _characterImages;
-		private static IEnumerable<CharacterCardPercentage> _dropRates;
+		private static IEnumerable<CardPercentage> _dropRates;
 		private static IEnumerable<Equippable> _equipment;
 		#endregion
 

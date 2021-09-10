@@ -5,10 +5,10 @@ using System.Text;
 
 namespace FMDC.Model.Models
 {
-	public class CharacterCardPercentage
+	public class CardPercentage
 	{
 		#region Propert(ies)
-		public int CharacterCardPercentageId { get; set; }
+		public int CardPercentageId { get; set; }
 		public int CharacterId { get; set; }
 		public int CardId { get; set; }
 		public PercentageType PercentageType { get; set; }

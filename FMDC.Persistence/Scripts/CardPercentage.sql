@@ -1,9 +1,9 @@
-﻿DROP TABLE CharacterCardPercentage
+﻿DROP TABLE CardPercentage
 GO
 
-CREATE TABLE CharacterCardPercentage
+CREATE TABLE CardPercentage
 (
-	CharacterCardPercentageId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	CardPercentageId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	CharacterId INTEGER NOT NULL,
 	CardId INTEGER NOT NULL,
 	PercentageType TINYINT NOT NULL,

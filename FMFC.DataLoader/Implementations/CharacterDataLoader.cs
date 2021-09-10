@@ -141,7 +141,7 @@ namespace FMDC.DataLoader.Implementations
 						//part of separate data loaders
 					};
 
-				List<CharacterCardPercentage> deckCards =
+				List<CardPercentage> deckCards =
 					loadingInfo.DeckListOrdinal > 0 ?
 						ParseCharacterDeckList
 						(
@@ -212,7 +212,7 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private IEnumerable<CharacterCardPercentage> ParseCharacterDeckList
+		private IEnumerable<CardPercentage> ParseCharacterDeckList
 		(
 			Character targetCharacter,
 			HtmlDocument infoHTML, 
@@ -239,8 +239,8 @@ namespace FMDC.DataLoader.Implementations
 								double generationPercentage = double.Parse(dataNodes[8].InnerText) / DataLoaderConstants.DROP_RATE_DENOMINATOR;
 								int generationRate = int.Parse(dataNodes[8].InnerText);
 
-								CharacterCardPercentage cardPercentage = 
-									new CharacterCardPercentage
+								CardPercentage cardPercentage = 
+									new CardPercentage
 									{
 										CharacterId = targetCharacter.CharacterId,
 										CardId = int.Parse(dataNodes[0].InnerText),

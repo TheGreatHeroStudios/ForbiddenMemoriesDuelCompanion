@@ -1,6 +1,8 @@
 ﻿using FMDC.Model;
+using FMDC.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Reflection;
 using TGH.Common.Persistence.Contexts;
 
 namespace FMDC.Persistence
@@ -12,11 +14,24 @@ namespace FMDC.Persistence
 			base
 			(
 				targetDatabaseFilePath,
-				PersistenceConstants.SQLITE_TEMPLATE_FILEPATH
+				PersistenceConstants.SQLITE_TEMPLATE_FILEPATH,
+				Assembly.GetExecutingAssembly()
 			)
 		{
 
 		}
+		#endregion
+
+
+
+		#region DbSet Propert(ies)
+		public DbSet<GameImage> GameImages { get; set; }
+		public DbSet<Card> Cards { get; set; }
+		public DbSet<Character> Characters { get; set; }
+		public DbSet<CardPercentage> CardPercentages { get; set; }
+		public DbSet<Fusion> Fusions { get; set; }
+		public DbSet<Equippable> Equippables { get; set; }
+		public DbSet<SecondaryType> SecondaryTypes { get; set; }
 		#endregion
 	}
 }

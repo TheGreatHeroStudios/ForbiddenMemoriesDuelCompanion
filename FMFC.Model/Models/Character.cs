@@ -15,7 +15,7 @@ namespace FMDC.Model.Models
 
 		#region Navigation Propert(ies)
 		public GameImage CharacterImage { get; set; }
-		public List<CharacterCardPercentage> CardPercentages { get; set; }
+		public List<CardPercentage> CardPercentages { get; set; }
 		#endregion
 	}
 }

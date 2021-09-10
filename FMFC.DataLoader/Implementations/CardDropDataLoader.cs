@@ -11,7 +11,7 @@ using System.Text;
 
 namespace FMDC.DataLoader.Implementations
 {
-	public class CardPercentageDataLoader : DataLoader<CharacterCardPercentage>
+	public class CardPercentageDataLoader : DataLoader<CardPercentage>
 	{
 		#region Properties
 		public List<(int LineNumber, string Info)> SA_POWDropRateAnomalies { get; set; } = new List<(int LineNumber, string Info)>();
@@ -64,7 +64,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
-		public override IEnumerable<CharacterCardPercentage> LoadDataIntoMemory()
+		public override IEnumerable<CardPercentage> LoadDataIntoMemory()
 		{
 			return
 				LoadDropPercentages(PercentageType.SA_POW)
@@ -74,7 +74,7 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<CharacterCardPercentage> data)
+		public override int LoadDataIntoDatabase(IEnumerable<CardPercentage> data)
 		{
 			throw new NotImplementedException();
 		}
@@ -135,7 +135,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Private Methods
-		private IEnumerable<CharacterCardPercentage> LoadDropPercentages
+		private IEnumerable<CardPercentage> LoadDropPercentages
 		(
 			PercentageType dropPercentageType
 		)
@@ -168,7 +168,7 @@ namespace FMDC.DataLoader.Implementations
 				//Parse each row of the data file to build a list of drop percentages.
 				//NOTE: 'ToList()' must be called to materialize the collection so that
 				//any anomalies can be logged and notified
-				List<CharacterCardPercentage> dropRates = 
+				List<CardPercentage> dropRates = 
 					dropRateData
 						.Select
 						(
@@ -229,7 +229,7 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private CharacterCardPercentage ParseCardDropPercentageRecord
+		private CardPercentage ParseCardDropPercentageRecord
 		(
 			string rowData, 
 			int lineNumber, 
@@ -377,8 +377,8 @@ namespace FMDC.DataLoader.Implementations
 
 							//If all the above validation has passed, we should have all the information we need 
 							//to build the CardPercentage object
-							CharacterCardPercentage cardPercentage = 
-								new CharacterCardPercentage()
+							CardPercentage cardPercentage = 
+								new CardPercentage()
 								{
 									CharacterId = targetCharacter.CharacterId,
 									CardId = targetCardId,
