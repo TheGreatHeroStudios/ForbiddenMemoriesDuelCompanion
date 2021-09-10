@@ -24,7 +24,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 
-		#region Constructor
+		#region Constructor(s)
 		public EquipmentDataLoader(IEnumerable<Card> cardList)
 		{
 			if (cardList == null)
@@ -43,6 +43,8 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<Equippable, int> KeySelector => equippable => equippable.EquippableId;
+
 		public override IEnumerable<Equippable> LoadDataIntoMemory()
 		{
 			LoggingUtility.LogInfo(MessageConstants.BEGIN_EQUIPMENT_LOADING);
@@ -82,12 +84,12 @@ namespace FMDC.DataLoader.Implementations
 				throw ex;
 			}
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<Equippable> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_EQUIPPABLE_COUNT;
 		#endregion
 
 

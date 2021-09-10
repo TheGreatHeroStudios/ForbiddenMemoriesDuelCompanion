@@ -1,12 +1,18 @@
 ﻿using FMDC.DataLoader.Implementations;
 using FMDC.Model;
+using FMDC.Model.Enums;
 using FMDC.Model.Models;
+using FMDC.Persistence;
 using FMDC.Utility;
 using FMDC.Utility.PubSubUtility;
 using FMDC.Utility.PubSubUtility.PubSubEventTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TGH.Common.Patterns.IoC;
+using TGH.Common.Persistence.Interfaces;
+using TGH.Common.Repository.Implementations;
+using TGH.Common.Repository.Interfaces;
 
 namespace FMDC.DataLoader
 {
@@ -17,6 +23,17 @@ namespace FMDC.DataLoader
 		private static bool _waitOnExit = false;
 		private static int _exitCode = 0;
 		private static FileLogger _fileLogger;
+
+		private static IGenericRepository _cardRepository;
+
+		private static CardDataLoader _cardLoader;
+		private static SecondaryTypeDataLoader _secondaryTypeLoader;
+		private static CardImageDataLoader _cardImageLoader;
+		private static FusionDataLoader _fusionLoader;
+		private static CharacterDataLoader _characterLoader;
+		private static CharacterImageDataLoader _characterImageLoader;
+		private static CardPercentageDataLoader _dropRateLoader;
+		private static EquipmentDataLoader _equipmentLoader;
 
 		private static IEnumerable<Card> _cardList;
 		private static IEnumerable<SecondaryType> _secondaryTypes;
@@ -35,19 +52,13 @@ namespace FMDC.DataLoader
 		{
 			try
 			{
-				PubSubManager.Subscribe<LogMessageEvent>(HandleLogMessageEvent);
-				_fileLogger =
-					new FileLogger
-					(
-						FileConstants.DATA_LOADER_LOG_FILE_NAME,
-						ApplicationConstants.APPLICATION_DATA_FOLDER
-					);
-
+				ConfigureMiddleware();
 				PrepareConsole(args);
 
 				LoadDataIntoMemory();
+				PrepareRelationalDataForStorage();
 
-				LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
+				PersistData();
 			}
 			catch (Exception ex)
 			{
@@ -74,6 +85,40 @@ namespace FMDC.DataLoader
 
 
 		#region Private Methods
+		private static void ConfigureMiddleware()
+		{
+			PubSubManager.Subscribe<LogMessageEvent>(HandleLogMessageEvent);
+			_fileLogger =
+				new FileLogger
+				(
+					FileConstants.DATA_LOADER_LOG_FILE_NAME,
+					ApplicationConstants.APPLICATION_DATA_FOLDER
+				);
+
+			//Register singleton middleware instances for the necessary data layers
+			DependencyManager
+				.RegisterService<IDatabaseContext, ForbiddenMemoriesDbContext>
+				(
+					() => 
+						new ForbiddenMemoriesDbContext
+						(
+							PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
+						),
+					ServiceScope.Singleton
+				);
+
+			DependencyManager
+				.RegisterService<IGenericRepository, GenericRepository>
+				(
+					ServiceScope.Singleton
+				);
+
+			//Immediately resolve an instance of the repository to serve as the card repository
+			_cardRepository = 
+				DependencyManager.ResolveService<IGenericRepository>(ServiceScope.Singleton);
+		}
+
+
 		private static void PrepareConsole(string[] args)
 		{
 			IEnumerable<string> argsList = args.Select(arg => arg.ToLower());
@@ -100,47 +145,66 @@ namespace FMDC.DataLoader
 		private static void LoadDataIntoMemory()
 		{
 			#region Card Loader
-			CardDataLoader cardLoader = new CardDataLoader();
-			_cardList = cardLoader.LoadDataIntoMemory();
+			_cardLoader = new CardDataLoader();
+			_cardList = _cardLoader.LoadDataIntoMemory();
 			#endregion
 
 			#region Secondary Type Loader
-			SecondaryTypeDataLoader secondaryTypeLoader = new SecondaryTypeDataLoader(_cardList);
-			_secondaryTypes = secondaryTypeLoader.LoadDataIntoMemory();
+			_secondaryTypeLoader = new SecondaryTypeDataLoader(_cardList);
+			_secondaryTypes = _secondaryTypeLoader.LoadDataIntoMemory();
 			#endregion
 			
 			#region Card Image Loader
-			CardImageDataLoader cardImageLoader = new CardImageDataLoader();
-			_cardImages = cardImageLoader.LoadDataIntoMemory();
+			_cardImageLoader = new CardImageDataLoader();
+			_cardImages = _cardImageLoader.LoadDataIntoMemory();
 			#endregion
 			
 			#region Fusion Loader
-			FusionDataLoader fusionLoader = new FusionDataLoader(_cardList);
-			_fusions = fusionLoader.LoadDataIntoMemory();
-			fusionLoader.LogAnomalies(_fileLogger);
+			_fusionLoader = new FusionDataLoader(_cardList);
+			_fusions = _fusionLoader.LoadDataIntoMemory();
+			_fusionLoader.LogAnomalies(_fileLogger);
 			#endregion
 
 			#region Character Loader
-			CharacterDataLoader characterLoader = new CharacterDataLoader();
-			_characterList = characterLoader.LoadDataIntoMemory();
+			_characterLoader = new CharacterDataLoader();
+			_characterList = _characterLoader.LoadDataIntoMemory();
 			#endregion
 
 			#region Character Image Loader
-			CharacterImageDataLoader characterImageLoader = new CharacterImageDataLoader();
-			_characterImages = characterImageLoader.LoadDataIntoMemory();
+			_characterImageLoader = new CharacterImageDataLoader();
+			_characterImages = _characterImageLoader.LoadDataIntoMemory();
 			#endregion
 
 			#region Drop Rate Loader
-			CardPercentageDataLoader dropRateLoader = new CardPercentageDataLoader(_cardList, _characterList);
-			_dropRates = dropRateLoader.LoadDataIntoMemory();
-			dropRateLoader.LogAnomalies(_fileLogger);
+			_dropRateLoader = new CardPercentageDataLoader(_cardList, _characterList);
+			_dropRates = _dropRateLoader.LoadDataIntoMemory();
+			_dropRateLoader.LogAnomalies(_fileLogger);
 			#endregion
 
 			#region Equipment Loader
-			EquipmentDataLoader equipmentLoader = new EquipmentDataLoader(_cardList);
-			_equipment = equipmentLoader.LoadDataIntoMemory();
-			equipmentLoader.LogAnomalies(_fileLogger);
+			_equipmentLoader = new EquipmentDataLoader(_cardList);
+			_equipment = _equipmentLoader.LoadDataIntoMemory();
+			_equipmentLoader.LogAnomalies(_fileLogger);
 			#endregion
+
+			LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
+		}
+		
+		
+		private static void PrepareRelationalDataForStorage()
+		{
+			
+		}
+
+
+		private static void PersistData()
+		{
+			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATABASE_LOADING);
+
+			_cardImageLoader.LoadDataIntoDatabase(_cardImages);
+			_characterImageLoader.LoadDataIntoDatabase(_characterImages);
+
+			LoggingUtility.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}
 		#endregion
 

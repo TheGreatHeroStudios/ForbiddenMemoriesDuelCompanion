@@ -30,7 +30,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 
-		#region Constructor
+		#region Constructor(s)
 		public CardPercentageDataLoader
 		(
 			IEnumerable<Card> cardList, 
@@ -64,6 +64,9 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<CardPercentage, int> KeySelector => 
+			cardPercentage => cardPercentage.CardPercentageId;
+
 		public override IEnumerable<CardPercentage> LoadDataIntoMemory()
 		{
 			return
@@ -72,12 +75,12 @@ namespace FMDC.DataLoader.Implementations
 					.Concat(LoadDropPercentages(PercentageType.BCD_POW_TEC))
 					.Where(percentage => percentage != null);
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<CardPercentage> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_CARD_PERCENTAGE_COUNT;
 		#endregion
 
 

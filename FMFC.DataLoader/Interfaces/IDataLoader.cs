@@ -1,10 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TGH.Common.Repository.Interfaces;
 
 namespace FMDC.DataLoader.Interfaces
 {
-	public interface IDataLoader<DataType>
+	public interface IDataLoader<TDataType>
+		where TDataType : class
 	{
-		IEnumerable<DataType> LoadDataIntoMemory();
-		int LoadDataIntoDatabase(IEnumerable<DataType> data);
+		int ExpectedRecordCount { get; }
+
+		Func<TDataType, int> KeySelector { get; }
+
+		Func<TDataType, bool> RecordCountPredicate { get; }
+
+
+		IEnumerable<TDataType> LoadDataIntoMemory();
+
+
+		void LoadDataIntoDatabase(IEnumerable<TDataType> payload);
 	}
 }

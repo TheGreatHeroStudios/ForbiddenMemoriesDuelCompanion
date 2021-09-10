@@ -17,7 +17,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 
-		#region Constructor
+		#region Constructor(s)
 		public SecondaryTypeDataLoader(IEnumerable<Card> cardList)
 		{
 			if (cardList == null)
@@ -36,6 +36,9 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<SecondaryType, int> KeySelector =>
+			secondaryType => secondaryType.SecondaryTypeId;
+
 		public override IEnumerable<SecondaryType> LoadDataIntoMemory()
 		{
 			LoggingUtility.LogInfo(MessageConstants.BEGIN_LOADING_SECONDARY_TYPES);
@@ -123,12 +126,12 @@ namespace FMDC.DataLoader.Implementations
 				throw ex;
 			}
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<SecondaryType> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_SECONDARY_TYPE_COUNT;
 		#endregion
 
 

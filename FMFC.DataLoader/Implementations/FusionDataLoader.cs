@@ -28,7 +28,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 
-		#region Constructor
+		#region Constructor(s)
 		public FusionDataLoader(IEnumerable<Card> cardList)
 		{
 			if (cardList == null)
@@ -46,6 +46,8 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<Fusion, int> KeySelector => fusion => fusion.FusionId;
+
 		public override IEnumerable<Fusion> LoadDataIntoMemory()
 		{
 			return
@@ -53,12 +55,12 @@ namespace FMDC.DataLoader.Implementations
 					.Concat(LoadFusions(FusionType.Specific))
 					.Where(fusion => fusion != null);
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<Fusion> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_FUSION_COUNT;
 		#endregion
 
 

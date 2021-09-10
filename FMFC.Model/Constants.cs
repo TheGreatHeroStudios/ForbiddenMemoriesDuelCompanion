@@ -47,6 +47,34 @@ namespace FMDC.Model
 		public const int TOTAL_CHARACTER_COUNT = 39;
 
 		/// <summary>
+		///		The total number of image entities to be loaded
+		/// </summary>
+		public const int TOTAL_IMAGE_COUNT = 1483;
+
+		/// <summary>
+		///		The total number of fusion combinations possible
+		/// </summary>
+		public const int TOTAL_FUSION_COUNT = 6581;
+
+		/// <summary>
+		///		The total number of equippable combinations possible
+		/// </summary>
+		public const int TOTAL_EQUIPPABLE_COUNT = 4040;
+
+
+		/// <summary>
+		///		The total number of secondary type entities to be loaded
+		/// </summary>
+		public const int TOTAL_SECONDARY_TYPE_COUNT = 247;
+
+
+		/// <summary>
+		///		The total number of card percentage entities 
+		///		(including deck inclusion and drop rates) to be loaded
+		/// </summary>
+		public const int TOTAL_CARD_PERCENTAGE_COUNT = 8671;
+
+		/// <summary>
 		///		Represents the max of a random number generated to determine random drop rates
 		/// </summary>
 		public const int DROP_RATE_DENOMINATOR = 2048;
@@ -59,7 +87,12 @@ namespace FMDC.Model
 		public const string DEFAULT_DB_NAME = "FMDC.db3";
 
 		public static readonly string SQLITE_TEMPLATE_FILEPATH =
-			$"{CommonFileConstants.EXECUTABLE_DIRECTORY}{DEFAULT_DB_NAME}";
+			$"{CommonFileConstants.EXECUTABLE_DIRECTORY}" +
+			$"Files{CommonFileConstants.PATH_SEPARATOR}" +
+			$"{DEFAULT_DB_NAME}";
+
+		public static readonly string SQLITE_DB_TARGET_FILEPATH =
+			$"{ApplicationConstants.APPLICATION_DATA_FOLDER}{DEFAULT_DB_NAME}";
 	}
 
 
@@ -149,6 +182,7 @@ namespace FMDC.Model
 		public const string DROPRATE_LOADING_SUCCESSFUL_TEMPLATE = "{0} Drop Rates Loaded Successfully!";
 		public const string EQUIPMENT_LOADING_SUCCESSFUL = "Equipment Loaded Successfully!";
 		public const string DATA_LOADING_SUCCESSFUL = "Data Loading Completed Successfully!";
+		public const string DATABASE_LOADING_SUCCESSFUL = "Database Loaded Successfully!";
 
 		//Failure Messages
 		public const string ADD_REQUEST_HEADER_FAILURE = "Failed to add request header.";
@@ -230,6 +264,7 @@ namespace FMDC.Model
 		public const string SECONDARY_TYPES_LOADED_TEMPLATE = "Loaded Secondary Types for Monster #{0} ({1})";
 		public const string BEGIN_EQUIPMENT_LOADING = "Loading Equipment Data...";
 		public const string EQUIPMENT_PARSED_TEMPLATE = "Equip card '{0}' parsed for target #{1} ({2})";
+		public const string BEGIN_DATABASE_LOADING = "Writing data to database...";
 	}
 
 

@@ -17,7 +17,19 @@ namespace FMDC.DataLoader.Implementations
 {
 	public class CardImageDataLoader : DataLoader<GameImage>
 	{
-		#region Constructor
+		#region Class-Specific Constant(s)
+		private static readonly string DETAIL_IMAGE_ROOTED_DIRECTORY =
+			$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
+			$"{ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY}";
+
+		private static readonly string THUMBNAIL_IMAGE_ROOTED_DIRECTORY =
+			$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
+			$"{ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY}";
+		#endregion
+
+
+
+		#region Constructor(s)
 		public CardImageDataLoader() : base(URLConstants.YUGIPEDIA_URL)
 		{
 
@@ -27,6 +39,8 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<GameImage, int> KeySelector => cardImage => cardImage.GameImageId;
+
 		public override IEnumerable<GameImage> LoadDataIntoMemory()
 		{
 			Task<HttpResponseMessage> cardGalleryResponse = null;
@@ -89,12 +103,15 @@ namespace FMDC.DataLoader.Implementations
 				return null;
 			}
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<GameImage> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.CARD_IMAGE_COUNT;
+
+		public override Func<GameImage, bool> RecordCountPredicate =>
+			gameImage => gameImage.EntityType != ImageEntityType.Character;
 		#endregion
 
 
@@ -123,7 +140,11 @@ namespace FMDC.DataLoader.Implementations
 							node.Name == "img" &&
 							node.ParentNode.HasClass("image")
 					)
-					.Select(async node => await ParseImageNode(node));
+					.Select
+					(
+						async node => 
+							await ParseImageNode(node)
+					);
 
 				return cardImages;
 			}
@@ -147,23 +168,48 @@ namespace FMDC.DataLoader.Implementations
 
 			try
 			{
-				//Clean the image url to get the non-thumbnail version.  Remove '/thumb/' from the route
-				//and remove additional file info after the image extension
-				string imgURL = node.GetAttributeValue("src", null).Replace("/thumb/", "");
-				imgURL = imgURL.Substring(0, imgURL.IndexOf(".png") + 4);
-
-				//Traverse the DOM from the image element to get to the node containing the card's identifying information
-				//From here, we can get the card's id (number) and its name.
+				//Traverse the DOM from the image element to get to the node containing the card's 
+				//identifying information.  From here, we can get the card's id (number) and its name.
 				HtmlNode imageInfoNode = node.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes[3].ChildNodes[1];
 				int cardId = int.Parse(imageInfoNode.FirstChild.InnerText.Substring(1), NumberStyles.Any);
 				cardName = imageInfoNode.ChildNodes[3].InnerText.Replace("&amp;", "&");
 
-				//Make a request to get the image data from the source of the image node
-				HttpResponseMessage imageResponse = await GetRemoteContentAsync(imgURL);
-				byte[] imageBytes = await imageResponse.Content.ReadAsByteArrayAsync();
+				//Build strings for easy reference to the card images
+				string cardFileName = $"{cardId}_{cardName}.png";
 
-				//Build the two images for the respective card
-				IEnumerable<GameImage> cardImages = BuildCardImages(cardId, cardName, imageBytes);
+				string detailImageRootedFilePath =
+					DETAIL_IMAGE_ROOTED_DIRECTORY + cardFileName;
+
+				string detailImageRelativePath =
+					ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY + cardFileName;
+
+				string thumbnailImageRootedFilePath =
+					THUMBNAIL_IMAGE_ROOTED_DIRECTORY + cardFileName;
+
+				string thumbnailImageRelativePath =
+					ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY + cardFileName;
+
+				//If either the detail image or card thumbnail image are not cached
+				//on the file system, scrape them from the web and save them locally.
+				if (!File.Exists(detailImageRootedFilePath) || !File.Exists(thumbnailImageRootedFilePath))
+				{
+					//Clean the image url to get the non-thumbnail version.  Remove '/thumb/' 
+					//from the route and remove additional file info after the image extension
+					string imgURL = node.GetAttributeValue("src", null).Replace("/thumb/", "");
+					imgURL = imgURL.Substring(0, imgURL.IndexOf(".png") + 4);
+
+					//Make a request to get the image data from the source of the image node
+					HttpResponseMessage imageResponse = await GetRemoteContentAsync(imgURL);
+					byte[] imageBytes = await imageResponse.Content.ReadAsByteArrayAsync();
+
+					//Build the two images for the respective card
+					BuildCardImages
+					(
+						imageBytes,
+						detailImageRootedFilePath,
+						thumbnailImageRootedFilePath
+					);
+				}
 
 				LoggingUtility.LogVerbose
 				(
@@ -175,7 +221,25 @@ namespace FMDC.DataLoader.Implementations
 					)
 				);
 
-				return cardImages;
+				return
+					new List<GameImage>
+					{
+						//Card Details Image
+						new GameImage()
+						{
+							EntityType = ImageEntityType.CardDetails,
+							EntityId = cardId,
+							ImageRelativePath = detailImageRelativePath
+						},
+
+						//Card Thumbnail Image
+						new GameImage()
+						{
+							EntityType = ImageEntityType.Card,
+							EntityId = cardId,
+							ImageRelativePath = thumbnailImageRelativePath
+						}
+					};
 			}
 			catch (Exception ex)
 			{
@@ -203,7 +267,12 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private IEnumerable<GameImage> BuildCardImages(int cardId, string cardName, byte[] cardDetailsImageBytes)
+		private void BuildCardImages
+		(
+			byte[] cardDetailsImageBytes,
+			string detailImageRootedFilePath,
+			string thumbnailImageRootedFilePath
+		)
 		{
 			//Grab subset of card details image to get just the thumbnail of the card itself 
 			Bitmap cardDetailsBitmap = cardDetailsImageBytes.ConvertToBitmap();
@@ -213,59 +282,22 @@ namespace FMDC.DataLoader.Implementations
 			Bitmap cardThumbnailBitmap = 
 				cardDetailsBitmap.Clone(cardThumbnailRect, cardDetailsBitmap.PixelFormat);
 
-			string detailImageRootedDirectory =
-				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
-				$"{ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY}";
-
-			string thumbnailImageRootedDirectory =
-				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
-				$"{ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY}";
-
 			//Create the directories for the card images (if they don't already exist)
-			Directory.CreateDirectory(detailImageRootedDirectory);
-			Directory.CreateDirectory(thumbnailImageRootedDirectory);
-
-			//Build the file paths for the images being generated from the card's name and id
-			string cardFileName = $"{cardId}_{cardName}.png";
-
-			string cardDetailsRelativePath = 
-				$"{ApplicationConstants.DETAIL_IMAGE_SUBDIRECTORY}{cardFileName}";
-
-			string cardThumbnailRelativePath = 
-				$"{ApplicationConstants.THUMBNAIL_IMAGE_SUBDIRECTORY}{cardFileName}";
+			Directory.CreateDirectory(DETAIL_IMAGE_ROOTED_DIRECTORY);
+			Directory.CreateDirectory(THUMBNAIL_IMAGE_ROOTED_DIRECTORY);
 
 			//Create an image file for both the card information and card thumbnail
 			File.WriteAllBytes
 			(
-				$"{detailImageRootedDirectory}{cardFileName}", 
+				detailImageRootedFilePath, 
 				cardDetailsImageBytes
 			);
 
 			File.WriteAllBytes
 			(
-				$"{thumbnailImageRootedDirectory}{cardFileName}",
+				thumbnailImageRootedFilePath,
 				cardThumbnailBitmap.ConvertToByteArray()
 			);
-
-			return
-				new List<GameImage>
-				{
-					//Card Details Image
-					new GameImage()
-					{
-						EntityType = ImageEntityType.CardDetails,
-						EntityId = cardId,
-						ImageRelativePath = cardDetailsRelativePath
-					},
-
-					//Card Image
-					new GameImage()
-					{
-						EntityType = ImageEntityType.Card,
-						EntityId = cardId,
-						ImageRelativePath = cardThumbnailRelativePath
-					}
-				};
 		}
 		#endregion
 	}

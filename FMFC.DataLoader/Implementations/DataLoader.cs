@@ -7,25 +7,29 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using TGH.Common.Patterns.IoC;
+using TGH.Common.Repository.Interfaces;
 
 namespace FMDC.DataLoader.Implementations
 {
-	public abstract class DataLoader<DataType> : IDataLoader<DataType>
+	public abstract class DataLoader<TDataType> : IDataLoader<TDataType>
+		where TDataType : class
 	{
 		#region Private Fields
 		private HttpClient _dataLoaderClient;
+		private IGenericRepository _cardRepository;
 		#endregion
 
 
 
-		#region Interface Implementations
-		public abstract IEnumerable<DataType> LoadDataIntoMemory();
-		public abstract int LoadDataIntoDatabase(IEnumerable<DataType> data);
-		#endregion
+		#region Constructor(s)
+		public DataLoader()
+		{
+			_cardRepository = 
+				DependencyManager.ResolveService<IGenericRepository>();
+		}
 
 
-
-		#region Constructor
 		public DataLoader(string remoteContentURL = null, int requestTimeoutSeconds = 100, IEnumerable<(string Key, string Value)> defaultRequestHeaders = null)
 		{
 			if (remoteContentURL != null)
@@ -35,11 +39,62 @@ namespace FMDC.DataLoader.Implementations
 				_dataLoaderClient.Timeout = requestTimeoutSeconds > 0 ? TimeSpan.FromSeconds(requestTimeoutSeconds) : Timeout.InfiniteTimeSpan;
 				defaultRequestHeaders?.ToList().ForEach(header => AddRequestHeader(header.Key, header.Value));
 			}
+
+			_cardRepository =
+				DependencyManager.ResolveService<IGenericRepository>();
 		}
+
 
 		public DataLoader(HttpClient client)
 		{
 			_dataLoaderClient = client;
+
+			_cardRepository =
+				DependencyManager.ResolveService<IGenericRepository>();
+		}
+		#endregion
+
+
+
+		#region Interface Implementations
+		public virtual int ExpectedRecordCount => 0;
+
+		public abstract Func<TDataType, int> KeySelector { get; }
+
+		public virtual Func<TDataType, bool> RecordCountPredicate => entity => true;
+
+
+		public abstract IEnumerable<TDataType> LoadDataIntoMemory();
+
+
+		public void LoadDataIntoDatabase(IEnumerable<TDataType> payload)
+		{
+			int recordCount = 
+				_cardRepository.RecordCount(RecordCountPredicate);
+
+			if (recordCount == 0)
+			{
+				//If no entities have been loaded, load them into the database
+				_cardRepository
+					.PersistEntities
+					(
+						payload,
+						KeySelector
+					);
+			}
+			else if(recordCount != ExpectedRecordCount)
+			{
+				//If the number of entities does not match the expected value 
+				//for the data loader, truncate the table before reloading
+				_cardRepository.DeleteEntities<TDataType>(entity => true);
+
+				_cardRepository
+					.PersistEntities
+					(
+						payload,
+						KeySelector
+					);
+			}
 		}
 		#endregion
 

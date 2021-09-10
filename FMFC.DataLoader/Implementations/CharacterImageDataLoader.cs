@@ -13,7 +13,15 @@ namespace FMDC.DataLoader.Implementations
 {
 	public class CharacterImageDataLoader : DataLoader<GameImage>
 	{
-		#region Constructor
+		#region Class-Specific Constant(s)
+		private static readonly string CHARACTER_IMAGE_ROOTED_DIRECTORY =
+			$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
+			$"{ApplicationConstants.CHARACTER_IMAGE_SUBDIRECTORY}";
+		#endregion
+
+
+
+		#region Constructor(s)
 		public CharacterImageDataLoader() : base(URLConstants.YUGIPEDIA_IMAGE_URL)
 		{
 
@@ -23,11 +31,14 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<GameImage, int> KeySelector => gameImage => gameImage.GameImageId;
+
 		public override IEnumerable<GameImage> LoadDataIntoMemory()
 		{
 			try
 			{
 				LoggingUtility.LogInfo(MessageConstants.LOADING_CHARACTER_IMAGES);
+
 				IEnumerable<CharacterLoadingInfo> imageRelativePaths = ReadCharacterImageInfo();
 
 				IEnumerable<Task<GameImage>> characterImageTasks =
@@ -35,49 +46,7 @@ namespace FMDC.DataLoader.Implementations
 						.Select
 						(
 							async imageInfo =>
-							{
-								try
-								{
-									HttpResponseMessage imageResponse = 
-										await GetRemoteContentAsync(imageInfo.CharacterImagePath);
-
-									byte[] imageBytes = 
-										await imageResponse.Content.ReadAsByteArrayAsync();
-
-									string imageRelativePath = 
-										SaveCharacterImageFile(imageBytes, imageInfo.CharacterName);
-
-									LoggingUtility.LogVerbose
-									(
-										string.Format
-										(
-											MessageConstants.CHARACTER_IMAGE_LOADED_TEMPLATE,
-											imageInfo.CharacterName
-										)
-									);
-
-									return new GameImage()
-									{
-										EntityType = ImageEntityType.Character,
-										EntityId = imageInfo.CharacterId,
-										ImageRelativePath = imageRelativePath
-									};
-								}
-								catch (Exception ex)
-								{
-									LoggingUtility.LogError
-									(
-										string.Format
-										(
-											MessageConstants.CHARACTER_IMAGE_LOAD_FAILURE_TEMPLATE,
-											imageInfo.CharacterName
-										)
-									);
-									LoggingUtility.LogError(ex.Message);
-
-									return null;
-								}
-							}
+								await LoadCharacterImageAsync(imageInfo)
 					);
 
 				Task<GameImage>[] characterImageTaskArray = characterImageTasks.ToArray();
@@ -107,12 +76,15 @@ namespace FMDC.DataLoader.Implementations
 				return null;
 			}
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<GameImage> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_CHARACTER_COUNT;
+
+		public override Func<GameImage, bool> RecordCountPredicate =>
+			gameImage => gameImage.EntityType == ImageEntityType.Character;
 		#endregion
 
 
@@ -143,28 +115,76 @@ namespace FMDC.DataLoader.Implementations
 		}
 
 
-		private string SaveCharacterImageFile(byte[] imageBytes, string characterName)
+		private async Task<GameImage> LoadCharacterImageAsync(CharacterLoadingInfo imageInfo)
 		{
-			string characterImageRootedDirectory =
-				$"{ApplicationConstants.APPLICATION_DATA_FOLDER}" +
-				$"{ApplicationConstants.CHARACTER_IMAGE_SUBDIRECTORY}";
+			try
+			{
+				//Build strings for easy reference to the character image
+				string characterImageFileName = $"{imageInfo.CharacterName}.png";
 
-			//Create the directory for the character image (if it doesn't already exist)
-			Directory.CreateDirectory(characterImageRootedDirectory);
+				string characterImageRootedFilePath =
+					CHARACTER_IMAGE_ROOTED_DIRECTORY + characterImageFileName;
 
-			string characterImageFileName = $"{characterName}.png";
+				string characterImageRelativePath =
+					ApplicationConstants.CHARACTER_IMAGE_SUBDIRECTORY + characterImageFileName;
 
-			string characterImageRelativePath =
-				$"{ApplicationConstants.CHARACTER_IMAGE_SUBDIRECTORY}{characterImageFileName}";
+				if (!File.Exists(characterImageRootedFilePath))
+				{
+					//If the image file does not yet exist locally, 
+					//scrape it from the web and save it to the file system.
+					HttpResponseMessage imageResponse =
+						await GetRemoteContentAsync(imageInfo.CharacterImagePath);
 
-			//Create an image file for the character image
-			File.WriteAllBytes
-			(
-				$"{characterImageRootedDirectory}{characterImageFileName}",
-				imageBytes
-			);
+					byte[] imageBytes =
+						await imageResponse.Content.ReadAsByteArrayAsync();
 
-			return characterImageRelativePath;
+					SaveCharacterImageFile(imageBytes, characterImageRootedFilePath);
+				}
+
+				LoggingUtility.LogVerbose
+				(
+					string.Format
+					(
+						MessageConstants.CHARACTER_IMAGE_LOADED_TEMPLATE,
+						imageInfo.CharacterName
+					)
+				);
+
+				return new GameImage()
+				{
+					EntityType = ImageEntityType.Character,
+					EntityId = imageInfo.CharacterId,
+					ImageRelativePath = characterImageRelativePath
+				};
+			}
+			catch (Exception ex)
+			{
+				LoggingUtility.LogError
+				(
+					string.Format
+					(
+						MessageConstants.CHARACTER_IMAGE_LOAD_FAILURE_TEMPLATE,
+						imageInfo.CharacterName
+					)
+				);
+				LoggingUtility.LogError(ex.Message);
+
+				return null;
+			}
+		}
+
+
+		private void SaveCharacterImageFile
+		(
+			byte[] imageBytes, 
+			string imageFilePath
+		)
+		{
+			//Create the directory for character images (if it doesn't already exist)
+			Directory.CreateDirectory(CHARACTER_IMAGE_ROOTED_DIRECTORY);
+
+			//Create an image file for the character and save it to the file ssytem
+			File.WriteAllBytes(imageFilePath, imageBytes);
 		}
 		#endregion
 	}

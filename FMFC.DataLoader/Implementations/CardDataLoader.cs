@@ -22,13 +22,15 @@ namespace FMDC.DataLoader.Implementations
 
 
 
-		#region Constructor
+		#region Constructor(s)
 		public CardDataLoader() : base(URLConstants.YUGIOH_FANDOM_URL) { }
 		#endregion
 
 
 
 		#region Abstract Base Class Implementations
+		public override Func<Card, int> KeySelector => card => card.CardId;
+
 		public override IEnumerable<Card> LoadDataIntoMemory()
 		{
 			Task<HttpResponseMessage> cardListResponse = null;
@@ -76,12 +78,12 @@ namespace FMDC.DataLoader.Implementations
 				throw ex;
 			}
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<Card> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_CARD_COUNT;
 		#endregion
 
 

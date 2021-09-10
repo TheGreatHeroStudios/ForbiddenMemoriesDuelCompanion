@@ -14,7 +14,7 @@ namespace FMDC.DataLoader.Implementations
 {
 	public class CharacterDataLoader : DataLoader<Character>
 	{
-		#region Constructor
+		#region Constructor(s)
 		public CharacterDataLoader() : base(URLConstants.YUGIPEDIA_URL)
 		{
 
@@ -24,6 +24,8 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
+		public override Func<Character, int> KeySelector => character => character.CharacterId;
+
 		public override IEnumerable<Character> LoadDataIntoMemory()
 		{
 			try
@@ -66,12 +68,12 @@ namespace FMDC.DataLoader.Implementations
 				throw ex;
 			}
 		}
+		#endregion
 
 
-		public override int LoadDataIntoDatabase(IEnumerable<Character> data)
-		{
-			throw new NotImplementedException();
-		}
+
+		#region Override(s)
+		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_CHARACTER_COUNT;
 		#endregion
 
 

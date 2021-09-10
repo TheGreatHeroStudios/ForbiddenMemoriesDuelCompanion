@@ -3,7 +3,7 @@ using FMDC.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
-using TGH.Common.Persistence.Contexts;
+using TGH.Common.Persistence.Implementations;
 
 namespace FMDC.Persistence
 {
