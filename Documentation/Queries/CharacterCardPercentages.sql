@@ -15,4 +15,6 @@ FROM
 		ON CPT.PercentageTypeCode = CP.PercentageType
 	INNER JOIN Card CA
 		ON CA.CardId = CP.CardId
+WHERE
+	CPT.PercentageTypeDescription <> 'DeckInclusion'
 	
