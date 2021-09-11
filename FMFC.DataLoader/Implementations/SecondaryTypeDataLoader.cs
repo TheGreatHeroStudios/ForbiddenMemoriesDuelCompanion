@@ -91,7 +91,7 @@ namespace FMDC.DataLoader.Implementations
 												new SecondaryType()
 												{
 													CardId = monsterId,
-													Type = (MonsterType)Enum.Parse(typeof(MonsterType), type)
+													MonsterType = (MonsterType)Enum.Parse(typeof(MonsterType), type)
 												}
 										);
 

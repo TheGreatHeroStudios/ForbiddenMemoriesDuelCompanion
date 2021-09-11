@@ -12,12 +12,12 @@ namespace FMDC.DataLoader.Interfaces
 
 		Func<TDataType, int> KeySelector { get; }
 
-		Func<TDataType, bool> RecordCountPredicate { get; }
+		Func<TDataType, bool> RecordRetrievalPredicate { get; }
 
 
 		IEnumerable<TDataType> LoadDataIntoMemory();
 
 
-		void LoadDataIntoDatabase(IEnumerable<TDataType> payload);
+		IEnumerable<TDataType> LoadDataIntoDatabase(IEnumerable<TDataType> payload);
 	}
 }

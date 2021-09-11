@@ -24,15 +24,13 @@ namespace FMDC.DataLoader
 		private static int _exitCode = 0;
 		private static FileLogger _fileLogger;
 
-		private static IGenericRepository _cardRepository;
-
 		private static CardDataLoader _cardLoader;
 		private static SecondaryTypeDataLoader _secondaryTypeLoader;
 		private static CardImageDataLoader _cardImageLoader;
 		private static FusionDataLoader _fusionLoader;
 		private static CharacterDataLoader _characterLoader;
 		private static CharacterImageDataLoader _characterImageLoader;
-		private static CardPercentageDataLoader _dropRateLoader;
+		private static CardPercentageDataLoader _cardPercentgeLoader;
 		private static EquipmentDataLoader _equipmentLoader;
 
 		private static IEnumerable<Card> _cardList;
@@ -41,7 +39,7 @@ namespace FMDC.DataLoader
 		private static IEnumerable<Fusion> _fusions;
 		private static IEnumerable<Character> _characterList;
 		private static IEnumerable<GameImage> _characterImages;
-		private static IEnumerable<CardPercentage> _dropRates;
+		private static IEnumerable<CardPercentage> _cardPercentages;
 		private static IEnumerable<Equippable> _equipment;
 		#endregion
 
@@ -56,9 +54,7 @@ namespace FMDC.DataLoader
 				PrepareConsole(args);
 
 				LoadDataIntoMemory();
-				PrepareRelationalDataForStorage();
-
-				PersistData();
+				LoadDatabase();
 			}
 			catch (Exception ex)
 			{
@@ -112,10 +108,6 @@ namespace FMDC.DataLoader
 				(
 					ServiceScope.Singleton
 				);
-
-			//Immediately resolve an instance of the repository to serve as the card repository
-			_cardRepository = 
-				DependencyManager.ResolveService<IGenericRepository>(ServiceScope.Singleton);
 		}
 
 
@@ -146,7 +138,17 @@ namespace FMDC.DataLoader
 		{
 			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATA_LOAD_PROCESS);
 
-			/*#region Card Loader
+			#region Character Image Loader
+			_characterImageLoader = new CharacterImageDataLoader();
+			_characterImages = _characterImageLoader.LoadDataIntoMemory();
+			#endregion
+
+			#region Card Image Loader
+			_cardImageLoader = new CardImageDataLoader();
+			_cardImages = _cardImageLoader.LoadDataIntoMemory();
+			#endregion
+
+			#region Card Loader
 			_cardLoader = new CardDataLoader();
 			_cardList = _cardLoader.LoadDataIntoMemory();
 			#endregion
@@ -154,59 +156,115 @@ namespace FMDC.DataLoader
 			#region Secondary Type Loader
 			_secondaryTypeLoader = new SecondaryTypeDataLoader(_cardList);
 			_secondaryTypes = _secondaryTypeLoader.LoadDataIntoMemory();
-			#endregion*/
-
-			#region Card Image Loader
-			_cardImageLoader = new CardImageDataLoader();
-			_cardImages = _cardImageLoader.LoadDataIntoMemory();
 			#endregion
-			
-			/*#region Fusion Loader
+
+			#region Fusion Loader
 			_fusionLoader = new FusionDataLoader(_cardList);
 			_fusions = _fusionLoader.LoadDataIntoMemory();
 			_fusionLoader.LogAnomalies(_fileLogger);
-			#endregion
-
-			#region Character Loader
-			_characterLoader = new CharacterDataLoader();
-			_characterList = _characterLoader.LoadDataIntoMemory();
-			#endregion*/
-
-			#region Character Image Loader
-			_characterImageLoader = new CharacterImageDataLoader();
-			_characterImages = _characterImageLoader.LoadDataIntoMemory();
-			#endregion
-
-			/*#region Drop Rate Loader
-			_dropRateLoader = new CardPercentageDataLoader(_cardList, _characterList);
-			_dropRates = _dropRateLoader.LoadDataIntoMemory();
-			_dropRateLoader.LogAnomalies(_fileLogger);
 			#endregion
 
 			#region Equipment Loader
 			_equipmentLoader = new EquipmentDataLoader(_cardList);
 			_equipment = _equipmentLoader.LoadDataIntoMemory();
 			_equipmentLoader.LogAnomalies(_fileLogger);
-			#endregion*/
+			#endregion
+
+			#region Character Loader
+			_characterLoader = new CharacterDataLoader();
+			_characterList = _characterLoader.LoadDataIntoMemory();
+			#endregion
+
+			#region Card Percentage Loader
+			_cardPercentgeLoader = new CardPercentageDataLoader(_cardList, _characterList);
+			_cardPercentages = _cardPercentgeLoader.LoadDataIntoMemory();
+			_cardPercentgeLoader.LogAnomalies(_fileLogger);
+			#endregion
 
 			LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
 		}
 		
-		
-		private static void PrepareRelationalDataForStorage()
-		{
-			
-		}
 
-
-		private static void PersistData()
+		private static void LoadDatabase()
 		{
 			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATABASE_LOADING);
 
-			_cardImageLoader.LoadDataIntoDatabase(_cardImages);
-			_characterImageLoader.LoadDataIntoDatabase(_characterImages);
+			_cardImages = _cardImageLoader.LoadDataIntoDatabase(_cardImages);
+			_characterImages = _characterImageLoader.LoadDataIntoDatabase(_characterImages);
 
-			//_cardLoader.LoadDataIntoDatabase(_cardList);
+			//Associate loaded card images with their corresponding card
+			_cardList =
+				_cardList
+					.Join
+					(
+						_cardImages
+							.Where
+							(
+								cardImage =>
+									cardImage.EntityType == ImageEntityType.Card
+							),
+						card => card.CardId,
+						cardImage => cardImage.EntityId,
+						(card, cardImage) => (card, cardImageId: cardImage.GameImageId)
+					)
+					.Join
+					(
+						_cardImages
+							.Where
+							(
+								cardDetailImage =>
+									cardDetailImage.EntityType == ImageEntityType.CardDetails
+							),
+						cardTuple => cardTuple.card.CardId,
+						cardDetailImage => cardDetailImage.EntityId,
+						(cardTuple, cardDetailImage) =>
+							(
+								cardTuple.card,
+								cardTuple.cardImageId,
+								cardDetailImageId: cardDetailImage.GameImageId
+							)
+					)
+					.ToList()
+					.Select
+					(
+						cardImageTuple =>
+						{
+							cardImageTuple.card.CardImageId = 
+								cardImageTuple.cardImageId;
+
+							cardImageTuple.card.CardDescriptionImageId = 
+								cardImageTuple.cardDetailImageId;
+
+							return cardImageTuple.card;
+						}
+					);
+
+			_cardList = _cardLoader.LoadDataIntoDatabase(_cardList);
+
+			_secondaryTypes = _secondaryTypeLoader.LoadDataIntoDatabase(_secondaryTypes);
+
+			_fusions = _fusionLoader.LoadDataIntoDatabase(_fusions);
+
+			_equipment = _equipmentLoader.LoadDataIntoDatabase(_equipment);
+
+			//Associate loaded character images with their corresponding character
+			_characterList =
+				_characterList
+					.Join
+					(
+						_characterImages,
+						character => character.CharacterId,
+						characterImage => characterImage.EntityId,
+						(character, characterImage) =>
+						{
+							character.CharacterImageId = characterImage.GameImageId;
+							return character;
+						}
+					);
+
+			_characterList = _characterLoader.LoadDataIntoDatabase(_characterList);
+
+			_cardPercentages = _cardPercentgeLoader.LoadDataIntoDatabase(_cardPercentages);
 
 			LoggingUtility.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}

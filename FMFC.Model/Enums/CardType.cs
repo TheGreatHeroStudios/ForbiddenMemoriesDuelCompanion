@@ -7,6 +7,7 @@
 		Magic,
 		Trap,
 		Equip,
-		Ritual
+		Ritual,
+		Field
 	}
 }

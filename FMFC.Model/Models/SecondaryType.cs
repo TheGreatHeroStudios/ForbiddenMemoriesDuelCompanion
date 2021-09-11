@@ -6,6 +6,6 @@ namespace FMDC.Model.Models
 	{
 		public int SecondaryTypeId { get; set; }
 		public int CardId { get; set; }
-		public MonsterType Type { get; set; }
+		public MonsterType MonsterType { get; set; }
 	}
 }

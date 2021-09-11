@@ -98,7 +98,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Override(s)
 		public override int ExpectedRecordCount => DataLoaderConstants.TOTAL_CHARACTER_COUNT;
 
-		public override Func<GameImage, bool> RecordCountPredicate =>
+		public override Func<GameImage, bool> RecordRetrievalPredicate =>
 			gameImage => gameImage.EntityType == ImageEntityType.Character;
 		#endregion
 

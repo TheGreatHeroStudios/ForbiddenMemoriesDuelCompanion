@@ -68,7 +68,7 @@ namespace FMDC.DataLoader.Implementations
 					//If the record count from the database has not
 					//yet been checked, check it and cache the result
 					_actualRecordCount = 
-						_cardRepository.GetRecordCount(RecordCountPredicate);
+						_cardRepository.GetRecordCount(RecordRetrievalPredicate);
 				}
 
 				return _actualRecordCount.Value;
@@ -79,13 +79,13 @@ namespace FMDC.DataLoader.Implementations
 
 		public abstract Func<TDataType, int> KeySelector { get; }
 
-		public virtual Func<TDataType, bool> RecordCountPredicate => entity => true;
+		public virtual Func<TDataType, bool> RecordRetrievalPredicate => entity => true;
 
 
 		public abstract IEnumerable<TDataType> LoadDataIntoMemory();
 
 
-		public void LoadDataIntoDatabase(IEnumerable<TDataType> payload)
+		public IEnumerable<TDataType> LoadDataIntoDatabase(IEnumerable<TDataType> payload)
 		{
 			if (ActualRecordCount == 0)
 			{
@@ -110,6 +110,12 @@ namespace FMDC.DataLoader.Implementations
 						KeySelector
 					);
 			}
+
+			//After persisting entities (or not) retrieve and 
+			//return them from the underlying database context
+			return
+				_cardRepository
+					.RetrieveEntities<TDataType>(RecordRetrievalPredicate);
 		}
 		#endregion
 
