@@ -8,6 +8,7 @@ using FMDC.Utility.PubSubUtility;
 using FMDC.Utility.PubSubUtility.PubSubEventTypes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TGH.Common.Patterns.IoC;
 using TGH.Common.Persistence.Interfaces;
@@ -21,6 +22,8 @@ namespace FMDC.DataLoader
 		#region Fields
 		private static bool _useVerboseOutput = false;
 		private static bool _waitOnExit = false;
+		private static bool _rebuildDatabase = false;
+
 		private static int _exitCode = 0;
 		private static FileLogger _fileLogger;
 
@@ -30,7 +33,7 @@ namespace FMDC.DataLoader
 		private static FusionDataLoader _fusionLoader;
 		private static CharacterDataLoader _characterLoader;
 		private static CharacterImageDataLoader _characterImageLoader;
-		private static CardPercentageDataLoader _cardPercentgeLoader;
+		private static CardPercentageDataLoader _cardPercentageLoader;
 		private static EquipmentDataLoader _equipmentLoader;
 
 		private static IEnumerable<Card> _cardList;
@@ -128,6 +131,13 @@ namespace FMDC.DataLoader
 				_waitOnExit = true;
 			}
 
+			if (argsList.Contains("/r") || argsList.Contains("-r")
+				|| argsList.Contains("/rebuild") || argsList.Contains("-rebuild")
+				|| argsList.Contains("/rebuilddatabase") || argsList.Contains("-rebuilddatabase"))
+			{
+				_rebuildDatabase = true;
+			}
+
 			Console.BufferHeight = ConsoleConstants.BUFFER_HEIGHT;
 			Console.WindowWidth = ConsoleConstants.CONSOLE_WIDTH;
 			Console.Title = ConsoleConstants.DATA_LOADER_APP_NAME;
@@ -136,6 +146,26 @@ namespace FMDC.DataLoader
 		
 		private static void LoadDataIntoMemory()
 		{
+			if
+			(
+				_rebuildDatabase && 
+				File.Exists(PersistenceConstants.SQLITE_DB_TARGET_FILEPATH) &&
+				File.Exists(PersistenceConstants.SQLITE_TEMPLATE_FILEPATH)
+			)
+			{
+				//If the database exists but should be rebuilt, delete it from the 
+				//target filepath and re-copy it from the template database filepath.
+				LoggingUtility.LogInfo(MessageConstants.BEGIN_REBUILD_DATABASE);
+
+				File.Delete(PersistenceConstants.SQLITE_DB_TARGET_FILEPATH);
+
+				File.Copy
+				(
+					PersistenceConstants.SQLITE_TEMPLATE_FILEPATH,
+					PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
+				);
+			}
+
 			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATA_LOAD_PROCESS);
 
 			#region Character Image Loader
@@ -176,9 +206,9 @@ namespace FMDC.DataLoader
 			#endregion
 
 			#region Card Percentage Loader
-			_cardPercentgeLoader = new CardPercentageDataLoader(_cardList, _characterList);
-			_cardPercentages = _cardPercentgeLoader.LoadDataIntoMemory();
-			_cardPercentgeLoader.LogAnomalies(_fileLogger);
+			_cardPercentageLoader = new CardPercentageDataLoader(_cardList, _characterList);
+			_cardPercentages = _cardPercentageLoader.LoadDataIntoMemory();
+			_cardPercentageLoader.LogAnomalies(_fileLogger);
 			#endregion
 
 			LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
@@ -247,7 +277,10 @@ namespace FMDC.DataLoader
 
 			_equipment = _equipmentLoader.LoadDataIntoDatabase(_equipment);
 
-			//Associate loaded character images with their corresponding character
+			//Associate loaded character images with their corresponding 
+			//character and extract deck inclusion percentage rates.
+			List<CardPercentage> deckInclusionPercentages = new List<CardPercentage>();
+
 			_characterList =
 				_characterList
 					.Join
@@ -258,13 +291,25 @@ namespace FMDC.DataLoader
 						(character, characterImage) =>
 						{
 							character.CharacterImageId = characterImage.GameImageId;
+
+							if (character.CardPercentages != null)
+							{
+								deckInclusionPercentages.AddRange(character.CardPercentages);
+							}
+
 							return character;
 						}
 					);
 
 			_characterList = _characterLoader.LoadDataIntoDatabase(_characterList);
 
-			_cardPercentages = _cardPercentgeLoader.LoadDataIntoDatabase(_cardPercentages);
+			_cardPercentages = 
+				_cardPercentageLoader
+					.LoadDataIntoDatabase
+					(
+						_cardPercentages
+							.Concat(deckInclusionPercentages)
+					);
 
 			LoggingUtility.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}

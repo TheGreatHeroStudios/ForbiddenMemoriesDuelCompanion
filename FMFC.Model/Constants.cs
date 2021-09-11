@@ -72,7 +72,7 @@ namespace FMDC.Model
 		///		The total number of card percentage entities 
 		///		(including deck inclusion and drop rates) to be loaded
 		/// </summary>
-		public const int TOTAL_CARD_PERCENTAGE_COUNT = 8671;
+		public const int TOTAL_CARD_PERCENTAGE_COUNT = 12320;
 
 		/// <summary>
 		///		Represents the max of a random number generated to determine random drop rates
@@ -246,6 +246,7 @@ namespace FMDC.Model
 
 		//Info Messages
 		public const string EXIT_PROMPT = "Press any key to exit...";
+		public const string BEGIN_REBUILD_DATABASE = "Rebuilding Sqlite Database...";
 		public const string BEGIN_DATA_LOAD_PROCESS = "Beginning Data Load Process...";
 		public static readonly string BEGIN_CARD_LOADING = $"Loading Cards from Remote Repository ({URLConstants.YUGIOH_FANDOM_URL})...";
 		public const string PARSING_CARD_DATA = "Parsing Card Data...";
