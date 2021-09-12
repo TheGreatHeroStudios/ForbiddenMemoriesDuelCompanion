@@ -33,7 +33,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Constructor(s)
 		public CardPercentageDataLoader
 		(
-			IEnumerable<Card> cardList, 
+			IEnumerable<Card> cardList,
 			IEnumerable<Character> characterList
 		)
 		{
@@ -64,7 +64,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Abstract Base Class Implementations
-		public override Func<CardPercentage, int> KeySelector => 
+		public override Func<CardPercentage, int> KeySelector =>
 			cardPercentage => cardPercentage.CardPercentageId;
 
 		public override IEnumerable<CardPercentage> LoadDataIntoMemory()
@@ -162,7 +162,7 @@ namespace FMDC.DataLoader.Implementations
 			(
 				string.Format
 				(
-					MessageConstants.LOADING_DROPRATE_DATA_TEMPLATE, 
+					MessageConstants.LOADING_DROPRATE_DATA_TEMPLATE,
 					dropPercentageType
 				)
 			);
@@ -173,12 +173,12 @@ namespace FMDC.DataLoader.Implementations
 
 				//Load the file for the specified drop
 				//percentage type (POW/TEC and ranking)
-				IEnumerable<string> dropRateData = 
+				IEnumerable<string> dropRateData =
 					LoadDataFile
 					(
 						string.Format
 						(
-							FileConstants.DROP_RATE_FILEPATH_TEMPLATE, 
+							FileConstants.DROP_RATE_FILEPATH_TEMPLATE,
 							dropPercentageType
 						)
 					);
@@ -186,7 +186,7 @@ namespace FMDC.DataLoader.Implementations
 				//Parse each row of the data file to build a list of drop percentages.
 				//NOTE: 'ToList()' must be called to materialize the collection so that
 				//any anomalies can be logged and notified
-				List<CardPercentage> dropRates = 
+				List<CardPercentage> dropRates =
 					dropRateData
 						.Select
 						(
@@ -195,8 +195,8 @@ namespace FMDC.DataLoader.Implementations
 								currentRowNum++;
 								return ParseCardDropPercentageRecord
 								(
-									record, 
-									currentRowNum, 
+									record,
+									currentRowNum,
 									dropPercentageType
 								);
 							}
@@ -212,7 +212,7 @@ namespace FMDC.DataLoader.Implementations
 						(
 							string.Format
 							(
-								MessageConstants.DROPRATE_LOAD_FAILURE_WARNING_TEMPLATE, 
+								MessageConstants.DROPRATE_LOAD_FAILURE_WARNING_TEMPLATE,
 								dropPercentageType
 							)
 						);
@@ -224,7 +224,7 @@ namespace FMDC.DataLoader.Implementations
 						(
 							string.Format
 							(
-								MessageConstants.DROPRATE_LOADING_SUCCESSFUL_TEMPLATE, 
+								MessageConstants.DROPRATE_LOADING_SUCCESSFUL_TEMPLATE,
 								dropPercentageType
 							)
 						);
@@ -249,8 +249,8 @@ namespace FMDC.DataLoader.Implementations
 
 		private CardPercentage ParseCardDropPercentageRecord
 		(
-			string rowData, 
-			int lineNumber, 
+			string rowData,
+			int lineNumber,
 			PercentageType dropPercentageType
 		)
 		{
@@ -265,7 +265,7 @@ namespace FMDC.DataLoader.Implementations
 					//If the row contains the name of a character, cross-reference it with the character list to get and store the character's Id
 					case DataRowType.Character:
 					{
-						Character currentCharacter = 
+						Character currentCharacter =
 							_characterList
 								.Where(c => c.Name == rowData.Trim())
 								.FirstOrDefault();
@@ -341,11 +341,11 @@ namespace FMDC.DataLoader.Implementations
 							rowData = rowData.Trim();
 
 							//If the current row is a target for dropping, first, ensure that a valid character is set for the drop
-							Character targetCharacter = 
+							Character targetCharacter =
 								_characterList
 									.FirstOrDefault
 									(
-										character => 
+										character =>
 											character.CharacterId == _lastCharacterId
 									);
 
@@ -395,13 +395,13 @@ namespace FMDC.DataLoader.Implementations
 
 							//If all the above validation has passed, we should have all the information we need 
 							//to build the CardPercentage object
-							CardPercentage cardPercentage = 
+							CardPercentage cardPercentage =
 								new CardPercentage()
 								{
 									CharacterId = targetCharacter.CharacterId,
 									CardId = targetCardId,
 									PercentageType = dropPercentageType,
-									GenerationPercentage = 
+									GenerationPercentage =
 										dropRate / (double)DataLoaderConstants.DROP_RATE_DENOMINATOR * 100,
 									GenerationRatePer2048 = dropRate,
 									Character = targetCharacter,

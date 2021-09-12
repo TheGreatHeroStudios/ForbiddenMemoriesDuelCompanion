@@ -42,7 +42,7 @@ namespace FMDC.Utility
 				(
 					string.Format
 					(
-						MessageConstants.BITMAP_BASE64_CONVERSION_ERROR_TEMPLATE, 
+						MessageConstants.BITMAP_BASE64_CONVERSION_ERROR_TEMPLATE,
 						ex.Message
 					)
 				);
@@ -68,7 +68,7 @@ namespace FMDC.Utility
 				(
 					string.Format
 					(
-						MessageConstants.BITMAP_BYTEARRAY_CONVERSION_ERROR_TEMPLATE, 
+						MessageConstants.BITMAP_BYTEARRAY_CONVERSION_ERROR_TEMPLATE,
 						ex.Message
 					)
 				);

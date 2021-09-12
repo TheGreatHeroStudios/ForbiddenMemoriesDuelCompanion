@@ -1,8 +1,6 @@
 ﻿using FMDC.Model.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Windows.Data;
 
 namespace FMDC.TestApp
@@ -13,7 +11,7 @@ namespace FMDC.TestApp
 		{
 			Card card = value as Card;
 
-			return 
+			return
 				card == null ?
 					string.Empty :
 					card.CardId == -1 ?

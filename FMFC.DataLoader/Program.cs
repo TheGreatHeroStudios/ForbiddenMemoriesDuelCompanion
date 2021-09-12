@@ -98,7 +98,7 @@ namespace FMDC.DataLoader
 			DependencyManager
 				.RegisterService<IDatabaseContext, ForbiddenMemoriesDbContext>
 				(
-					() => 
+					() =>
 						new ForbiddenMemoriesDbContext
 						(
 							PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
@@ -142,13 +142,13 @@ namespace FMDC.DataLoader
 			Console.WindowWidth = ConsoleConstants.CONSOLE_WIDTH;
 			Console.Title = ConsoleConstants.DATA_LOADER_APP_NAME;
 		}
-		
-		
+
+
 		private static void LoadDataIntoMemory()
 		{
 			if
 			(
-				_rebuildDatabase && 
+				_rebuildDatabase &&
 				File.Exists(PersistenceConstants.SQLITE_DB_TARGET_FILEPATH) &&
 				File.Exists(PersistenceConstants.SQLITE_TEMPLATE_FILEPATH)
 			)
@@ -213,7 +213,7 @@ namespace FMDC.DataLoader
 
 			LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
 		}
-		
+
 
 		private static void LoadDatabase()
 		{
@@ -259,10 +259,10 @@ namespace FMDC.DataLoader
 					(
 						cardImageTuple =>
 						{
-							cardImageTuple.card.CardImageId = 
+							cardImageTuple.card.CardImageId =
 								cardImageTuple.cardImageId;
 
-							cardImageTuple.card.CardDescriptionImageId = 
+							cardImageTuple.card.CardDescriptionImageId =
 								cardImageTuple.cardDetailImageId;
 
 							return cardImageTuple.card;
@@ -303,7 +303,7 @@ namespace FMDC.DataLoader
 
 			_characterList = _characterLoader.LoadDataIntoDatabase(_characterList);
 
-			_cardPercentages = 
+			_cardPercentages =
 				_cardPercentageLoader
 					.LoadDataIntoDatabase
 					(

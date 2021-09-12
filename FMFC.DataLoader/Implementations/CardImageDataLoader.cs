@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -157,7 +156,7 @@ namespace FMDC.DataLoader.Implementations
 					)
 					.Select
 					(
-						async node => 
+						async node =>
 							await ParseImageNode(node)
 					);
 
@@ -294,7 +293,7 @@ namespace FMDC.DataLoader.Implementations
 
 			Rectangle cardThumbnailRect = new Rectangle(3, 5, 138, 194);
 
-			Bitmap cardThumbnailBitmap = 
+			Bitmap cardThumbnailBitmap =
 				cardDetailsBitmap.Clone(cardThumbnailRect, cardDetailsBitmap.PixelFormat);
 
 			//Create the directories for the card images (if they don't already exist)
@@ -304,7 +303,7 @@ namespace FMDC.DataLoader.Implementations
 			//Create an image file for both the card information and card thumbnail
 			File.WriteAllBytes
 			(
-				detailImageRootedFilePath, 
+				detailImageRootedFilePath,
 				cardDetailsImageBytes
 			);
 

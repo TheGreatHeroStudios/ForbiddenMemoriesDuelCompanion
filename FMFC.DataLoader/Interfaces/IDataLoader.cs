@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TGH.Common.Repository.Interfaces;
 
 namespace FMDC.DataLoader.Interfaces
 {

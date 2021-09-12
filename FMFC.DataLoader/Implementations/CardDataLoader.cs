@@ -33,7 +33,7 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<Card> LoadDataIntoMemory()
 		{
-			if(ActualRecordCount == ExpectedRecordCount)
+			if (ActualRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of card records has already been loaded into the database, 
 				//skip the entire data load process and return the entities from the database.
@@ -41,7 +41,7 @@ namespace FMDC.DataLoader.Implementations
 
 				return
 					_cardRepository.RetrieveEntities<Card>(entity => true);
-					
+
 			}
 
 			Task<HttpResponseMessage> cardListResponse = null;

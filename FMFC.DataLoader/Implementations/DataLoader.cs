@@ -27,7 +27,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Constructor(s)
 		public DataLoader()
 		{
-			_cardRepository = 
+			_cardRepository =
 				DependencyManager.ResolveService<IGenericRepository>();
 		}
 
@@ -63,11 +63,11 @@ namespace FMDC.DataLoader.Implementations
 		{
 			get
 			{
-				if(!_actualRecordCount.HasValue)
+				if (!_actualRecordCount.HasValue)
 				{
 					//If the record count from the database has not
 					//yet been checked, check it and cache the result
-					_actualRecordCount = 
+					_actualRecordCount =
 						_cardRepository.GetRecordCount(RecordRetrievalPredicate);
 				}
 
@@ -97,7 +97,7 @@ namespace FMDC.DataLoader.Implementations
 						KeySelector
 					);
 			}
-			else if(ActualRecordCount != ExpectedRecordCount)
+			else if (ActualRecordCount != ExpectedRecordCount)
 			{
 				//If the number of entities does not match the expected value 
 				//for the data loader, truncate the table before reloading

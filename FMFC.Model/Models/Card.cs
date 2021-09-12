@@ -30,5 +30,15 @@ namespace FMDC.Model.Models
 		public List<SecondaryType> SecondaryTypes { get; set; }
 		public List<Equippable> EquippableCards { get; set; }
 		#endregion
+
+
+
+		#region Override(s)
+		public override string ToString()
+		{
+			return
+				$"({CardId}) {Name} [ATK: {AttackPoints} | DEF: {DefensePoints} ]";
+		}
+		#endregion
 	}
 }

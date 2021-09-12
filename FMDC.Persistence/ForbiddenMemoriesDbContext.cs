@@ -1,7 +1,6 @@
 ﻿using FMDC.Model;
 using FMDC.Model.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Reflection;
 using TGH.Common.Persistence.Implementations;
 
@@ -10,7 +9,7 @@ namespace FMDC.Persistence
 	public class ForbiddenMemoriesDbContext : SqliteDbContext
 	{
 		#region Constructor(s)
-		public ForbiddenMemoriesDbContext(string targetDatabaseFilePath) : 
+		public ForbiddenMemoriesDbContext(string targetDatabaseFilePath) :
 			base
 			(
 				targetDatabaseFilePath,

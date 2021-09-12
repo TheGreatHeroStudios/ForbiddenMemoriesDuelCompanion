@@ -113,7 +113,7 @@ namespace FMDC.DataLoader.Implementations
 					(
 						row =>
 						{
-							string[] dataFields = 
+							string[] dataFields =
 								row
 									.Split(',')
 									.Select(field => field.Trim())
@@ -191,7 +191,7 @@ namespace FMDC.DataLoader.Implementations
 
 		private void SaveCharacterImageFile
 		(
-			byte[] imageBytes, 
+			byte[] imageBytes,
 			string imageFilePath
 		)
 		{
