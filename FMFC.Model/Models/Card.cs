@@ -37,7 +37,7 @@ namespace FMDC.Model.Models
 		public override string ToString()
 		{
 			return
-				$"({CardId}) {Name} [ATK: {AttackPoints} | DEF: {DefensePoints} ]";
+				$"({CardId}) {Name} \n[ATK: {AttackPoints} | DEF: {DefensePoints} ]";
 		}
 		#endregion
 	}

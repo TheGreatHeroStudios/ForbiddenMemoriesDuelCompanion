@@ -70,6 +70,18 @@ namespace FMDC.TestApp
 			_fusionOptimizerViewModel
 				.GenerateOptimalFusion();
 		}
+
+
+		private void AcceptFusionButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+
+		private void ClearFusionDataButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 		#endregion
 
 

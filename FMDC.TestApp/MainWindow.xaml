@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:FMDC.TestApp" 
 		d:DataContext="{d:DesignInstance Type=local:FusionOptimizerViewModel}"
 		mc:Ignorable="d"
-        Title="Forbidden Memories Duel Companion" Height="550" Width="800">
+        Title="Forbidden Memories Duel Companion" Height="800" Width="1200">
 	<Window.Resources>
 		<local:CardToNameStringConverter x:Key="CardNameConverter"/>
 		<local:CardToImagePathConverter x:Key="CardImagePathConverter"/>
+		<local:FusionCardCountToOperatorSymbolConverter x:Key="FusionOperatorConverter"/>
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -26,16 +27,17 @@
 			<ColumnDefinition Width="8*"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="7*"/>
+			<RowDefinition Height="4*"/>
+			<RowDefinition Height="20*"/>
+			<RowDefinition Height="5*"/>
+			<RowDefinition Height="6*"/>
 			<RowDefinition Height="20*"/>
 			<RowDefinition Height="5*"/>
 			<RowDefinition Height="10*"/>
+			<RowDefinition Height="5*"/>
 			<RowDefinition Height="20*"/>
 			<RowDefinition Height="5*"/>
-			<RowDefinition Height="8*"/>
-			<RowDefinition Height="20*"/>
 			<RowDefinition Height="5*"/>
-			<RowDefinition Height="2*"/>
 		</Grid.RowDefinitions>
 
 		<!--#region Field Cards-->
@@ -172,11 +174,91 @@
 		</ComboBox>
 		<!--#endregion-->
 
-		<Button x:Name="GenerateOptimalFusionButton" Grid.Row="6" Grid.Column="5" 
-			Click="GenerateOptimalFusionButton_Click" Margin="0,15,0,5">
-			<Button.Content>
-				<TextBlock Text="Generate Optimal Fusion" FontSize="9" TextWrapping="Wrap" TextAlignment="Center"/>
-			</Button.Content>
-		</Button>
+		<!--#region Fusion Buttons-->
+		<StackPanel Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="5" 
+			Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button x:Name="GenerateOptimalFusionButton" 
+				Click="GenerateOptimalFusionButton_Click" Width="150" Height="35"  Margin="0,0,20,0">
+				<Button.Content>
+					<TextBlock Text="Generate Optimal Fusion" FontSize="12" 
+						TextWrapping="Wrap" TextAlignment="Center"/>
+				</Button.Content>
+			</Button>
+			<Button x:Name="AcceptFusionButton" 
+				Click="AcceptFusionButton_Click" Width="150" Height="35" Margin="0,0,20,0">
+				<Button.Content>
+					<TextBlock Text="Accept Fusion" FontSize="12" 
+						TextWrapping="Wrap" TextAlignment="Center"/>
+				</Button.Content>
+			</Button>
+			<Button x:Name="ClearFusionDataButton" 
+				Click="ClearFusionDataButton_Click" Width="150" Height="35">
+				<Button.Content>
+					<TextBlock Text="Clear Fusion Data" FontSize="12" 
+						TextWrapping="Wrap" TextAlignment="Center"/>
+				</Button.Content>
+			</Button>
+		</StackPanel>
+		<!--#endregion-->
+
+		<!--#region Fusion Results-->
+		<TextBlock Text="Optimal Fusion: " Grid.Row="7" Grid.Column="1" 
+			VerticalAlignment="Bottom" Padding="0,0,0,5" FontWeight="Bold"/>
+
+		<Image Grid.Row="8" Grid.Column="1"
+			Source="{Binding OptimalFusionSequence[0], 
+				Converter={StaticResource CardImagePathConverter}}"/>
+
+		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold"
+			Text="{Binding OptimalFusionCardCount, 
+				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=2}"
+			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+		<Image Grid.Row="8" Grid.Column="3"
+			Source="{Binding OptimalFusionSequence[1], 
+				Converter={StaticResource CardImagePathConverter}}"/>
+
+		<TextBlock Grid.Row="8" Grid.Column="4" FontSize="32" FontWeight="Bold"
+			Text="{Binding OptimalFusionCardCount, 
+				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=3}" 
+			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+		<Image Grid.Row="8" Grid.Column="5"
+			Source="{Binding OptimalFusionSequence[2], 
+				Converter={StaticResource CardImagePathConverter}}"/>
+
+		<TextBlock Grid.Row="8" Grid.Column="6" FontSize="32" FontWeight="Bold"
+			Text="{Binding OptimalFusionCardCount, 
+				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=4}" 
+			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+		<Image Grid.Row="8" Grid.Column="7"
+			Source="{Binding OptimalFusionSequence[3], 
+				Converter={StaticResource CardImagePathConverter}}"/>
+
+		<TextBlock Grid.Row="8" Grid.Column="8" FontSize="32" FontWeight="Bold"
+			Text="{Binding OptimalFusionCardCount, 
+				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=5}" 
+			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+		<Image Grid.Row="8" Grid.Column="9"
+			Source="{Binding OptimalFusionSequence[4], 
+				Converter={StaticResource CardImagePathConverter}}"/>
+
+		<TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding OptimalFusionSequence[0]}"
+			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+		<TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding OptimalFusionSequence[1]}"
+			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+		<TextBlock Grid.Row="9" Grid.Column="5" Text="{Binding OptimalFusionSequence[2]}"
+			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+		<TextBlock Grid.Row="9" Grid.Column="7" Text="{Binding OptimalFusionSequence[3]}"
+			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+		<TextBlock Grid.Row="9" Grid.Column="9" Text="{Binding OptimalFusionSequence[4]}"
+			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<!--#endregion-->
 	</Grid>
 </Window>

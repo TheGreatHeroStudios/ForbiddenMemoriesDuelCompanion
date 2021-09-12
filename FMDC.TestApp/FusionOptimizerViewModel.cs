@@ -15,7 +15,6 @@ namespace FMDC.TestApp
 		private IGenericRepository _cardRepository;
 		private List<Card> _cardList;
 		private List<Fusion> _fusionList;
-		private List<SecondaryType> _secondaryTypeList;
 
 		private Card[] _handCards = new Card[5];
 		private Card[] _fieldCards = new Card[5];
@@ -25,10 +24,10 @@ namespace FMDC.TestApp
 
 		#region Public Propert(ies)
 		public List<Card> CardList => _cardList;
-
-		private ObservableCollection<Card> _handCardCollection;
 		public ObservableCollection<Card> HandCards { get; set; }
 		public ObservableCollection<Card> FieldCards { get; set; }
+		public ObservableCollection<Card> OptimalFusionSequence { get; set; }
+		public int OptimalFusionCardCount => OptimalFusionSequence?.Count ?? 0;
 		#endregion
 
 
@@ -72,15 +71,68 @@ namespace FMDC.TestApp
 		{
 			//Get a list of all potential fusion permutations available
 			//based on the cards in the player's hand and on the field.
-			List<List<Card>> _potentialFusionPermutations = MapPotentialFusionPermutations();
+			List<List<Card>> potentialFusionPermutations = MapPotentialFusionPermutations();
+			List<Card> optimalFusionSequence = new List<Card>();
 
 			//Order the list of permutations by the strength of the resultant  
 			//card (in descending order).  In the event that multiple permutations  
 			//result in the same fusion result, further order the permutations by 
 			//the combined strength of the fusion material cards (ascending) 
 			//to derive the best fusion for the least amount of sacrifice.
+			List<Card> optimalFusionPermutation =
+				potentialFusionPermutations
+					.Where
+					(
+						//Exclude single-card permutations (indicating no possible fusions)
+						//unless the strongest possible card is in the player's hand.
+						permutation =>
+							permutation.Count > 1 ||
+							permutation[0].CardId
+								.In
+								(
+									_handCards
+										.Select
+										(
+											handCard => 
+												handCard.CardId
+										)
+								)
+					)
+					.OrderByDescending
+					(
+						permutation =>
+							permutation.Last().AttackPoints
+					)
+					.ThenBy
+					(
+						permutation =>
+							permutation.Sum(card => card.AttackPoints)
+					)
+					.First();
 
-			//Set the optimal fusion to the first permutation of the newly ordered collection
+			//Add the root card of the permutation to the fusion sequence to be displayed.
+			optimalFusionSequence.Add(optimalFusionPermutation[0]);
+
+			if(optimalFusionPermutation.Count > 1)
+			{
+				//If the permutation involves more than one card, take every other card in the sequence
+				//(which corresponds to the fusion material cards of which the resultant card is composed)
+				for(int i = 1; i < optimalFusionPermutation.Count; i += 2)
+				{
+					//Add each to the fusion sequence to be displayed
+					optimalFusionSequence.Add(optimalFusionPermutation[i]);
+				}
+
+				//Add the last card of the permutation to the 
+				//sequence (representing the final resultant card).
+				optimalFusionSequence.Add(optimalFusionPermutation.Last());
+			}
+
+			//Finally, assign the sequence to the observable collection for displaying in the UI
+			OptimalFusionSequence = new ObservableCollection<Card>(optimalFusionSequence);
+
+			RaisePropertyChanged(nameof(OptimalFusionSequence));
+			RaisePropertyChanged(nameof(OptimalFusionCardCount));
 		}
 		#endregion
 
