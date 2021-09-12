@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Patterns\TGH.Common.Patterns.csproj" />
+    <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Persistence\TGH.Common.Persistence.csproj" />
+    <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Repository\TGH.Common.Repository.csproj" />
+    <ProjectReference Include="..\FMDC.Persistence\FMDC.Persistence.csproj" />
+    <ProjectReference Include="..\FMFC.Model\FMDC.Model.csproj" />
+  </ItemGroup>
+
+</Project>
