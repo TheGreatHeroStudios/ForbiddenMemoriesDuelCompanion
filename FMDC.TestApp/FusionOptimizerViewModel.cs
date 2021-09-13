@@ -16,6 +16,7 @@ namespace FMDC.TestApp
 		private IGenericRepository _cardRepository;
 		private List<Card> _cardList;
 		private List<Fusion> _fusionList;
+		private List<Equippable> _equippableList;
 
 		private Card[] _handCards = new Card[5];
 		private Card[] _fieldCards = new Card[5];
@@ -27,8 +28,8 @@ namespace FMDC.TestApp
 		public List<Card> CardList => _cardList;
 		public ObservableCollection<Card> HandCards { get; set; }
 		public ObservableCollection<Card> FieldCards { get; set; }
-		public ObservableCollection<Card> OptimalFusionSequence { get; set; }
-		public int OptimalFusionCardCount => OptimalFusionSequence?.Count ?? 0;
+		public ObservableCollection<Card> OptimalPlay { get; set; }
+		public int OptimalPlayCardCount => OptimalPlay?.Count ?? 0;
 		public bool ThrowAwayFirstCardInSequence { get; set; }
 
 		public IEnumerable<Card> ValidHandCards =>
@@ -50,7 +51,7 @@ namespace FMDC.TestApp
 				);
 
 		public bool GenerateFusionEnabled => ValidHandCards?.Any() ?? false;
-		public bool AcceptFusionEnabled => OptimalFusionSequence?.Any() ?? false;
+		public bool AcceptFusionEnabled => OptimalPlay?.Any() ?? false;
 		public bool ClearCardDataEnabled =>
 			(ValidHandCards?.Any() ?? false) || (ValidFieldCards?.Any() ?? false);
 
@@ -117,7 +118,7 @@ namespace FMDC.TestApp
 		}
 
 
-		public void GenerateOptimalFusion()
+		public void DetermineOptimalPlay()
 		{
 			//Get a list of all potential fusion permutations available
 			//based on the cards in the player's hand and on the field.
@@ -125,140 +126,31 @@ namespace FMDC.TestApp
 
 			if (potentialFusionPermutations.Any())
 			{
-				List<Card> optimalFusionSequence = new List<Card>();
-				List<Card> optimalFusionPermutation;
+				//Get the optimal fusion permutation to use
+				List<Card> optimalFusionPermutation =
+					DetermineOptimalFusionPermutation(potentialFusionPermutations);
 
-				List<Card> defaultOptimalFusionPermutation =
-					potentialFusionPermutations
-						.Where
-						(
-							//Exclude single-card permutations (indicating no possible fusions)
-							//unless the strongest possible card is in the player's hand.
-							permutation =>
-								permutation.Count > 1 ||
-								permutation[0].CardId
-									.In
-									(
-										_handCards
-											.Select
-											(
-												handCard =>
-													handCard.CardId
-											)
-									)
-						)
-						.OrderByDescending
-						(
-							permutation =>
-								permutation.Last().AttackPoints
-						)
-						.ThenBy
-						(
-							permutation =>
-								permutation.Sum(card => card.AttackPoints)
-						)
-						.FirstOrDefault();
+				List<Card> optimalPlay = 
+					BuildOptimalPlaySequence(optimalFusionPermutation);
 
-				if (ValidFieldCards.Count() < 5)
+				Func<Equippable, bool> equipPredicate =
+					equippable =>
+						equippable.EquipCard.In(_handCards) &&
+						equippable.TargetCard.CardId == optimalFusionPermutation.Last().CardId;
+
+				//If the player has any applicable equip cards in their hand, append the 
+				//first one to the optimal play sequence to enhance the card's strength.
+				if (_equippableList.Any(equipPredicate))
 				{
-					//If the field is NOT full, order the list of permutations by the strength of the resultant 
-					//card (in descending order).  In the event that multiple permutations result in the same
-					//fusion result, further order the permutations by the combined strength of the fusion  
-					//material cards (ascending) to derive the best fusion for the least amount of sacrifice.
-					optimalFusionPermutation = defaultOptimalFusionPermutation;
-					ThrowAwayFirstCardInSequence = false;
-				}
-				else if
-				(
-					potentialFusionPermutations
-						.Any
-						(
-							permutation =>
-								permutation.First().AttackPoints < permutation.Last().AttackPoints
-						)
-				)
-				{
-					//If the field IS full, a monster on the field must be sacrificed.  In this 
-					//scenario, first attempt to filter the permutations to those where the resultant 
-					//card is stronger than the monster on the field which is being sacrificed.
-					//If any permutations meeting this criteria exist, take the resultant card with
-					//the highest attack that is formed by sacrificing the monster with the lowest attack.
-					optimalFusionPermutation =
-						potentialFusionPermutations
-							.Where
-							(
-								permutation =>
-									permutation.First().AttackPoints < permutation.Last().AttackPoints
-							)
-							.OrderByDescending
-							(
-								permutation =>
-									permutation.Last().AttackPoints
-							)
-							.ThenBy
-							(
-								permutation =>
-									permutation.First().AttackPoints
-							)
-							.ThenBy
-							(
-								permutation =>
-									permutation.Sum(card => card.AttackPoints)
-							)
-							.FirstOrDefault();
-
-					optimalFusionPermutation =
-						UpdateStartingCardForPermutation
-						(
-							optimalFusionPermutation,
-							potentialFusionPermutations
-						);
-				}
-				else
-				{
-					//If all else fails, take the fusion permutation that involves sacrificing the
-					//field monster with the lowest attack for the fusion result with the highest.
-					optimalFusionPermutation = defaultOptimalFusionPermutation;
-
-					optimalFusionPermutation =
-						UpdateStartingCardForPermutation
-						(
-							optimalFusionPermutation,
-							potentialFusionPermutations
-						);
-				}
-
-
-				//Add the root card of the permutation to the fusion sequence to be displayed.
-				optimalFusionSequence.Add(optimalFusionPermutation[0]);
-
-				if (optimalFusionPermutation.Count > 1)
-				{
-					if (ThrowAwayFirstCardInSequence)
-					{
-						//If the first card in the sequence is a throw-away card, add
-						//the second card of the permutation to the sequence as well
-						optimalFusionSequence.Add(optimalFusionPermutation[1]);
-					}
-
-					//If the permutation involves more than one card, take every other card in the sequence
-					//(which corresponds to the fusion material cards of which the resultant card is composed)
-					for (int i = optimalFusionSequence.Count; i < optimalFusionPermutation.Count; i += 2)
-					{
-						//Add each to the fusion sequence to be displayed
-						optimalFusionSequence.Add(optimalFusionPermutation[i]);
-					}
-
-					//Add the last card of the permutation to the 
-					//sequence (representing the final resultant card).
-					optimalFusionSequence.Add(optimalFusionPermutation.Last());
+					optimalPlay
+						.Add(_equippableList.First(equipPredicate).EquipCard);
 				}
 
 				//Finally, assign the sequence to the observable collection for displaying in the UI
-				OptimalFusionSequence = new ObservableCollection<Card>(optimalFusionSequence);
+				OptimalPlay = new ObservableCollection<Card>(optimalPlay);
 
-				RaisePropertyChanged(nameof(OptimalFusionSequence));
-				RaisePropertyChanged(nameof(OptimalFusionCardCount));
+				RaisePropertyChanged(nameof(OptimalPlay));
+				RaisePropertyChanged(nameof(OptimalPlayCardCount));
 				RaisePropertyChanged(nameof(AcceptFusionEnabled));
 				RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
 			}
@@ -271,7 +163,7 @@ namespace FMDC.TestApp
 			//Assume that if the starting card exists in both the player's hand and on the player's side
 			//of the field that it came from their hand UNLESS the field was full at the time of fusion.
 			bool fusionStartsOnField = false;
-			Card startingCard = OptimalFusionSequence[0];
+			Card startingCard = OptimalPlay[0];
 
 			if
 			(
@@ -285,12 +177,19 @@ namespace FMDC.TestApp
 			//Remove the starting card from either the hand cards or the field cards.
 			int targetCardIndex;
 
+			//Determine which card from the optimal sequence should be played to the field.
+			//This is usually the last card in the sequence unless an equip card was applied.
+			Card newFieldCard =
+				OptimalPlay.Last().CardType == CardType.Monster ?
+					OptimalPlay.Last() :
+					OptimalPlay[OptimalPlay.Count - 2];
+
 			if (fusionStartsOnField)
 			{
 				targetCardIndex = Array.IndexOf(_fieldCards, startingCard);
 
 				//If the starting card came from the field, replace it with the fusion result.
-				_fieldCards[targetCardIndex] = OptimalFusionSequence.Last();
+				_fieldCards[targetCardIndex] = newFieldCard;
 			}
 			else
 			{
@@ -302,17 +201,32 @@ namespace FMDC.TestApp
 
 				int firstAvailableFieldSlotIndex = Array.IndexOf(_fieldCards, _cardList[0]);
 
-				_fieldCards[firstAvailableFieldSlotIndex] = OptimalFusionSequence.Last();
+				_fieldCards[firstAvailableFieldSlotIndex] = newFieldCard;
 			}
 
 			//Remove all cards involved in the fusion from the player's hand
-			if(OptimalFusionSequence.Count > 1)
+			if(OptimalPlay.Count > 1)
 			{
-				for(int i = 1; i < OptimalFusionSequence.Count - 1; i++)
+				for(int i = 1; i < OptimalPlay.Count - 1; i++)
 				{
 					targetCardIndex =
-						Array.IndexOf(_handCards, OptimalFusionSequence[i]);
+						Array.IndexOf(_handCards, OptimalPlay[i]);
 
+					if (targetCardIndex != -1)
+					{
+						_handCards[targetCardIndex] = _cardList[0];
+					}
+				}
+			}
+
+			//If the last card in the sequence was not a monster, remove it as well
+			if(OptimalPlay.Last().CardType != CardType.Monster)
+			{
+				targetCardIndex =
+					Array.IndexOf(_handCards, OptimalPlay.Last());
+
+				if (targetCardIndex != -1)
+				{
 					_handCards[targetCardIndex] = _cardList[0];
 				}
 			}
@@ -332,7 +246,7 @@ namespace FMDC.TestApp
 			_handCards = newHand.ToArray();
 
 			//Clear optimal fusion data
-			OptimalFusionSequence.Clear();
+			OptimalPlay.Clear();
 
 			//Update the observable properties
 			FieldCards = new ObservableCollection<Card>(_fieldCards);
@@ -435,6 +349,34 @@ namespace FMDC.TestApp
 						{
 							fusion.ResultantCard = resultantCard;
 							return fusion;
+						}
+					)
+					.ToList();
+
+			//Load the list of equipment and its associated cards
+			_equippableList =
+				_cardRepository
+					.RetrieveEntities<Equippable>(equippable => true)
+					.Join
+					(
+						_cardList,
+						equippable => equippable.EquipCardId,
+						equipCard => equipCard.CardId,
+						(equippable, equipCard) =>
+						{
+							equippable.EquipCard = equipCard;
+							return equippable;
+						}
+					)
+					.Join
+					(
+						_cardList,
+						equippable => equippable.TargetCardId,
+						targetCard => targetCard.CardId,
+						(equippable, targetCard) =>
+						{
+							equippable.TargetCard = targetCard;
+							return equippable;
 						}
 					)
 					.ToList();
@@ -679,6 +621,128 @@ namespace FMDC.TestApp
 		}
 
 
+		private List<Card> DetermineOptimalFusionPermutation
+		(
+			List<List<Card>> potentialFusionPermutations
+		)
+		{
+			//Determine which permutation to use as the initial optimal permutation.
+			List<Card> initialPermutation =
+				DetermineInitialPermutationToUse(potentialFusionPermutations);
+
+			List<Card> optimalFusionPermutation = new List<Card>();
+
+			if (ValidFieldCards.Count() < 5)
+			{
+				//If the field is NOT full, order the list of permutations by the strength of the resultant 
+				//card (in descending order).  In the event that multiple permutations result in the same
+				//fusion result, further order the permutations by the combined strength of the fusion  
+				//material cards (ascending) to derive the best fusion for the least amount of sacrifice.
+				optimalFusionPermutation = initialPermutation;
+				ThrowAwayFirstCardInSequence = false;
+			}
+			else if
+			(
+				potentialFusionPermutations
+					.Any
+					(
+						permutation =>
+							permutation.First().AttackPoints < permutation.Last().AttackPoints
+					)
+			)
+			{
+				//If the field IS full, a monster on the field must be sacrificed.  In this 
+				//scenario, first attempt to filter the permutations to those where the resultant 
+				//card is stronger than the monster on the field which is being sacrificed.
+				//If any permutations meeting this criteria exist, take the resultant card with
+				//the highest attack that is formed by sacrificing the monster with the lowest attack.
+				optimalFusionPermutation =
+					potentialFusionPermutations
+						.Where
+						(
+							permutation =>
+								permutation.First().AttackPoints < permutation.Last().AttackPoints
+						)
+						.OrderByDescending
+						(
+							permutation =>
+								permutation.Last().AttackPoints
+						)
+						.ThenBy
+						(
+							permutation =>
+								permutation.First().AttackPoints
+						)
+						.ThenBy
+						(
+							permutation =>
+								permutation.Sum(card => card.AttackPoints)
+						)
+						.FirstOrDefault();
+
+				optimalFusionPermutation =
+					UpdateStartingCardForPermutation
+					(
+						optimalFusionPermutation,
+						potentialFusionPermutations
+					);
+			}
+			else
+			{
+				//If all else fails, take the fusion permutation that involves sacrificing the
+				//field monster with the lowest attack for the fusion result with the highest.
+				optimalFusionPermutation = initialPermutation;
+
+				optimalFusionPermutation =
+					UpdateStartingCardForPermutation
+					(
+						optimalFusionPermutation,
+						potentialFusionPermutations
+					);
+			}
+
+			return optimalFusionPermutation;
+		}
+
+
+		private List<Card> DetermineInitialPermutationToUse
+		(
+			List<List<Card>> potentialFusionPermutations
+		)
+		{
+			return
+				potentialFusionPermutations
+						.Where
+						(
+							//Exclude single-card permutations (indicating no possible fusions)
+							//unless the strongest possible card is in the player's hand.
+							permutation =>
+								permutation.Count > 1 ||
+								permutation[0].CardId
+									.In
+									(
+										_handCards
+											.Select
+											(
+												handCard =>
+													handCard.CardId
+											)
+									)
+						)
+						.OrderByDescending
+						(
+							permutation =>
+								permutation.Last().AttackPoints
+						)
+						.ThenBy
+						(
+							permutation =>
+								permutation.Sum(card => card.AttackPoints)
+						)
+						.FirstOrDefault();
+		}
+
+
 		private List<Card> UpdateStartingCardForPermutation
 		(
 			List<Card> targetPermutation,
@@ -734,18 +798,53 @@ namespace FMDC.TestApp
 		}
 
 
+		private List<Card> BuildOptimalPlaySequence(List<Card> optimalFusionPermutation)
+		{
+			List<Card> optimalFusionSequence = new List<Card>();
+
+			//Add the root card of the permutation to the fusion sequence to be displayed.
+			optimalFusionSequence.Add(optimalFusionPermutation[0]);
+
+			if (optimalFusionPermutation.Count > 1)
+			{
+				if (ThrowAwayFirstCardInSequence)
+				{
+					//If the first card in the sequence is a throw-away card, add
+					//the second card of the permutation to the sequence as well
+					optimalFusionSequence.Add(optimalFusionPermutation[1]);
+				}
+
+				//If the permutation involves more than one card, take every other card in the sequence
+				//(which corresponds to the fusion material cards of which the resultant card is composed)
+				for (int i = optimalFusionSequence.Count; i < optimalFusionPermutation.Count; i += 2)
+				{
+					//Add each to the fusion sequence to be displayed
+					optimalFusionSequence.Add(optimalFusionPermutation[i]);
+				}
+
+				//Add the last card of the permutation to the 
+				//sequence (representing the final resultant card).
+				optimalFusionSequence.Add(optimalFusionPermutation.Last());
+			}
+
+			return optimalFusionSequence;
+		}
+
+
 		private void ClearOptimalFusionData()
 		{
-			OptimalFusionSequence?.Clear();
+			OptimalPlay?.Clear();
 			ThrowAwayFirstCardInSequence = false;
 
-			RaisePropertyChanged(nameof(OptimalFusionSequence));
-			RaisePropertyChanged(nameof(OptimalFusionCardCount));
+			RaisePropertyChanged(nameof(OptimalPlay));
+			RaisePropertyChanged(nameof(OptimalPlayCardCount));
 			RaisePropertyChanged(nameof(GenerateFusionEnabled));
 			RaisePropertyChanged(nameof(AcceptFusionEnabled));
 			RaisePropertyChanged(nameof(ClearCardDataEnabled));
 			RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
 		}
+
+
 		private void RaisePropertyChanged(string propertyName)
 		{
 			PropertyChanged?

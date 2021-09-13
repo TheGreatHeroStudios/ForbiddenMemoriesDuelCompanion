@@ -84,11 +84,11 @@ namespace FMDC.TestApp
 		}
 
 
-		private void GenerateOptimalFusionButton_Click(object sender, RoutedEventArgs e)
+		private void GenerateOptimalPlayButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				_fusionOptimizerViewModel.GenerateOptimalFusion();
+				_fusionOptimizerViewModel.DetermineOptimalPlay();
 			}
 			catch (Exception ex)
 			{

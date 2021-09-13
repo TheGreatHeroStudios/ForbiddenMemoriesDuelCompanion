@@ -10,7 +10,7 @@
 	<Window.Resources>
 		<local:CardToNameStringConverter x:Key="CardNameConverter"/>
 		<local:CardToImagePathConverter x:Key="CardImagePathConverter"/>
-		<local:FusionCardCountToOperatorSymbolConverter x:Key="FusionOperatorConverter"/>
+		<local:SequenceCardToOperatorSymbolConverter x:Key="CardOperatorConverter"/>
 		<local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 	</Window.Resources>
 	<Grid>
@@ -188,8 +188,8 @@
 		<!--#region Fusion Buttons-->
 		<StackPanel Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="5" 
 			Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button x:Name="GenerateOptimalFusionButton" IsEnabled="{Binding GenerateFusionEnabled}"
-				Click="GenerateOptimalFusionButton_Click" Width="150" Height="35"  Margin="0,0,20,0">
+			<Button x:Name="GenerateOptimalPlayButton" IsEnabled="{Binding GenerateFusionEnabled}"
+				Click="GenerateOptimalPlayButton_Click" Width="150" Height="35"  Margin="0,0,20,0">
 				<Button.Content>
 					<TextBlock Text="Suggest Optimal Play" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
@@ -219,12 +219,12 @@
 				Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
 		<Image Grid.Row="8" Grid.Column="1"
-			Source="{Binding OptimalFusionSequence[0], 
+			Source="{Binding OptimalPlay[0], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
 		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold"
-			Text="{Binding OptimalFusionCardCount, 
-				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=2}"
+			Text="{Binding OptimalPlay, 
+				Converter={local:SequenceCardToOperatorSymbolConverter CurrentCardIndex=0}}"
 			Visibility="{Binding ThrowAwayFirstCardInSequence, 
 				Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
 			VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -235,54 +235,54 @@
 				Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
 		<Image Grid.Row="8" Grid.Column="3"
-			Source="{Binding OptimalFusionSequence[1], 
+			Source="{Binding OptimalPlay[1], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
 		<TextBlock Grid.Row="8" Grid.Column="4" FontSize="32" FontWeight="Bold"
-			Text="{Binding OptimalFusionCardCount, 
-				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=3}" 
+			Text="{Binding OptimalPlay, 
+				Converter={local:SequenceCardToOperatorSymbolConverter CurrentCardIndex=1}}"
 			VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
 		<Image Grid.Row="8" Grid.Column="5"
-			Source="{Binding OptimalFusionSequence[2], 
+			Source="{Binding OptimalPlay[2], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
 		<TextBlock Grid.Row="8" Grid.Column="6" FontSize="32" FontWeight="Bold"
-			Text="{Binding OptimalFusionCardCount, 
-				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=4}" 
+			Text="{Binding OptimalPlay, 
+				Converter={local:SequenceCardToOperatorSymbolConverter CurrentCardIndex=2}}"
 			VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
 		<Image Grid.Row="8" Grid.Column="7"
-			Source="{Binding OptimalFusionSequence[3], 
+			Source="{Binding OptimalPlay[3], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
 		<TextBlock Grid.Row="8" Grid.Column="8" FontSize="32" FontWeight="Bold"
-			Text="{Binding OptimalFusionCardCount, 
-				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=5}" 
+			Text="{Binding OptimalPlay, 
+				Converter={local:SequenceCardToOperatorSymbolConverter CurrentCardIndex=3}}"
 			VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
 		<Image Grid.Row="8" Grid.Column="9"
-			Source="{Binding OptimalFusionSequence[4], 
+			Source="{Binding OptimalPlay[4], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
 		<TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalFusionSequence[0]}" TextWrapping="WrapWithOverflow" 
+			Text="{Binding OptimalPlay[0]}" TextWrapping="WrapWithOverflow" 
 			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
 		<TextBlock Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalFusionSequence[1]}" TextWrapping="WrapWithOverflow" 
+			Text="{Binding OptimalPlay[1]}" TextWrapping="WrapWithOverflow" 
 			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
 		<TextBlock Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalFusionSequence[2]}" TextWrapping="WrapWithOverflow" 
+			Text="{Binding OptimalPlay[2]}" TextWrapping="WrapWithOverflow" 
 			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
 		<TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalFusionSequence[3]}" TextWrapping="WrapWithOverflow" 
+			Text="{Binding OptimalPlay[3]}" TextWrapping="WrapWithOverflow" 
 			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
 		<TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalFusionSequence[4]}" TextWrapping="WrapWithOverflow" 
+			Text="{Binding OptimalPlay[4]}" TextWrapping="WrapWithOverflow" 
 			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 		<!--#endregion-->
 	</Grid>
