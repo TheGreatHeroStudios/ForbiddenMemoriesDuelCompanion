@@ -1,6 +1,7 @@
 ﻿using FMDC.Model;
 using FMDC.Model.Models;
 using FMDC.Persistence;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -67,14 +68,13 @@ namespace FMDC.TestApp
 
 		private void GenerateOptimalFusionButton_Click(object sender, RoutedEventArgs e)
 		{
-			_fusionOptimizerViewModel
-				.GenerateOptimalFusion();
+			_fusionOptimizerViewModel.GenerateOptimalFusion();
 		}
 
 
 		private void AcceptFusionButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			_fusionOptimizerViewModel.AcceptFusion();
 		}
 
 
