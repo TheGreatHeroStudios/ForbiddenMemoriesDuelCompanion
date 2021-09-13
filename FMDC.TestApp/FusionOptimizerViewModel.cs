@@ -29,7 +29,7 @@ namespace FMDC.TestApp
 		public ObservableCollection<Card> FieldCards { get; set; }
 		public ObservableCollection<Card> OptimalFusionSequence { get; set; }
 		public int OptimalFusionCardCount => OptimalFusionSequence?.Count ?? 0;
-		public bool OptimalFusionInitialized => OptimalFusionSequence?.Any() ?? false;
+		public bool ThrowAwayFirstCardInSequence { get; set; }
 
 		public IEnumerable<Card> ValidHandCards =>
 			_handCards
@@ -49,7 +49,9 @@ namespace FMDC.TestApp
 						fieldCard.CardId != -1
 				);
 
-		public bool MyProperty { get; set; }
+		public bool GenerateFusionEnabled => ValidHandCards?.Any() ?? false;
+
+		public bool AcceptFusionEnabled => OptimalFusionSequence?.Any() ?? false;
 		#endregion
 
 
@@ -86,6 +88,7 @@ namespace FMDC.TestApp
 
 			RaisePropertyChanged(nameof(FieldCards));
 			RaisePropertyChanged(nameof(HandCards));
+			RaisePropertyChanged(nameof(GenerateFusionEnabled));
 		}
 
 
@@ -96,6 +99,7 @@ namespace FMDC.TestApp
 				_handCards[index] = updatedCard;
 				HandCards = new ObservableCollection<Card>(_handCards);
 				RaisePropertyChanged(nameof(HandCards));
+				RaisePropertyChanged(nameof(GenerateFusionEnabled));
 			}
 			else
 			{
@@ -115,13 +119,9 @@ namespace FMDC.TestApp
 			if (potentialFusionPermutations.Any())
 			{
 				List<Card> optimalFusionSequence = new List<Card>();
+				List<Card> optimalFusionPermutation;
 
-				//Order the list of permutations by the strength of the resultant  
-				//card (in descending order).  In the event that multiple permutations  
-				//result in the same fusion result, further order the permutations by 
-				//the combined strength of the fusion material cards (ascending) 
-				//to derive the best fusion for the least amount of sacrifice.
-				List<Card> optimalFusionPermutation =
+				List<Card> defaultOptimalFusionPermutation =
 					potentialFusionPermutations
 						.Where
 						(
@@ -150,16 +150,93 @@ namespace FMDC.TestApp
 							permutation =>
 								permutation.Sum(card => card.AttackPoints)
 						)
-						.First();
+						.FirstOrDefault();
+
+				if (ValidFieldCards.Count() < 5)
+				{
+					//If the field is NOT full, order the list of permutations by the strength of the resultant 
+					//card (in descending order).  In the event that multiple permutations result in the same
+					//fusion result, further order the permutations by the combined strength of the fusion  
+					//material cards (ascending) to derive the best fusion for the least amount of sacrifice.
+					optimalFusionPermutation = defaultOptimalFusionPermutation;
+					ThrowAwayFirstCardInSequence = false;
+				}
+				else if
+				(
+					potentialFusionPermutations
+						.Any
+						(
+							permutation =>
+								permutation.First().AttackPoints < permutation.Last().AttackPoints
+						)
+				)
+				{
+					//If the field IS full, a monster on the field must be sacrificed.  In this 
+					//scenario, first attempt to filter the permutations to those where the resultant 
+					//card is stronger than the monster on the field which is being sacrificed.
+					//If any permutations meeting this criteria exist, take the resultant card with
+					//the highest attack that is formed by sacrificing the monster with the lowest attack.
+					optimalFusionPermutation =
+						potentialFusionPermutations
+							.Where
+							(
+								permutation =>
+									permutation.First().AttackPoints < permutation.Last().AttackPoints
+							)
+							.OrderByDescending
+							(
+								permutation =>
+									permutation.Last().AttackPoints
+							)
+							.ThenBy
+							(
+								permutation =>
+									permutation.First().AttackPoints
+							)
+							.ThenBy
+							(
+								permutation =>
+									permutation.Sum(card => card.AttackPoints)
+							)
+							.FirstOrDefault();
+
+					optimalFusionPermutation =
+						UpdateStartingCardForPermutation
+						(
+							optimalFusionPermutation,
+							potentialFusionPermutations
+						);
+				}
+				else
+				{
+					//If all else fails, take the fusion permutation that involves sacrificing the
+					//field monster with the lowest attack for the fusion result with the highest.
+					optimalFusionPermutation = defaultOptimalFusionPermutation;
+
+					optimalFusionPermutation =
+						UpdateStartingCardForPermutation
+						(
+							optimalFusionPermutation,
+							potentialFusionPermutations
+						);
+				}
+
 
 				//Add the root card of the permutation to the fusion sequence to be displayed.
 				optimalFusionSequence.Add(optimalFusionPermutation[0]);
 
 				if (optimalFusionPermutation.Count > 1)
 				{
+					if (ThrowAwayFirstCardInSequence)
+					{
+						//If the first card in the sequence is a throw-away card, add
+						//the second card of the permutation to the sequence as well
+						optimalFusionSequence.Add(optimalFusionPermutation[1]);
+					}
+
 					//If the permutation involves more than one card, take every other card in the sequence
 					//(which corresponds to the fusion material cards of which the resultant card is composed)
-					for (int i = 1; i < optimalFusionPermutation.Count; i += 2)
+					for (int i = optimalFusionSequence.Count; i < optimalFusionPermutation.Count; i += 2)
 					{
 						//Add each to the fusion sequence to be displayed
 						optimalFusionSequence.Add(optimalFusionPermutation[i]);
@@ -175,7 +252,8 @@ namespace FMDC.TestApp
 
 				RaisePropertyChanged(nameof(OptimalFusionSequence));
 				RaisePropertyChanged(nameof(OptimalFusionCardCount));
-				RaisePropertyChanged(nameof(OptimalFusionInitialized));
+				RaisePropertyChanged(nameof(AcceptFusionEnabled));
+				RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
 			}
 		}
 
@@ -249,15 +327,18 @@ namespace FMDC.TestApp
 			//Clear optimal fusion data
 			OptimalFusionSequence.Clear();
 
-			//Update the observable collections
+			//Update the observable properties
 			FieldCards = new ObservableCollection<Card>(_fieldCards);
 			HandCards = new ObservableCollection<Card>(_handCards);
+			ThrowAwayFirstCardInSequence = false;
 
 			RaisePropertyChanged(nameof(FieldCards));
 			RaisePropertyChanged(nameof(HandCards));
 			RaisePropertyChanged(nameof(OptimalFusionSequence));
 			RaisePropertyChanged(nameof(OptimalFusionCardCount));
-			RaisePropertyChanged(nameof(OptimalFusionInitialized));
+			RaisePropertyChanged(nameof(GenerateFusionEnabled));
+			RaisePropertyChanged(nameof(AcceptFusionEnabled));
+			RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
 		}
 		#endregion
 
@@ -358,14 +439,14 @@ namespace FMDC.TestApp
 			//hand or on the player's side of the field as fusion 'root' cards.
 
 
-			//NOTE: Field cards can ONLY serve as the root card for a fusion
-			//and if the field is full, fusions MUST start with a field card.
-			List<Card> potentialFusionRoots = ValidFieldCards.ToList();
-
-			if (potentialFusionRoots.Count < 5)
-			{
-				potentialFusionRoots.AddRange(ValidHandCards);
-			}
+			//NOTE: Field cards can ONLY serve as the root card for a fusion.
+			List<Card> potentialFusionRoots = 
+				ValidFieldCards
+				.Concat
+				(
+					ValidHandCards
+				)
+				.ToList();
 
 			//Iterate over each potential fusion root card and 
 			//generate a list of fusions that are possible for it 
@@ -585,6 +666,61 @@ namespace FMDC.TestApp
 					);
 
 			return viableFusions;
+		}
+
+
+		private List<Card> UpdateStartingCardForPermutation
+		(
+			List<Card> targetPermutation,
+			List<List<Card>> potentialPermutations
+		)
+		{
+			if (!targetPermutation[0].In(_fieldCards))
+			{
+				//If the optimal fusion does not start with a card on the field, prepend the weakest card
+				//currently on the field that won't fuse with (and throw off) the first card of the sequence.
+				List<Card> weakestFieldCards =
+					_fieldCards
+						.OrderBy
+						(
+							fieldCard =>
+								fieldCard.AttackPoints
+						)
+						.ToList();
+
+				Card sacrificeCard =
+					weakestFieldCards
+						.FirstOrDefault
+						(
+							fieldCard =>
+								!potentialPermutations
+									.Any
+									(
+										potentialPermutation =>
+											potentialPermutation.Count > 1 &&
+											potentialPermutation[0].CardId == fieldCard.CardId &&
+											potentialPermutation[1].CardId == targetPermutation[0].CardId
+									)
+						);
+
+				//If all cards on the field can fuse with the starting card of the 
+				//optimal sequence, default to the overall weakest card on the field
+				targetPermutation =
+					targetPermutation
+						.Prepend
+						(
+							sacrificeCard ?? weakestFieldCards.First()
+						)
+						.ToList();
+
+				ThrowAwayFirstCardInSequence = sacrificeCard != null;
+			}
+			else
+			{
+				ThrowAwayFirstCardInSequence = false;
+			}
+
+			return targetPermutation;
 		}
 
 

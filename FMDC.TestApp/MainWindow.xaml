@@ -11,6 +11,7 @@
 		<local:CardToNameStringConverter x:Key="CardNameConverter"/>
 		<local:CardToImagePathConverter x:Key="CardImagePathConverter"/>
 		<local:FusionCardCountToOperatorSymbolConverter x:Key="FusionOperatorConverter"/>
+		<local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -187,17 +188,17 @@
 		<!--#region Fusion Buttons-->
 		<StackPanel Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="5" 
 			Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button x:Name="GenerateOptimalFusionButton" 
+			<Button x:Name="GenerateOptimalFusionButton" IsEnabled="{Binding GenerateFusionEnabled}"
 				Click="GenerateOptimalFusionButton_Click" Width="150" Height="35"  Margin="0,0,20,0">
 				<Button.Content>
-					<TextBlock Text="Generate Optimal Fusion" FontSize="12" 
+					<TextBlock Text="Suggest Optimal Play" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="AcceptFusionButton" IsEnabled="{Binding OptimalFusionInitialized}"
+			<Button x:Name="AcceptFusionButton" IsEnabled="{Binding AcceptFusionEnabled}"
 				Click="AcceptFusionButton_Click" Width="150" Height="35" Margin="0,0,20,0">
 				<Button.Content>
-					<TextBlock Text="Accept Fusion" FontSize="12" 
+					<TextBlock Text="Accept Optimal Play" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
@@ -212,8 +213,10 @@
 		<!--#endregion-->
 
 		<!--#region Fusion Results-->
-		<TextBlock Text="Optimal Fusion: " Grid.Row="7" Grid.Column="1" 
-			VerticalAlignment="Bottom" Padding="0,0,0,5" FontWeight="Bold"/>
+		<TextBlock Text="Optimal Play: " Grid.Row="7" Grid.Column="1" 
+			VerticalAlignment="Bottom" Padding="0,0,0,5" FontWeight="Bold"
+			Visibility="{Binding AcceptFusionEnabled, 
+				Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
 		<Image Grid.Row="8" Grid.Column="1"
 			Source="{Binding OptimalFusionSequence[0], 
@@ -222,7 +225,14 @@
 		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold"
 			Text="{Binding OptimalFusionCardCount, 
 				Converter={StaticResource FusionOperatorConverter}, ConverterParameter=2}"
+			Visibility="{Binding ThrowAwayFirstCardInSequence, 
+				Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
 			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold"
+			Text="&lt;" VerticalAlignment="Center" HorizontalAlignment="Center"
+			Visibility="{Binding ThrowAwayFirstCardInSequence, 
+				Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
 		<Image Grid.Row="8" Grid.Column="3"
 			Source="{Binding OptimalFusionSequence[1], 
@@ -255,20 +265,25 @@
 			Source="{Binding OptimalFusionSequence[4], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding OptimalFusionSequence[0]}"
-			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
+			Text="{Binding OptimalFusionSequence[0]}" TextWrapping="WrapWithOverflow" 
+			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding OptimalFusionSequence[1]}"
-			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<TextBlock Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="2" 
+			Text="{Binding OptimalFusionSequence[1]}" TextWrapping="WrapWithOverflow" 
+			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="5" Text="{Binding OptimalFusionSequence[2]}"
-			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<TextBlock Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="2" 
+			Text="{Binding OptimalFusionSequence[2]}" TextWrapping="WrapWithOverflow" 
+			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="7" Text="{Binding OptimalFusionSequence[3]}"
-			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" 
+			Text="{Binding OptimalFusionSequence[3]}" TextWrapping="WrapWithOverflow" 
+			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="9" Text="{Binding OptimalFusionSequence[4]}"
-			TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" 
+			Text="{Binding OptimalFusionSequence[4]}" TextWrapping="WrapWithOverflow" 
+			VerticalAlignment="Top" HorizontalAlignment="Left"/>
 		<!--#endregion-->
 	</Grid>
 </Window>

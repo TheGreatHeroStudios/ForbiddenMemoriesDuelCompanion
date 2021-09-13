@@ -42,41 +42,89 @@ namespace FMDC.TestApp
 		#region Event Handler(s)
 		private void CardSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ComboBox comboBoxControl = sender as ComboBox;
-
-			string controlName = comboBoxControl.Name;
-			int controlIndex;
-			bool handCardUpdated = false;
-
-			if (controlName.StartsWith("FieldCard"))
+			try
 			{
-				controlIndex = int.Parse(controlName.Substring(9, 1)) - 1;
-			}
-			else
-			{
-				controlIndex = int.Parse(controlName.Substring(8, 1)) - 1;
-				handCardUpdated = true;
-			}
+				ComboBox comboBoxControl = sender as ComboBox;
 
-			_fusionOptimizerViewModel
-				.UpdateCardSelection
+				string controlName = comboBoxControl.Name;
+				int controlIndex;
+				bool handCardUpdated = false;
+
+				if (controlName.StartsWith("FieldCard"))
+				{
+					controlIndex = int.Parse(controlName.Substring(9, 1)) - 1;
+				}
+				else
+				{
+					controlIndex = int.Parse(controlName.Substring(8, 1)) - 1;
+					handCardUpdated = true;
+				}
+
+				_fusionOptimizerViewModel
+					.UpdateCardSelection
+					(
+						comboBoxControl.SelectedItem as Card,
+						handCardUpdated,
+						controlIndex
+					);
+			}
+			catch (Exception ex)
+			{
+				_ = MessageBox.Show
 				(
-					comboBoxControl.SelectedItem as Card,
-					handCardUpdated,
-					controlIndex
+					string.Format
+					(
+						"Error Occurred while attempting to update card selection: \n{0}",
+						ex.Message
+					),
+					"Error Occurred",
+					MessageBoxButton.OK
 				);
+			}
 		}
 
 
 		private void GenerateOptimalFusionButton_Click(object sender, RoutedEventArgs e)
 		{
-			_fusionOptimizerViewModel.GenerateOptimalFusion();
+			try
+			{
+				_fusionOptimizerViewModel.GenerateOptimalFusion();
+			}
+			catch (Exception ex)
+			{
+				_ = MessageBox.Show
+				(
+					string.Format
+					(
+						"Error Occurred while generating optimal play: \n{0}",
+						ex.Message
+					),
+					"Error Occurred",
+					MessageBoxButton.OK
+				);
+			}
 		}
 
 
 		private void AcceptFusionButton_Click(object sender, RoutedEventArgs e)
 		{
-			_fusionOptimizerViewModel.AcceptFusion();
+			try
+			{
+				_fusionOptimizerViewModel.AcceptFusion();
+			}
+			catch (Exception ex)
+			{
+				_ = MessageBox.Show
+				(
+					string.Format
+					(
+						"Error Occurred while attempting to accept fusion: \n{0}",
+						ex.Message
+					),
+					"Error Occurred",
+					MessageBoxButton.OK
+				);
+			}
 		}
 
 
