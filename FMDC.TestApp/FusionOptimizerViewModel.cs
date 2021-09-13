@@ -29,7 +29,7 @@ namespace FMDC.TestApp
 		public ObservableCollection<Card> FieldCards { get; set; }
 		public ObservableCollection<Card> OptimalFusionSequence { get; set; }
 		public int OptimalFusionCardCount => OptimalFusionSequence?.Count ?? 0;
-		public bool OptimalFusionDataSet => OptimalFusionSequence?.Any() ?? false;
+		public bool OptimalFusionInitialized => OptimalFusionSequence?.Any() ?? false;
 
 		public IEnumerable<Card> ValidHandCards =>
 			_handCards
@@ -48,6 +48,8 @@ namespace FMDC.TestApp
 						fieldCard != null &&
 						fieldCard.CardId != -1
 				);
+
+		public bool MyProperty { get; set; }
 		#endregion
 
 
@@ -58,6 +60,7 @@ namespace FMDC.TestApp
 			_cardRepository = cardRepository;
 
 			LoadCardData();
+			SetPlaceholderCards();
 		}
 		#endregion
 
@@ -172,7 +175,7 @@ namespace FMDC.TestApp
 
 				RaisePropertyChanged(nameof(OptimalFusionSequence));
 				RaisePropertyChanged(nameof(OptimalFusionCardCount));
-				RaisePropertyChanged(nameof(OptimalFusionDataSet));
+				RaisePropertyChanged(nameof(OptimalFusionInitialized));
 			}
 		}
 
@@ -183,11 +186,11 @@ namespace FMDC.TestApp
 			//Assume that if the starting card exists in both the player's hand and on the player's side
 			//of the field that it came from their hand UNLESS the field was full at the time of fusion.
 			bool fusionStartsOnField = false;
-			int startingCardId = OptimalFusionSequence[0].CardId;
+			Card startingCard = OptimalFusionSequence[0];
 
 			if
 			(
-				!ValidHandCards.Any(handCard => handCard.CardId == startingCardId) ||
+				!ValidHandCards.Any(handCard => handCard.CardId == startingCard.CardId) ||
 				ValidFieldCards.Count() == 5
 			)
 			{
@@ -199,23 +202,20 @@ namespace FMDC.TestApp
 
 			if (fusionStartsOnField)
 			{
-				targetCardIndex =
-					Array.IndexOf(_fieldCards, _fieldCards.First(fieldCard => fieldCard?.CardId == startingCardId));
+				targetCardIndex = Array.IndexOf(_fieldCards, startingCard);
 
 				//If the starting card came from the field, replace it with the fusion result.
 				_fieldCards[targetCardIndex] = OptimalFusionSequence.Last();
 			}
 			else
 			{
-				targetCardIndex =
-					Array.IndexOf(_handCards, _handCards.First(handCard => handCard?.CardId == startingCardId));
+				targetCardIndex = Array.IndexOf(_handCards, startingCard);
 
 				//Otherwise, place the fusion result in the first empty slot 
 				//on the field and clear the hand card that started the fusion.
 				_handCards[targetCardIndex] = _cardList[0];
 
-				int firstAvailableFieldSlotIndex = 
-					Array.IndexOf(_fieldCards, _fieldCards.FirstOrDefault(fieldCard => fieldCard?.CardId == -1));
+				int firstAvailableFieldSlotIndex = Array.IndexOf(_fieldCards, _cardList[0]);
 
 				_fieldCards[firstAvailableFieldSlotIndex] = OptimalFusionSequence.Last();
 			}
@@ -223,19 +223,10 @@ namespace FMDC.TestApp
 			//Remove all cards involved in the fusion from the player's hand
 			if(OptimalFusionSequence.Count > 1)
 			{
-				for(int i = 1; i < OptimalFusionSequence.Count - 2; i++)
+				for(int i = 1; i < OptimalFusionSequence.Count - 1; i++)
 				{
 					targetCardIndex =
-						Array.IndexOf
-						(
-							_handCards, 
-							_handCards
-								.First
-								(
-									handCard => 
-										handCard.CardId == OptimalFusionSequence[i].CardId
-								)
-						);
+						Array.IndexOf(_handCards, OptimalFusionSequence[i]);
 
 					_handCards[targetCardIndex] = _cardList[0];
 				}
@@ -243,10 +234,11 @@ namespace FMDC.TestApp
 
 			//Condense the remaining hand cards down and backfill the rest with placeholders
 			List<Card> newHand = ValidHandCards.ToList();
+			int validHandCardCount = newHand.Count;
 
-			if(newHand.Count < 5)
+			if(validHandCardCount < 5)
 			{
-				for(int i = 0; i < (5 - newHand.Count); i++)
+				for(int i = 0; i < (5 - validHandCardCount); i++)
 				{
 					newHand.Add(_cardList[0]);
 				}
@@ -265,7 +257,7 @@ namespace FMDC.TestApp
 			RaisePropertyChanged(nameof(HandCards));
 			RaisePropertyChanged(nameof(OptimalFusionSequence));
 			RaisePropertyChanged(nameof(OptimalFusionCardCount));
-			RaisePropertyChanged(nameof(OptimalFusionDataSet));
+			RaisePropertyChanged(nameof(OptimalFusionInitialized));
 		}
 		#endregion
 

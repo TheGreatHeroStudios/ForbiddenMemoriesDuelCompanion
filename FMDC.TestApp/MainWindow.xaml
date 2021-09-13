@@ -61,8 +61,9 @@
 		<!--#endregion-->
 
 		<!--#region Field Card Combo Boxes-->
-		<ComboBox Name="FieldCard1Selector" Grid.Row="2" Grid.Column="1" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="FieldCard1Selector" Grid.Row="2" Grid.Column="1" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding FieldCards[0]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -70,8 +71,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="FieldCard2Selector" Grid.Row="2" Grid.Column="3" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="FieldCard2Selector" Grid.Row="2" Grid.Column="3" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding FieldCards[1]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -79,8 +81,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="FieldCard3Selector" Grid.Row="2" Grid.Column="5" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="FieldCard3Selector" Grid.Row="2" Grid.Column="5" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding FieldCards[2]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -88,8 +91,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="FieldCard4Selector" Grid.Row="2" Grid.Column="7" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="FieldCard4Selector" Grid.Row="2" Grid.Column="7" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding FieldCards[3]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -97,8 +101,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="FieldCard5Selector" Grid.Row="2" Grid.Column="9" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="FieldCard5Selector" Grid.Row="2" Grid.Column="9" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding FieldCards[4]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -128,8 +133,9 @@
 		<!--#endregion-->
 
 		<!--#region Hand Card Combo Boxes-->
-		<ComboBox Name="HandCard1Selector" Grid.Row="5" Grid.Column="1" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="HandCard1Selector" Grid.Row="5" Grid.Column="1" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding HandCards[0]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -137,8 +143,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="HandCard2Selector" Grid.Row="5" Grid.Column="3" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="HandCard2Selector" Grid.Row="5" Grid.Column="3" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding HandCards[1]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -146,8 +153,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="HandCard3Selector" Grid.Row="5" Grid.Column="5" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="HandCard3Selector" Grid.Row="5" Grid.Column="5" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding HandCards[2]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -155,8 +163,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="HandCard4Selector" Grid.Row="5" Grid.Column="7" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="HandCard4Selector" Grid.Row="5" Grid.Column="7" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding HandCards[3]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -164,8 +173,9 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<ComboBox Name="HandCard5Selector" Grid.Row="5" Grid.Column="9" Margin="0,5,0,0" VerticalContentAlignment="Center"
-			ItemsSource="{Binding CardList}" SelectionChanged="CardSelector_SelectionChanged">
+		<ComboBox Name="HandCard5Selector" Grid.Row="5" Grid.Column="9" Margin="0,5,0,0" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			SelectedItem="{Binding HandCards[4]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource CardNameConverter}}"/>
@@ -184,7 +194,7 @@
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="AcceptFusionButton" IsEnabled="{Binding OptimalFusionDataSet}"
+			<Button x:Name="AcceptFusionButton" IsEnabled="{Binding OptimalFusionInitialized}"
 				Click="AcceptFusionButton_Click" Width="150" Height="35" Margin="0,0,20,0">
 				<Button.Content>
 					<TextBlock Text="Accept Fusion" FontSize="12" 

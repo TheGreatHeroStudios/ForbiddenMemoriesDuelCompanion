@@ -14,8 +14,10 @@ namespace FMDC.TestApp
 
 			return
 				card == null || card.CardImage == null ?
-					string.Empty :
-					ApplicationConstants.APPLICATION_DATA_FOLDER + (value as Card).CardImage.ImageRelativePath;
+					ApplicationConstants.APPLICATION_DATA_FOLDER + 
+						ApplicationConstants.DEFAULT_THUMBNAIL_RELATIVE_FILEPATH :
+					ApplicationConstants.APPLICATION_DATA_FOLDER + 
+						(value as Card).CardImage.ImageRelativePath;
 		}
 
 

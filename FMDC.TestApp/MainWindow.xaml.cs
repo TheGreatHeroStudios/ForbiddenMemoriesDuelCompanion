@@ -42,7 +42,9 @@ namespace FMDC.TestApp
 		#region Event Handler(s)
 		private void CardSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			string controlName = (sender as Control).Name;
+			ComboBox comboBoxControl = sender as ComboBox;
+
+			string controlName = comboBoxControl.Name;
 			int controlIndex;
 			bool handCardUpdated = false;
 
@@ -59,7 +61,7 @@ namespace FMDC.TestApp
 			_fusionOptimizerViewModel
 				.UpdateCardSelection
 				(
-					e.AddedItems.Cast<Card>().First(),
+					comboBoxControl.SelectedItem as Card,
 					handCardUpdated,
 					controlIndex
 				);
