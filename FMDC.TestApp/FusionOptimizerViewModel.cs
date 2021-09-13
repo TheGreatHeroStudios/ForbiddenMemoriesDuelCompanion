@@ -50,8 +50,10 @@ namespace FMDC.TestApp
 				);
 
 		public bool GenerateFusionEnabled => ValidHandCards?.Any() ?? false;
-
 		public bool AcceptFusionEnabled => OptimalFusionSequence?.Any() ?? false;
+		public bool ClearCardDataEnabled =>
+			(ValidHandCards?.Any() ?? false) || (ValidFieldCards?.Any() ?? false);
+
 		#endregion
 
 
@@ -89,6 +91,7 @@ namespace FMDC.TestApp
 			RaisePropertyChanged(nameof(FieldCards));
 			RaisePropertyChanged(nameof(HandCards));
 			RaisePropertyChanged(nameof(GenerateFusionEnabled));
+			RaisePropertyChanged(nameof(ClearCardDataEnabled));
 		}
 
 
@@ -98,14 +101,18 @@ namespace FMDC.TestApp
 			{
 				_handCards[index] = updatedCard;
 				HandCards = new ObservableCollection<Card>(_handCards);
+
 				RaisePropertyChanged(nameof(HandCards));
 				RaisePropertyChanged(nameof(GenerateFusionEnabled));
+				RaisePropertyChanged(nameof(ClearCardDataEnabled));
 			}
 			else
 			{
 				_fieldCards[index] = updatedCard;
 				FieldCards = new ObservableCollection<Card>(_fieldCards);
+
 				RaisePropertyChanged(nameof(FieldCards));
+				RaisePropertyChanged(nameof(ClearCardDataEnabled));
 			}
 		}
 
@@ -330,15 +337,18 @@ namespace FMDC.TestApp
 			//Update the observable properties
 			FieldCards = new ObservableCollection<Card>(_fieldCards);
 			HandCards = new ObservableCollection<Card>(_handCards);
-			ThrowAwayFirstCardInSequence = false;
+
+			ClearOptimalFusionData();
 
 			RaisePropertyChanged(nameof(FieldCards));
 			RaisePropertyChanged(nameof(HandCards));
-			RaisePropertyChanged(nameof(OptimalFusionSequence));
-			RaisePropertyChanged(nameof(OptimalFusionCardCount));
-			RaisePropertyChanged(nameof(GenerateFusionEnabled));
-			RaisePropertyChanged(nameof(AcceptFusionEnabled));
-			RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
+		}
+		
+		
+		public void ClearCardData()
+		{
+			SetPlaceholderCards();
+			ClearOptimalFusionData();
 		}
 		#endregion
 
@@ -724,6 +734,18 @@ namespace FMDC.TestApp
 		}
 
 
+		private void ClearOptimalFusionData()
+		{
+			OptimalFusionSequence?.Clear();
+			ThrowAwayFirstCardInSequence = false;
+
+			RaisePropertyChanged(nameof(OptimalFusionSequence));
+			RaisePropertyChanged(nameof(OptimalFusionCardCount));
+			RaisePropertyChanged(nameof(GenerateFusionEnabled));
+			RaisePropertyChanged(nameof(AcceptFusionEnabled));
+			RaisePropertyChanged(nameof(ClearCardDataEnabled));
+			RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
+		}
 		private void RaisePropertyChanged(string propertyName)
 		{
 			PropertyChanged?

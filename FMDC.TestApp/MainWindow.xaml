@@ -202,7 +202,7 @@
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="ClearCardDataButton" 
+			<Button x:Name="ClearCardDataButton" IsEnabled="{Binding ClearCardDataEnabled}"
 				Click="ClearCardDataButton_Click" Width="150" Height="35">
 				<Button.Content>
 					<TextBlock Text="Clear Card Data" FontSize="12" 

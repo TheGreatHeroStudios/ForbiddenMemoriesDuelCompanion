@@ -130,12 +130,34 @@ namespace FMDC.TestApp
 
 		private void ClearCardDataButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show
-			(
-				"This will clear all card data entered for the hand and the field.  Are you sure you want to proceed?",
-				"Confirm Clear Card Data",
-				MessageBoxButton.YesNo
-			);
+			try
+			{
+				MessageBoxResult result = 
+					MessageBox.Show
+					(
+						"This will clear all card data entered for the hand and the field.  Are you sure you want to proceed?",
+						"Confirm Clear Card Data",
+						MessageBoxButton.YesNo
+					);
+
+				if(result == MessageBoxResult.Yes)
+				{
+					_fusionOptimizerViewModel.ClearCardData();
+				}
+			}
+			catch (Exception ex)
+			{
+				_ = MessageBox.Show
+				(
+					string.Format
+					(
+						"Error Occurred while attempting to clear card data: \n{0}",
+						ex.Message
+					),
+					"Error Occurred",
+					MessageBoxButton.OK
+				);
+			}
 		}
 		#endregion
 
