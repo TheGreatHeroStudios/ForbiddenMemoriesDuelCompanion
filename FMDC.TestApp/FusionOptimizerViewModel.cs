@@ -29,6 +29,7 @@ namespace FMDC.TestApp
 		public ObservableCollection<Card> FieldCards { get; set; }
 		public ObservableCollection<Card> OptimalFusionSequence { get; set; }
 		public int OptimalFusionCardCount => OptimalFusionSequence?.Count ?? 0;
+		public bool OptimalFusionDataSet => OptimalFusionSequence?.Any() ?? false;
 
 		public IEnumerable<Card> ValidHandCards =>
 			_handCards
@@ -171,6 +172,7 @@ namespace FMDC.TestApp
 
 				RaisePropertyChanged(nameof(OptimalFusionSequence));
 				RaisePropertyChanged(nameof(OptimalFusionCardCount));
+				RaisePropertyChanged(nameof(OptimalFusionDataSet));
 			}
 		}
 
@@ -178,7 +180,92 @@ namespace FMDC.TestApp
 		public void AcceptFusion()
 		{
 			//Determine whether the accepted fusion started with a card from the hand or from the field
+			//Assume that if the starting card exists in both the player's hand and on the player's side
+			//of the field that it came from their hand UNLESS the field was full at the time of fusion.
+			bool fusionStartsOnField = false;
+			int startingCardId = OptimalFusionSequence[0].CardId;
 
+			if
+			(
+				!ValidHandCards.Any(handCard => handCard.CardId == startingCardId) ||
+				ValidFieldCards.Count() == 5
+			)
+			{
+				fusionStartsOnField = true;
+			}
+
+			//Remove the starting card from either the hand cards or the field cards.
+			int targetCardIndex;
+
+			if (fusionStartsOnField)
+			{
+				targetCardIndex =
+					Array.IndexOf(_fieldCards, _fieldCards.First(fieldCard => fieldCard?.CardId == startingCardId));
+
+				//If the starting card came from the field, replace it with the fusion result.
+				_fieldCards[targetCardIndex] = OptimalFusionSequence.Last();
+			}
+			else
+			{
+				targetCardIndex =
+					Array.IndexOf(_handCards, _handCards.First(handCard => handCard?.CardId == startingCardId));
+
+				//Otherwise, place the fusion result in the first empty slot 
+				//on the field and clear the hand card that started the fusion.
+				_handCards[targetCardIndex] = _cardList[0];
+
+				int firstAvailableFieldSlotIndex = 
+					Array.IndexOf(_fieldCards, _fieldCards.FirstOrDefault(fieldCard => fieldCard?.CardId == -1));
+
+				_fieldCards[firstAvailableFieldSlotIndex] = OptimalFusionSequence.Last();
+			}
+
+			//Remove all cards involved in the fusion from the player's hand
+			if(OptimalFusionSequence.Count > 1)
+			{
+				for(int i = 1; i < OptimalFusionSequence.Count - 2; i++)
+				{
+					targetCardIndex =
+						Array.IndexOf
+						(
+							_handCards, 
+							_handCards
+								.First
+								(
+									handCard => 
+										handCard.CardId == OptimalFusionSequence[i].CardId
+								)
+						);
+
+					_handCards[targetCardIndex] = _cardList[0];
+				}
+			}
+
+			//Condense the remaining hand cards down and backfill the rest with placeholders
+			List<Card> newHand = ValidHandCards.ToList();
+
+			if(newHand.Count < 5)
+			{
+				for(int i = 0; i < (5 - newHand.Count); i++)
+				{
+					newHand.Add(_cardList[0]);
+				}
+			}
+
+			_handCards = newHand.ToArray();
+
+			//Clear optimal fusion data
+			OptimalFusionSequence.Clear();
+
+			//Update the observable collections
+			FieldCards = new ObservableCollection<Card>(_fieldCards);
+			HandCards = new ObservableCollection<Card>(_handCards);
+
+			RaisePropertyChanged(nameof(FieldCards));
+			RaisePropertyChanged(nameof(HandCards));
+			RaisePropertyChanged(nameof(OptimalFusionSequence));
+			RaisePropertyChanged(nameof(OptimalFusionCardCount));
+			RaisePropertyChanged(nameof(OptimalFusionDataSet));
 		}
 		#endregion
 

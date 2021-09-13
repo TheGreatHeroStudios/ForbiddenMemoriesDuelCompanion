@@ -78,9 +78,14 @@ namespace FMDC.TestApp
 		}
 
 
-		private void ClearFusionDataButton_Click(object sender, RoutedEventArgs e)
+		private void ClearCardDataButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			MessageBox.Show
+			(
+				"This will clear all card data entered for the hand and the field.  Are you sure you want to proceed?",
+				"Confirm Clear Card Data",
+				MessageBoxButton.YesNo
+			);
 		}
 		#endregion
 

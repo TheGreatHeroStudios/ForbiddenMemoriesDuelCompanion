@@ -184,17 +184,17 @@
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="AcceptFusionButton" 
+			<Button x:Name="AcceptFusionButton" IsEnabled="{Binding OptimalFusionDataSet}"
 				Click="AcceptFusionButton_Click" Width="150" Height="35" Margin="0,0,20,0">
 				<Button.Content>
 					<TextBlock Text="Accept Fusion" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="ClearFusionDataButton" 
-				Click="ClearFusionDataButton_Click" Width="150" Height="35">
+			<Button x:Name="ClearCardDataButton" 
+				Click="ClearCardDataButton_Click" Width="150" Height="35">
 				<Button.Content>
-					<TextBlock Text="Clear Fusion Data" FontSize="12" 
+					<TextBlock Text="Clear Card Data" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
