@@ -14,7 +14,7 @@ namespace FMDC.Model
 			$"{APPLICATION_FILE_NAME}" +
 			$"{CommonFileConstants.PATH_SEPARATOR}";
 
-		public const string DEFAULT_THUMBNAIL_RELATIVE_FILEPATH = 
+		public const string DEFAULT_THUMBNAIL_RELATIVE_FILEPATH =
 			"Images\\CardThumbnails\\None.png";
 
 		public static readonly string THUMBNAIL_IMAGE_SUBDIRECTORY =

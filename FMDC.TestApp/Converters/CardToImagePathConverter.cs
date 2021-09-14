@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FMDC.TestApp
+namespace FMDC.TestApp.Converters
 {
 	public class CardToImagePathConverter : IValueConverter
 	{
@@ -14,9 +14,9 @@ namespace FMDC.TestApp
 
 			return
 				card == null || card.CardImage == null ?
-					ApplicationConstants.APPLICATION_DATA_FOLDER + 
+					ApplicationConstants.APPLICATION_DATA_FOLDER +
 						ApplicationConstants.DEFAULT_THUMBNAIL_RELATIVE_FILEPATH :
-					ApplicationConstants.APPLICATION_DATA_FOLDER + 
+					ApplicationConstants.APPLICATION_DATA_FOLDER +
 						(value as Card).CardImage.ImageRelativePath;
 		}
 

@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FMDC.TestApp
+namespace FMDC.TestApp.Converters
 {
 	public class CardToNameStringConverter : IValueConverter
 	{

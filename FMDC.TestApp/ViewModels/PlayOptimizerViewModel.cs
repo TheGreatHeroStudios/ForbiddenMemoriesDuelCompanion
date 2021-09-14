@@ -8,9 +8,9 @@ using System.Linq;
 using TGH.Common.Extensions;
 using TGH.Common.Repository.Interfaces;
 
-namespace FMDC.TestApp
+namespace FMDC.TestApp.ViewModels
 {
-	public class FusionOptimizerViewModel : INotifyPropertyChanged
+	public class PlayOptimizerViewModel : INotifyPropertyChanged
 	{
 		#region Non-Public Member(s)
 		private IGenericRepository _cardRepository;
@@ -60,7 +60,7 @@ namespace FMDC.TestApp
 
 
 		#region Constructor(s)
-		public FusionOptimizerViewModel(IGenericRepository cardRepository)
+		public PlayOptimizerViewModel(IGenericRepository cardRepository)
 		{
 			_cardRepository = cardRepository;
 
@@ -130,7 +130,7 @@ namespace FMDC.TestApp
 				List<Card> optimalFusionPermutation =
 					DetermineOptimalFusionPermutation(potentialFusionPermutations);
 
-				List<Card> optimalPlay = 
+				List<Card> optimalPlay =
 					BuildOptimalPlaySequence(optimalFusionPermutation);
 
 				Func<Equippable, bool> equipPredicate =
@@ -205,9 +205,9 @@ namespace FMDC.TestApp
 			}
 
 			//Remove all cards involved in the fusion from the player's hand
-			if(OptimalPlay.Count > 1)
+			if (OptimalPlay.Count > 1)
 			{
-				for(int i = 1; i < OptimalPlay.Count - 1; i++)
+				for (int i = 1; i < OptimalPlay.Count - 1; i++)
 				{
 					targetCardIndex =
 						Array.IndexOf(_handCards, OptimalPlay[i]);
@@ -220,7 +220,7 @@ namespace FMDC.TestApp
 			}
 
 			//If the last card in the sequence was not a monster, remove it as well
-			if(OptimalPlay.Last().CardType != CardType.Monster)
+			if (OptimalPlay.Last().CardType != CardType.Monster)
 			{
 				targetCardIndex =
 					Array.IndexOf(_handCards, OptimalPlay.Last());
@@ -235,9 +235,9 @@ namespace FMDC.TestApp
 			List<Card> newHand = ValidHandCards.ToList();
 			int validHandCardCount = newHand.Count;
 
-			if(validHandCardCount < 5)
+			if (validHandCardCount < 5)
 			{
-				for(int i = 0; i < (5 - validHandCardCount); i++)
+				for (int i = 0; i < 5 - validHandCardCount; i++)
 				{
 					newHand.Add(_cardList[0]);
 				}
@@ -257,8 +257,8 @@ namespace FMDC.TestApp
 			RaisePropertyChanged(nameof(FieldCards));
 			RaisePropertyChanged(nameof(HandCards));
 		}
-		
-		
+
+
 		public void ClearCardData()
 		{
 			SetPlaceholderCards();
@@ -392,7 +392,7 @@ namespace FMDC.TestApp
 
 
 			//NOTE: Field cards can ONLY serve as the root card for a fusion.
-			List<Card> potentialFusionRoots = 
+			List<Card> potentialFusionRoots =
 				ValidFieldCards
 				.Concat
 				(
@@ -469,9 +469,9 @@ namespace FMDC.TestApp
 										List<Card> branchedPermutation =
 											new List<Card>(currentPermutation);
 
-									//Add the fusion material card and resultant
-									//card to the current permutation (in that order)
-									branchedPermutation.Add(potentialFusionMaterialCard);
+										//Add the fusion material card and resultant
+										//card to the current permutation (in that order)
+										branchedPermutation.Add(potentialFusionMaterialCard);
 										branchedPermutation.Add(potentialFusion.ResultantCard);
 
 										return branchedPermutation;
@@ -524,11 +524,11 @@ namespace FMDC.TestApp
 						fusion =>
 							(
 
-								(
+
 									fusion.TargetCardId != null &&
 									fusion.TargetCardId == targetCard.CardId
-								) ||
-								(
+								 ||
+
 									fusion.TargetMonsterType != null &&
 									(
 										fusion.TargetMonsterType == targetCard.MonsterType ||
@@ -546,14 +546,14 @@ namespace FMDC.TestApp
 														new[] { targetCard.MonsterType }
 											)
 									)
-								)
+
 							) &&
 							(
-								(
+
 									fusion.FusionMaterialCardId != null &&
 									fusion.FusionMaterialCardId == fusionMaterialCard.CardId
-								) ||
-								(
+								 ||
+
 									fusion.FusionMaterialMonsterType != null &&
 									(
 										fusion.FusionMaterialMonsterType == fusionMaterialCard.MonsterType ||
@@ -571,7 +571,7 @@ namespace FMDC.TestApp
 														new[] { fusionMaterialCard.MonsterType }
 											)
 									)
-								)
+
 							)
 					);
 

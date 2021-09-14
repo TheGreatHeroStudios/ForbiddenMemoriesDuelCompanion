@@ -1,5 +1,4 @@
 ﻿using FMDC.Model.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace FMDC.TestApp
 						new StringBuilder(),
 						(builder, card) => builder.Append($", {card.CardId}"),
 						builder => builder.ToString()
-					) ?? 
+					) ??
 					string.Empty;
 		}
 		#endregion
