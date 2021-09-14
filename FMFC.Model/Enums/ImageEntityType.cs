@@ -5,6 +5,7 @@
 		Unknown,
 		Card,
 		CardDetails,
-		Character
+		Character,
+		MonsterType
 	}
 }

@@ -7,8 +7,7 @@
 	  xmlns:converters="clr-namespace:FMDC.TestApp.Converters" 
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
-      Title="PlayOptimizer"
-	  Background="LightGray">
+      Title="PlayOptimizer">
 
 	<Page.Resources>
 		<converters:CardToNameStringConverter x:Key="CardNameConverter"/>
@@ -41,13 +40,13 @@
 			<RowDefinition Height="10*"/>
 			<RowDefinition Height="5*"/>
 			<RowDefinition Height="20*"/>
-			<RowDefinition Height="5*"/>
+			<RowDefinition Height="8*"/>
 			<RowDefinition Height="1*"/>
 		</Grid.RowDefinitions>
 
 		<!--#region Field Cards-->
-		<TextBlock Text="Field Cards: " Grid.Row="0" Grid.Column="1" 
-			VerticalAlignment="Bottom" Padding="0,0,0,5" FontWeight="Bold"/>
+		<TextBlock Text="Field Cards: " Grid.Row="0" Grid.Column="1" Foreground="White" 
+			VerticalAlignment="Bottom" Padding="0,0,0,10" FontWeight="Bold"/>
 
 		<Image Grid.Row="1" Grid.Column="1"
 			Source="{Binding FieldCards[0], Converter={StaticResource CardImagePathConverter}}"/>
@@ -118,8 +117,8 @@
 		<!--#endregion-->
 
 		<!--#region Hand Cards-->
-		<TextBlock Text="Hand Cards: " Grid.Row="3" Grid.Column="1" 
-			VerticalAlignment="Bottom" Padding="0,0,0,5" FontWeight="Bold"/>
+		<TextBlock Text="Hand Cards: " Grid.Row="3" Grid.Column="1" Foreground="White" 
+			VerticalAlignment="Bottom" Padding="0,0,0,10" FontWeight="Bold"/>
 
 		<Image Grid.Row="4" Grid.Column="1"
 			Source="{Binding HandCards[0], Converter={StaticResource CardImagePathConverter}}"/>
@@ -192,21 +191,24 @@
 		<!--#region Fusion Buttons-->
 		<StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="9" 
 			Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button x:Name="GenerateOptimalPlayButton" IsEnabled="{Binding GenerateFusionEnabled}"
+			<Button x:Name="GenerateOptimalPlayButton" Cursor="Hand" 
+				IsEnabled="{Binding GenerateFusionEnabled}"
 				Click="GenerateOptimalPlayButton_Click" Width="150" Height="35"  Margin="0,0,20,0">
 				<Button.Content>
 					<TextBlock Text="Suggest Optimal Play" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="AcceptFusionButton" IsEnabled="{Binding AcceptFusionEnabled}"
+			<Button x:Name="AcceptFusionButton" Cursor="Hand" 
+				IsEnabled="{Binding AcceptFusionEnabled}"
 				Click="AcceptFusionButton_Click" Width="150" Height="35" Margin="0,0,20,0">
 				<Button.Content>
 					<TextBlock Text="Accept Optimal Play" FontSize="12" 
 						TextWrapping="Wrap" TextAlignment="Center"/>
 				</Button.Content>
 			</Button>
-			<Button x:Name="ClearCardDataButton" IsEnabled="{Binding ClearCardDataEnabled}"
+			<Button x:Name="ClearCardDataButton" Cursor="Hand" 
+				IsEnabled="{Binding ClearCardDataEnabled}"
 				Click="ClearCardDataButton_Click" Width="150" Height="35">
 				<Button.Content>
 					<TextBlock Text="Clear Card Data" FontSize="12" 
@@ -217,8 +219,8 @@
 		<!--#endregion-->
 
 		<!--#region Fusion Results-->
-		<TextBlock Text="Optimal Play: " Grid.Row="7" Grid.Column="1" 
-			VerticalAlignment="Bottom" Padding="0,0,0,5" FontWeight="Bold"
+		<TextBlock Text="Optimal Play: " Grid.Row="7" Grid.Column="1" Foreground="White"
+			VerticalAlignment="Bottom" Padding="0,0,0,10" FontWeight="Bold"
 			Visibility="{Binding AcceptFusionEnabled, 
 				Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
@@ -231,7 +233,7 @@
 				Converter={converters:SequenceCardToOperatorSymbolConverter CurrentCardIndex=0}}"
 			Visibility="{Binding ThrowAwayFirstCardInSequence, 
 				Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
-			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
 
 		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold"
 			Text="&lt;" VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -245,7 +247,7 @@
 		<TextBlock Grid.Row="8" Grid.Column="4" FontSize="32" FontWeight="Bold"
 			Text="{Binding OptimalPlay, 
 				Converter={converters:SequenceCardToOperatorSymbolConverter CurrentCardIndex=1}}"
-			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
 
 		<Image Grid.Row="8" Grid.Column="5"
 			Source="{Binding OptimalPlay[2], 
@@ -254,7 +256,7 @@
 		<TextBlock Grid.Row="8" Grid.Column="6" FontSize="32" FontWeight="Bold"
 			Text="{Binding OptimalPlay, 
 				Converter={converters:SequenceCardToOperatorSymbolConverter CurrentCardIndex=2}}"
-			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
 
 		<Image Grid.Row="8" Grid.Column="7"
 			Source="{Binding OptimalPlay[3], 
@@ -263,31 +265,31 @@
 		<TextBlock Grid.Row="8" Grid.Column="8" FontSize="32" FontWeight="Bold"
 			Text="{Binding OptimalPlay, 
 				Converter={converters:SequenceCardToOperatorSymbolConverter CurrentCardIndex=3}}"
-			VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
 
 		<Image Grid.Row="8" Grid.Column="9"
 			Source="{Binding OptimalPlay[4], 
 				Converter={StaticResource CardImagePathConverter}}"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalPlay[0]}" TextWrapping="WrapWithOverflow" 
-			VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<TextBlock Grid.Row="9" Grid.Column="1"  
+			Text="{Binding OptimalPlay[0]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
+			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalPlay[1]}" TextWrapping="WrapWithOverflow" 
-			VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<TextBlock Grid.Row="9" Grid.Column="3" 
+			Text="{Binding OptimalPlay[1]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
+			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalPlay[2]}" TextWrapping="WrapWithOverflow" 
-			VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<TextBlock Grid.Row="9" Grid.Column="5" 
+			Text="{Binding OptimalPlay[2]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
+			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalPlay[3]}" TextWrapping="WrapWithOverflow" 
-			VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<TextBlock Grid.Row="9" Grid.Column="7" 
+			Text="{Binding OptimalPlay[3]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
+			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
 
-		<TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" 
-			Text="{Binding OptimalPlay[4]}" TextWrapping="WrapWithOverflow" 
-			VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<TextBlock Grid.Row="9" Grid.Column="9" 
+			Text="{Binding OptimalPlay[4]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
+			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
 		<!--#endregion-->
 	</Grid>
 </Page>

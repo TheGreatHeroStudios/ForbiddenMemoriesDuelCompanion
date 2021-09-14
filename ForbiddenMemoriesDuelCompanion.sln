@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayers", "DataLayers", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{606C58F0-2AC6-41B7-BA73-FD8D63FDD59B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMDC.TestApp", "FMDC.TestApp\FMDC.TestApp.csproj", "{9A03B85F-C038-442B-94AE-179CC482F807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMDC.TestApp", "FMDC.TestApp\FMDC.TestApp.csproj", "{9A03B85F-C038-442B-94AE-179CC482F807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

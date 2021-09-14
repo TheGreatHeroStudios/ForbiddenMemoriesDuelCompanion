@@ -115,7 +115,8 @@ VALUES
 	(0, 'Unknown'),
 	(1, 'Card'),
 	(2, 'CardDetails'),
-	(3, 'Character')
+	(3, 'Character'),
+	(4, 'MonsterType')
 GO
 
 -----------------------------------------------------------------------------
