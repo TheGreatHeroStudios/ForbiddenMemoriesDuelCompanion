@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FMDC.TestApp.Enums
+﻿namespace FMDC.TestApp.Enums
 {
 	public enum FeatureSelection
 	{
-		CardChest,
+		Trunk,
 		DeckOptimizer,
 		PlayOptimizer
 	}

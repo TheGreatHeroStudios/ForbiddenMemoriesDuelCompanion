@@ -7,14 +7,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using TGH.Common.Extensions;
-using TGH.Common.Repository.Interfaces;
 
 namespace FMDC.TestApp.ViewModels
 {
 	public class PlayOptimizerViewModel : INotifyPropertyChanged
 	{
 		#region Non-Public Member(s)
-		private IGenericRepository _cardRepository;
 		private List<Card> _cardList;
 		private List<Fusion> _fusionList;
 		private List<Equippable> _equippableList;
@@ -61,11 +59,12 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Constructor(s)
-		public PlayOptimizerViewModel(IGenericRepository cardRepository)
+		public PlayOptimizerViewModel(App currentAppInstance)
 		{
-			_cardRepository = cardRepository;
+			_cardList = currentAppInstance.CardList;
+			_fusionList = currentAppInstance.FusionList;
+			_equippableList = currentAppInstance.EquippableList;
 
-			LoadCardData();
 			SetPlaceholderCards();
 		}
 		#endregion
@@ -270,120 +269,6 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Non-Public Method(s)
-		private void LoadCardData()
-		{
-			//Retrieve card images and secondary types
-			//which will be associated to the card list
-			IEnumerable<GameImage> cardThumbnails =
-				_cardRepository
-					.RetrieveEntities<GameImage>
-					(
-						gameImage =>
-							gameImage.EntityType == ImageEntityType.Card
-					);
-
-			IEnumerable<SecondaryType> secondaryTypes =
-				_cardRepository
-					.RetrieveEntities<SecondaryType>
-					(
-						secondaryType => true
-					);
-
-			//Initialize the card list and add a placeholder for no selection.
-			_cardList = new List<Card>();
-			_cardList.Add
-			(
-				new Card
-				{
-					CardId = -1,
-					Name = "None"
-				}
-			);
-
-			//Join the card images and secondary types to their appropriate card
-			//and use the retrieved list of cards to hydrate the in-memory collection 
-			_cardList.AddRange
-			(
-				_cardRepository
-					.RetrieveEntities<Card>(card => true)
-					.Join
-					(
-						cardThumbnails,
-						card => card.CardImageId,
-						thumbnail => thumbnail.GameImageId,
-						(card, thumbnail) =>
-						{
-							card.CardImage = thumbnail;
-							return card;
-						}
-					)
-					.LeftJoin
-					(
-						secondaryTypes
-							.GroupBy
-							(
-								secondaryType =>
-									secondaryType.CardId
-							),
-						card => card.CardId,
-						secondaryTypes => secondaryTypes.Key,
-						(card, secondaryTypeList) =>
-						{
-							card.SecondaryTypes = secondaryTypeList?.ToList();
-							return card;
-						}
-					)
-					.OrderBy(card => card.Name)
-					.ToList()
-			);
-
-			//Load the list of available fusions and associate each fusion with its resultant card
-			_fusionList =
-				_cardRepository
-					.RetrieveEntities<Fusion>(fusion => true)
-					.Join
-					(
-						_cardList,
-						fusion => fusion.ResultantCardId,
-						resultantCard => resultantCard.CardId,
-						(fusion, resultantCard) =>
-						{
-							fusion.ResultantCard = resultantCard;
-							return fusion;
-						}
-					)
-					.ToList();
-
-			//Load the list of equipment and its associated cards
-			_equippableList =
-				_cardRepository
-					.RetrieveEntities<Equippable>(equippable => true)
-					.Join
-					(
-						_cardList,
-						equippable => equippable.EquipCardId,
-						equipCard => equipCard.CardId,
-						(equippable, equipCard) =>
-						{
-							equippable.EquipCard = equipCard;
-							return equippable;
-						}
-					)
-					.Join
-					(
-						_cardList,
-						equippable => equippable.TargetCardId,
-						targetCard => targetCard.CardId,
-						(equippable, targetCard) =>
-						{
-							equippable.TargetCard = targetCard;
-							return equippable;
-						}
-					)
-					.ToList();
-		}
-
-
 		private List<List<Card>> MapPotentialFusionPermutations()
 		{
 			List<List<Card>> potentialFusionPermutations = new List<List<Card>>();

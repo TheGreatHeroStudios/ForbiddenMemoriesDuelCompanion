@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Windows.Data;
 
 namespace FMDC.TestApp.Converters
@@ -11,7 +10,7 @@ namespace FMDC.TestApp.Converters
 		#region 'IValueConverter' Implementation
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if(parameter != null)
+			if (parameter != null)
 			{
 				//If a separator was specified, copy each character of the string representation
 				//of the enum and insert the delimiter before every case change.
@@ -19,7 +18,7 @@ namespace FMDC.TestApp.Converters
 				string enumString = value.ToString();
 				List<char> delimitedString = new List<char>();
 
-				for(int i = 0; i < enumString.Length; i++)
+				for (int i = 0; i < enumString.Length; i++)
 				{
 					delimitedString.Add(enumString[i]);
 

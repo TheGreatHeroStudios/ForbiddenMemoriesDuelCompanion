@@ -40,7 +40,7 @@
 						<StackPanel Orientation="Vertical">
 							<Image Source="{StaticResource ChestIcon}" Stretch="Uniform" 
 								HorizontalAlignment="Stretch"/>
-							<TextBlock Text="CARD CHEST" FontWeight="DemiBold" 
+							<TextBlock Text="TRUNK" FontWeight="DemiBold" 
 								TextWrapping="Wrap" Foreground="White"
 								HorizontalAlignment="Center" TextAlignment="Center"/>
 						</StackPanel>

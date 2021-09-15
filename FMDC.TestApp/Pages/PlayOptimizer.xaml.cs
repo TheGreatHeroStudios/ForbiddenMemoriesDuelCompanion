@@ -1,39 +1,21 @@
-﻿using FMDC.Model;
-using FMDC.Model.Models;
-using FMDC.Persistence;
+﻿using FMDC.Model.Models;
+using FMDC.TestApp.Base;
 using FMDC.TestApp.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using TGH.Common.Patterns.IoC;
-using TGH.Common.Persistence.Interfaces;
-using TGH.Common.Repository.Implementations;
-using TGH.Common.Repository.Interfaces;
 
 namespace FMDC.TestApp.Pages
 {
 	/// <summary>
 	/// Interaction logic for PlayOptimizer.xaml
 	/// </summary>
-	public partial class PlayOptimizer : Page
+	public partial class PlayOptimizer : AutoBindingPage<PlayOptimizerViewModel>
 	{
-		#region Non-Public Member(s)
-		private PlayOptimizerViewModel _fusionOptimizerViewModel;
-		#endregion
-
-
-
 		#region Constructor(s)
 		public PlayOptimizer()
 		{
 			InitializeComponent();
-
-			RegisterDependencies();
-
-			_fusionOptimizerViewModel =
-				DependencyManager.ResolveService<PlayOptimizerViewModel>(ServiceScope.Singleton);
-
-			DataContext = _fusionOptimizerViewModel;
 		}
 		#endregion
 
@@ -60,7 +42,7 @@ namespace FMDC.TestApp.Pages
 					handCardUpdated = true;
 				}
 
-				_fusionOptimizerViewModel
+				ViewModel
 					.UpdateCardSelection
 					(
 						comboBoxControl.SelectedItem as Card,
@@ -88,7 +70,7 @@ namespace FMDC.TestApp.Pages
 		{
 			try
 			{
-				_fusionOptimizerViewModel.DetermineOptimalPlay();
+				ViewModel.DetermineOptimalPlay();
 			}
 			catch (Exception ex)
 			{
@@ -110,7 +92,7 @@ namespace FMDC.TestApp.Pages
 		{
 			try
 			{
-				_fusionOptimizerViewModel.AcceptFusion();
+				ViewModel.AcceptFusion();
 			}
 			catch (Exception ex)
 			{
@@ -142,7 +124,7 @@ namespace FMDC.TestApp.Pages
 
 				if (result == MessageBoxResult.Yes)
 				{
-					_fusionOptimizerViewModel.ClearCardData();
+					ViewModel.ClearCardData();
 				}
 			}
 			catch (Exception ex)
@@ -158,36 +140,6 @@ namespace FMDC.TestApp.Pages
 					MessageBoxButton.OK
 				);
 			}
-		}
-		#endregion
-
-
-
-		#region Non-Public Method(s)
-		private static void RegisterDependencies()
-		{
-			DependencyManager
-				.RegisterService<IDatabaseContext, ForbiddenMemoriesDbContext>
-				(
-					() =>
-						new ForbiddenMemoriesDbContext
-						(
-							PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
-						),
-					ServiceScope.Singleton
-				);
-
-			DependencyManager
-				.RegisterService<IGenericRepository, GenericRepository>
-				(
-					ServiceScope.Singleton
-				);
-
-			DependencyManager
-				.RegisterService<PlayOptimizerViewModel, PlayOptimizerViewModel>
-				(
-					ServiceScope.Singleton
-				);
 		}
 		#endregion
 	}

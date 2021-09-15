@@ -30,7 +30,7 @@ namespace FMDC.TestApp
 		#region Event Handler(s)
 		private void CardChestButton_Click(object sender, RoutedEventArgs e)
 		{
-			_mainViewModel.CurrentFeature = FeatureSelection.CardChest;
+			_mainViewModel.CurrentFeature = FeatureSelection.Trunk;
 		}
 
 		private void DeckOptimizerButton_Click(object sender, RoutedEventArgs e)

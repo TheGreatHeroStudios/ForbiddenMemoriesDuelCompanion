@@ -1,8 +1,5 @@
 ﻿using FMDC.TestApp.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace FMDC.TestApp.ViewModels
 {
@@ -10,7 +7,7 @@ namespace FMDC.TestApp.ViewModels
 	{
 		#region Public Propert(ies)
 		private FeatureSelection _currentFeature;
-		public FeatureSelection CurrentFeature 
+		public FeatureSelection CurrentFeature
 		{
 			get => _currentFeature;
 			set
