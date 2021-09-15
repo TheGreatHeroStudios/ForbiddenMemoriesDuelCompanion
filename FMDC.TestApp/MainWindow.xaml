@@ -4,10 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMDC.TestApp"
+		xmlns:converters="clr-namespace:FMDC.TestApp.Converters" 
+		xmlns:viewmodels="clr-namespace:FMDC.TestApp.ViewModels" 
+		d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
 		mc:Ignorable="d"
         Title="Forbidden Memories Duel Companion" Height="800" Width="1200">
 
 	<Window.Resources>
+		<converters:EnumStringConverter x:Key="EnumStringConverter"/>
+		<converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>
+
 		<DrawingImage x:Key="ChestIcon">
 			<DrawingImage.Drawing>
 				<DrawingGroup>
@@ -161,7 +167,8 @@
 
 		<!--#region Feature Selection Menu-->
 		<StackPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2" Background="#222222">
-			<Button Cursor="Hand" Margin="20,40,20,0">
+			<Button x:Name="CardChestButton" Cursor="Hand" 
+				Margin="20,40,20,0" Click="CardChestButton_Click">
 				<Button.Template>
 					<ControlTemplate>
 						<StackPanel Orientation="Vertical">
@@ -174,7 +181,8 @@
 					</ControlTemplate>
 				</Button.Template>
 			</Button>
-			<Button Cursor="Hand" Margin="20,40,20,0">
+			<Button x:Name="DeckOptimizerButton" Cursor="Hand" 
+				Margin="20,40,20,0" Click="DeckOptimizerButton_Click">
 				<Button.Template>
 					<ControlTemplate>
 						<StackPanel Orientation="Vertical">
@@ -187,7 +195,8 @@
 					</ControlTemplate>
 				</Button.Template>
 			</Button>
-			<Button Cursor="Hand" Margin="20,40,20,0">
+			<Button x:Name="PlayOptimizerButton" Cursor="Hand" 
+				Margin="20,40,20,0" Click="PlayOptimizerButton_Click">
 				<Button.Template>
 					<ControlTemplate>
 						<StackPanel Orientation="Vertical">
@@ -203,10 +212,14 @@
 		</StackPanel>
 		<!--#endregion-->
 
-		<TextBlock Text="Play Optimizer" Grid.Column="1" Grid.Row="1" Background="#333333"
-			VerticalAlignment="Stretch" Padding="10,15,0,0" FontSize="24" FontWeight="Bold"
+		<TextBlock Text="{Binding CurrentFeature, 
+			Converter={StaticResource EnumStringConverter}, ConverterParameter=' '}" 
+			Grid.Column="1" Grid.Row="1" Background="#333333" VerticalAlignment="Stretch" 
+			Padding="10,15,0,0" FontSize="24" FontWeight="Bold"
 			Foreground="White" TextAlignment="Center"/>
 
-		<Frame Source="Pages/PlayOptimizer.xaml" Grid.Row="2" Grid.Column="1" />
+		<Frame Source="Pages/PlayOptimizer.xaml" Grid.Row="2" Grid.Column="1" 
+			Visibility="{Binding CurrentFeature, 
+				Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=2}"/>
 	</Grid>
 </Window>
