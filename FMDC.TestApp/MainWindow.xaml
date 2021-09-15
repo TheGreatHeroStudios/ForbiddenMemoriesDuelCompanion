@@ -10,11 +10,6 @@
 		mc:Ignorable="d"
         Title="Forbidden Memories Duel Companion" Height="800" Width="1200">
 
-	<Window.Resources>
-		<converters:EnumStringConverter x:Key="EnumStringConverter"/>
-		<converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>
-	</Window.Resources>
-
 	<Grid Background="#333333">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="22"/>

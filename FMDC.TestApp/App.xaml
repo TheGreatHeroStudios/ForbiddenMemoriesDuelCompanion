@@ -2,8 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FMDC.TestApp"
+			 xmlns:converters="clr-namespace:FMDC.TestApp.Converters" 
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+		<!--region Icons-->
 		<DrawingImage x:Key="ChestIcon">
 			<DrawingImage.Drawing>
 				<DrawingGroup>
@@ -137,5 +139,15 @@
 				</DrawingGroup>
 			</DrawingImage.Drawing>
 		</DrawingImage>
+		<!--#endregion-->
+
+		<!--#region Converters-->
+		<converters:EnumStringConverter x:Key="EnumStringConverter"/>
+		<converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>
+		<converters:CardToImagePathConverter x:Key="CardImagePathConverter"/>
+		<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+		<converters:CardToNameStringConverter x:Key="CardNameConverter"/>
+		<converters:MonsterTypeToImageCoverter x:Key="MonsterTypeImagePathConverter"/>
+		<!--#endregion-->
 	</Application.Resources>
 </Application>

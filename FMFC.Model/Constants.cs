@@ -28,6 +28,10 @@ namespace FMDC.Model
 		public static readonly string CHARACTER_IMAGE_SUBDIRECTORY =
 			$"Images{CommonFileConstants.PATH_SEPARATOR}Characters" +
 			$"{CommonFileConstants.PATH_SEPARATOR}";
+
+		public static readonly string MONSTER_TYPE_IMAGE_SUBDIRECTORY =
+			$"Images{CommonFileConstants.PATH_SEPARATOR}MonsterTypes" +
+			$"{CommonFileConstants.PATH_SEPARATOR}";
 	}
 
 

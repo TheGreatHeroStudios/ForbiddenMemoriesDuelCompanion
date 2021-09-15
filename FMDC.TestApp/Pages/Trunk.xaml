@@ -6,9 +6,9 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:base="clr-namespace:FMDC.TestApp.Base"
 	xmlns:local="clr-namespace:FMDC.TestApp.Pages"
-	xmlns:viewModels="clr-namespace:FMDC.TestApp.ViewModels"
-	mc:Ignorable="d" 
-	d:DesignHeight="450" d:DesignWidth="800"
+	xmlns:viewModels="clr-namespace:FMDC.TestApp.ViewModels" 
+	d:DataContext="{d:DesignInstance Type=viewModels:TrunkViewModel}"
+	mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800"
 	Title="Trunk">
 
     <Grid>
@@ -26,7 +26,7 @@
 		</Grid.ColumnDefinitions>
 
 		<!--#region Deck Count-->
-		<Rectangle Grid.Column="3" Fill="#000022" 
+		<Rectangle Grid.Column="3" Fill="#000022"
 			Stroke="#555585" StrokeThickness="4" Margin="10,5,0,5"/>
 
 		<StackPanel Orientation="Vertical" Grid.Column="3" Margin="15,20,5,0">
@@ -38,10 +38,88 @@
 
 		<!--#region Card List-->
 		<ListView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Background="Transparent" 
-			BorderBrush="#555585" BorderThickness="4">
+			BorderBrush="#555585" BorderThickness="4" ItemsSource="{Binding CardCounts}"
+			HorizontalContentAlignment="Stretch">
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="Horizontal"/>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="5*"/>
+							<ColumnDefinition Width="10*"/>
+							<ColumnDefinition Width="40*"/>
+							<ColumnDefinition Width="10*"/>
+							<ColumnDefinition Width="5*"/>
+							<ColumnDefinition Width="10*"/>
+							<ColumnDefinition Width="10*"/>
+							<ColumnDefinition Width="10*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="100"/>
+						</Grid.RowDefinitions>
+
+						<!--#region CardId-->
+						<Rectangle Fill="#000022" Stroke="#555585" 
+							StrokeThickness="4" Grid.Column="0"/>
+
+						<TextBlock Text="{Binding CardId}" Foreground="White"
+							HorizontalAlignment="Center" VerticalAlignment="Center"
+							FontSize="16" FontWeight="DemiBold"/>
+						<!--#endregion-->
+
+						<!--#region Thumbnail-->
+						<Rectangle Fill="#000022" Margin="-4,0,0,0"
+							Stroke="#555585" StrokeThickness="4" Grid.Column="1"/>
+
+						<Image Source="{Binding Card, Converter={StaticResource CardImagePathConverter}}"
+							Grid.Column="1" Margin="6"/>
+						<!--#endregion-->
+
+						<!--#region Card Name-->
+						<Rectangle Fill="#000022" Margin="-4,0,0,0"
+							Stroke="#555585" StrokeThickness="4" Grid.Column="2"/>
+
+						<TextBlock Text="{Binding Card.Name}" Margin="10,0,0,0" Foreground="White"
+							HorizontalAlignment="Left" VerticalAlignment="Center"
+							FontSize="18" FontWeight="DemiBold" Grid.Column="2"/>
+						<!--#endregion-->
+
+						<!--#region Attack & Defense -->
+						<Rectangle Fill="#000022" Margin="-4,0,0,0"
+							Stroke="#555585" StrokeThickness="4" Grid.Column="3"/>
+
+						<StackPanel Orientation="Vertical" Grid.Column="3" 
+							VerticalAlignment="Center" Margin="5,0,0,0"
+							Visibility="{Binding Card.CardType, 
+								Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=1}">
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="ATK: " Foreground="White"
+									HorizontalAlignment="Left" VerticalAlignment="Center"
+									FontSize="16" FontWeight="DemiBold"/>
+								<TextBlock Text="{Binding Card.AttackPoints}" Foreground="White"
+									HorizontalAlignment="Left" VerticalAlignment="Center"
+									FontSize="16" FontWeight="DemiBold"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="DEF: " Foreground="White"
+									HorizontalAlignment="Left" VerticalAlignment="Center"
+									FontSize="16" FontWeight="DemiBold"/>
+								<TextBlock Text="{Binding Card.DefensePoints}" Foreground="White"
+									HorizontalAlignment="Left" VerticalAlignment="Center"
+									FontSize="16" FontWeight="DemiBold"/>
+							</StackPanel>
+						</StackPanel>
+						<!--#endregion-->
+
+						<!--#region Monster Type-->
+						<Rectangle Fill="#000022" Margin="-4,0,0,0"
+							Stroke="#555585" StrokeThickness="4" Grid.Column="4"/>
+
+						<Image Source="{Binding Card.MonsterType, 
+							Converter={StaticResource MonsterTypeImagePathConverter}}"
+							Grid.Column="4" Width="30" HorizontalAlignment="Center" Margin="-4,0,0,0"
+							ToolTip="{Binding Card.MonsterType}"/>
+						<!--#endregion-->
+					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>

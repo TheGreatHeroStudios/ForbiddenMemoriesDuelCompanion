@@ -10,7 +10,7 @@ namespace FMDC.TestApp.Converters
 		#region 'IValueConverter' Implementation
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (int.Parse(parameter.ToString()) == (int)value)
+			if (parameter != null && int.Parse(parameter.ToString()) == (int)value)
 			{
 				return Visibility.Visible;
 			}

@@ -13,10 +13,7 @@
 	Title="PlayOptimizer">
 
 	<Page.Resources>
-		<converters:CardToNameStringConverter x:Key="CardNameConverter"/>
-		<converters:CardToImagePathConverter x:Key="CardImagePathConverter"/>
 		<converters:SequenceCardToOperatorSymbolConverter x:Key="CardOperatorConverter"/>
-		<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 	</Page.Resources>
 
 	<Grid>
