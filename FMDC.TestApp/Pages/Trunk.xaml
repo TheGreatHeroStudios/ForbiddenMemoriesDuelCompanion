@@ -9,6 +9,38 @@
       Title="Trunk">
 
     <Grid>
-        
-    </Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="15*"/>
+			<RowDefinition Height="85*"/>
+			<RowDefinition Height="5*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="5*"/>
+			<ColumnDefinition Width="30*"/>
+			<ColumnDefinition Width="60*"/>
+			<ColumnDefinition Width="10*"/>
+			<ColumnDefinition Width="5*"/>
+		</Grid.ColumnDefinitions>
+
+		<!--#region Deck Count-->
+		<Rectangle Grid.Column="3" Fill="#000022" 
+			Stroke="#555585" StrokeThickness="4" Margin="5"/>
+
+		<StackPanel Orientation="Vertical" Grid.Column="3" Margin="10,10,10,0">
+			<Image Source="{StaticResource DeckIcon}" Margin="12,0,12,0"/>
+			<TextBlock Foreground="White" TextAlignment="Center"
+				Text="40" FontSize="18" FontWeight="Bold"/>
+		</StackPanel>
+		<!--#endregion-->
+
+		<!--#region Card List-->
+		<ListView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+		<!--#endregion-->
+	</Grid>
 </Page>
