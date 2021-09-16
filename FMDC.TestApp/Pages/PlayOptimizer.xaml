@@ -66,7 +66,7 @@
 
 		<!--#region Field Card Combo Boxes-->
 		<ComboBox Name="FieldCard1Selector" Grid.Row="2" Grid.Column="1" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding FieldCards[0]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -76,7 +76,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard2Selector" Grid.Row="2" Grid.Column="3" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding FieldCards[1]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -86,7 +86,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard3Selector" Grid.Row="2" Grid.Column="5" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding FieldCards[2]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -96,7 +96,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard4Selector" Grid.Row="2" Grid.Column="7" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding FieldCards[3]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -106,7 +106,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard5Selector" Grid.Row="2" Grid.Column="9" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding FieldCards[4]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -138,7 +138,7 @@
 
 		<!--#region Hand Card Combo Boxes-->
 		<ComboBox Name="HandCard1Selector" Grid.Row="5" Grid.Column="1" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding HandCards[0]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -148,7 +148,7 @@
 		</ComboBox>
 
 		<ComboBox Name="HandCard2Selector" Grid.Row="5" Grid.Column="3" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding HandCards[1]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -158,7 +158,7 @@
 		</ComboBox>
 
 		<ComboBox Name="HandCard3Selector" Grid.Row="5" Grid.Column="5" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding HandCards[2]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -168,7 +168,7 @@
 		</ComboBox>
 
 		<ComboBox Name="HandCard4Selector" Grid.Row="5" Grid.Column="7" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding HandCards[3]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -178,7 +178,7 @@
 		</ComboBox>
 
 		<ComboBox Name="HandCard5Selector" Grid.Row="5" Grid.Column="9" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
 			SelectedItem="{Binding HandCards[4]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -235,7 +235,7 @@
 				Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
 			VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
 
-		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold"
+		<TextBlock Grid.Row="8" Grid.Column="2" FontSize="32" FontWeight="Bold" Foreground="White"
 			Text="&lt;" VerticalAlignment="Center" HorizontalAlignment="Center"
 			Visibility="{Binding ThrowAwayFirstCardInSequence, 
 				Converter={StaticResource BooleanToVisibilityConverter}}"/>

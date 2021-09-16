@@ -7,7 +7,7 @@
 		xmlns:converters="clr-namespace:FMDC.TestApp.Converters" 
 		xmlns:viewmodels="clr-namespace:FMDC.TestApp.ViewModels" 
 		d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
-		mc:Ignorable="d"
+		mc:Ignorable="d" Loaded="MainWindow_Loaded"
         Title="Forbidden Memories Duel Companion" Height="800" Width="1200">
 
 	<Grid Background="#333333">
@@ -79,11 +79,11 @@
 			Padding="10,15,0,0" FontSize="24" FontWeight="Bold"
 			Foreground="White" TextAlignment="Center"/>
 
-		<Frame Source="Pages/Trunk.xaml" Grid.Row="2" Grid.Column="1" 
+		<Frame Name="TrunkPage" Source="Pages/Trunk.xaml" Grid.Row="2" Grid.Column="1" 
 			Visibility="{Binding CurrentFeature, 
 				Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=0}"/>
 
-		<Frame Source="Pages/PlayOptimizer.xaml" Grid.Row="2" Grid.Column="1" 
+		<Frame Name="PlayOptimizerPage" Source="Pages/PlayOptimizer.xaml" Grid.Row="2" Grid.Column="1" 
 			Visibility="{Binding CurrentFeature, 
 				Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=2}"/>
 	</Grid>

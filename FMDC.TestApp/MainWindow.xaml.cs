@@ -1,4 +1,5 @@
 ﻿using FMDC.TestApp.Enums;
+using FMDC.TestApp.Pages;
 using FMDC.TestApp.ViewModels;
 using System.Windows;
 
@@ -11,6 +12,9 @@ namespace FMDC.TestApp
 	{
 		#region Non-Public Member(s)
 		private MainViewModel _mainViewModel;
+
+		private TrunkViewModel _trunkViewModel;
+		private PlayOptimizerViewModel _playOptimizerViewModel;
 		#endregion
 
 
@@ -28,6 +32,12 @@ namespace FMDC.TestApp
 
 
 		#region Event Handler(s)
+		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			CacheViewModelReferences();
+		}
+
+
 		private void CardChestButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainViewModel.CurrentFeature = FeatureSelection.Trunk;
@@ -41,6 +51,20 @@ namespace FMDC.TestApp
 		private void PlayOptimizerButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainViewModel.CurrentFeature = FeatureSelection.PlayOptimizer;
+			_playOptimizerViewModel.RefreshDeckList(_trunkViewModel.CardCounts);
+		}
+		#endregion
+
+
+
+		#region Non-Public Method(s)
+		private void CacheViewModelReferences()
+		{
+			_trunkViewModel =
+				(TrunkPage.Content as Trunk)?.DataContext as TrunkViewModel;
+
+			_playOptimizerViewModel = 
+				(PlayOptimizerPage.Content as PlayOptimizer)?.DataContext as PlayOptimizerViewModel;
 		}
 		#endregion
 	}

@@ -17,6 +17,7 @@ namespace FMDC.TestApp.ViewModels
 		private List<Fusion> _fusionList;
 		private List<Equippable> _equippableList;
 
+		private List<Card> _deckList;
 		private Card[] _handCards = new Card[5];
 		private Card[] _fieldCards = new Card[5];
 		#endregion
@@ -24,7 +25,7 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Propert(ies)
-		public List<Card> CardList => _cardList;
+		public List<Card> DeckList => _deckList;
 		public ObservableCollection<Card> HandCards { get; set; }
 		public ObservableCollection<Card> FieldCards { get; set; }
 		public ObservableCollection<Card> OptimalPlay { get; set; }
@@ -53,7 +54,6 @@ namespace FMDC.TestApp.ViewModels
 		public bool AcceptFusionEnabled => OptimalPlay?.Any() ?? false;
 		public bool ClearCardDataEnabled =>
 			(ValidHandCards?.Any() ?? false) || (ValidFieldCards?.Any() ?? false);
-
 		#endregion
 
 
@@ -80,10 +80,14 @@ namespace FMDC.TestApp.ViewModels
 		#region Public Method(s)
 		public void SetPlaceholderCards()
 		{
+			//Initialize the deck list and add a placeholder card at the start of it
+			_deckList = new List<Card>();
+			_deckList.Add(_cardList[0]);
+
 			for (int i = 0; i < 5; i++)
 			{
-				_handCards[i] = _cardList[0];
-				_fieldCards[i] = _cardList[0];
+				_handCards[i] = _deckList[0];
+				_fieldCards[i] = _deckList[0];
 			}
 
 			FieldCards = new ObservableCollection<Card>(_fieldCards);
@@ -93,6 +97,33 @@ namespace FMDC.TestApp.ViewModels
 			RaisePropertyChanged(nameof(HandCards));
 			RaisePropertyChanged(nameof(GenerateFusionEnabled));
 			RaisePropertyChanged(nameof(ClearCardDataEnabled));
+		}
+
+
+		public void RefreshDeckList(IEnumerable<CardCount> cardCounts)
+		{
+			//Re-initialize the deck list, starting with a placeholder card.
+			_deckList = new List<Card>();
+			_deckList.Add(_cardList[0]);
+
+			//Load the deck list based on cards from the trunk with
+			//a count of one or more instances in the player's deck.
+			_deckList.AddRange
+			(
+				cardCounts
+					.Where
+					(
+						cardCount =>
+							cardCount.NumberInDeck > 0
+					)
+					.Select
+					(
+						cardCount =>
+							cardCount.Card
+					)
+			);
+
+			RaisePropertyChanged(nameof(DeckList));
 		}
 
 
@@ -197,9 +228,9 @@ namespace FMDC.TestApp.ViewModels
 
 				//Otherwise, place the fusion result in the first empty slot 
 				//on the field and clear the hand card that started the fusion.
-				_handCards[targetCardIndex] = _cardList[0];
+				_handCards[targetCardIndex] = _deckList[0];
 
-				int firstAvailableFieldSlotIndex = Array.IndexOf(_fieldCards, _cardList[0]);
+				int firstAvailableFieldSlotIndex = Array.IndexOf(_fieldCards, _deckList[0]);
 
 				_fieldCards[firstAvailableFieldSlotIndex] = newFieldCard;
 			}
@@ -214,7 +245,7 @@ namespace FMDC.TestApp.ViewModels
 
 					if (targetCardIndex != -1)
 					{
-						_handCards[targetCardIndex] = _cardList[0];
+						_handCards[targetCardIndex] = _deckList[0];
 					}
 				}
 			}
@@ -227,7 +258,7 @@ namespace FMDC.TestApp.ViewModels
 
 				if (targetCardIndex != -1)
 				{
-					_handCards[targetCardIndex] = _cardList[0];
+					_handCards[targetCardIndex] = _deckList[0];
 				}
 			}
 
@@ -239,7 +270,7 @@ namespace FMDC.TestApp.ViewModels
 			{
 				for (int i = 0; i < 5 - validHandCardCount; i++)
 				{
-					newHand.Add(_cardList[0]);
+					newHand.Add(_deckList[0]);
 				}
 			}
 

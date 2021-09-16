@@ -29,7 +29,14 @@ namespace FMDC.TestApp.ViewModels
 		#region Constructor(s)
 		public TrunkViewModel(App currentAppInstance)
 		{
-			_cardList = currentAppInstance.CardList;
+			_cardList = 
+				currentAppInstance.CardList
+					.Where
+					(
+						card =>
+							card.CardId > 0
+					)
+					.ToList();
 
 			_monsterTypeImages =
 				currentAppInstance.GameImages
