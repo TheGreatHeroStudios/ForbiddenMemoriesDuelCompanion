@@ -33,14 +33,14 @@
 		<StackPanel Orientation="Vertical" Grid.Column="3" Margin="15,20,5,0">
 			<Image Source="{StaticResource DeckIcon}" Margin="12,0,12,-5"/>
 			<TextBlock Foreground="White" TextAlignment="Center"
-				Text="40" FontSize="32" FontWeight="DemiBold"/>
+				Text="{Binding DeckCount}" FontSize="32" FontWeight="DemiBold"/>
 		</StackPanel>
 		<!--#endregion-->
 
 		<!--#region Card List-->
 		<ListView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Background="Transparent" 
 			BorderBrush="#555585" BorderThickness="4" ItemsSource="{Binding CardCounts}"
-			HorizontalContentAlignment="Stretch">
+			HorizontalContentAlignment="Stretch" SelectionMode="Single">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<Grid>
@@ -147,19 +147,67 @@
 							Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"
 							Margin="10"/>
 
+						<StackPanel Orientation="Horizontal"  Grid.Column="6" 
+							HorizontalAlignment="Right" VerticalAlignment="Top" 
+							Margin="0,5,5,0">
+							<Button x:Name="RemoveFromTrunkButton" Cursor="Hand" Grid.Column="6" 
+							Click="RemoveFromTrunkButton_Click">
+								<Button.Template>
+									<ControlTemplate>
+										<Image Source="{StaticResource RemoveIcon}" Width="20"
+										Stretch="Uniform" HorizontalAlignment="Right"
+										VerticalAlignment="Top" Margin="0,0,5,0"/>
+									</ControlTemplate>
+								</Button.Template>
+							</Button>
+							<Button x:Name="AddToTrunkButton" Cursor="Hand" 
+								Click="AddToTrunkButton_Click">
+								<Button.Template>
+									<ControlTemplate>
+										<Image Source="{StaticResource AddIcon}" Width="20"
+											Stretch="Uniform" />
+									</ControlTemplate>
+								</Button.Template>
+							</Button>
+						</StackPanel>
+
 						<TextBlock Text="{Binding NumberInTrunk}" Grid.Column="6" 
 							Foreground="#435A77" HorizontalAlignment="Right" 
 							VerticalAlignment="Bottom" Margin="0,0,20,10" 
 							FontWeight="DemiBold" FontSize="38"/>
 						<!--#endregion-->
 
-						<!--#region Deck Count -->
+						<!--#region Deck Count-->
 						<Rectangle Fill="#435A77" Stroke="#555585" 
 							StrokeThickness="4"  Margin="-4,0,0,0" Grid.Column="7"/>
 
 						<Image Source="{StaticResource DeckCountIcon}" Grid.Column="7"
 							Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"
 							Margin="10"/>
+
+						<StackPanel Orientation="Horizontal"  Grid.Column="7" 
+							HorizontalAlignment="Right" VerticalAlignment="Top" 
+							Margin="0,5,5,0">
+							<Button x:Name="RemoveFromDeckButton" Cursor="Hand" Grid.Column="6" 
+							Click="RemoveFromDeckButton_Click">
+								<Button.Template>
+									<ControlTemplate>
+										<Image Source="{StaticResource RemoveIcon}" Width="20"
+										Stretch="Uniform" HorizontalAlignment="Right"
+										VerticalAlignment="Top" Margin="0,0,5,0"/>
+									</ControlTemplate>
+								</Button.Template>
+							</Button>
+							<Button x:Name="AddToDeckButton" Cursor="Hand" 
+								Click="AddToDeckButton_Click">
+								<Button.Template>
+									<ControlTemplate>
+										<Image Source="{StaticResource AddIcon}" Width="20"
+											Stretch="Uniform" />
+									</ControlTemplate>
+								</Button.Template>
+							</Button>
+						</StackPanel>
 
 						<TextBlock Text="{Binding NumberInDeck}" Grid.Column="7" 
 							Foreground="#CBDBE9" HorizontalAlignment="Right" 

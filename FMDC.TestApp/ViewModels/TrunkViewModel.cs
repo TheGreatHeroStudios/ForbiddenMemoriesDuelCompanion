@@ -1,4 +1,5 @@
-﻿using FMDC.Model.Enums;
+﻿using FMDC.Model.Base;
+using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using TGH.Common.Extensions;
 
 namespace FMDC.TestApp.ViewModels
 {
-	public class TrunkViewModel
+	public class TrunkViewModel : ObservableModel
 	{
 		#region Non-Public Member(s)
 		private List<Card> _cardList;
@@ -18,8 +19,9 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Propertie(s)
-
 		public ObservableCollection<CardCount> CardCounts { get; set; }
+
+		public int DeckCount => CardCounts.Sum(cardCount => cardCount.NumberInDeck);
 		#endregion
 
 
