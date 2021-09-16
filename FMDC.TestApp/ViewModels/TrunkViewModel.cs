@@ -47,32 +47,36 @@ namespace FMDC.TestApp.ViewModels
 					)
 					.ToList();
 
-			LoadCardCounts();
+			LoadCardCounts
+			(
+				_cardList
+					.Select
+					(
+						card =>
+							new CardCount
+							{
+								Card = card,
+								CardId = card.CardId,
+								NumberInTrunk = 0,
+								NumberInDeck = 0
+							}
+					)
+			);
 		}
 		#endregion
 
 
 
-		#region Non-Public Method(s)
-		private void LoadCardCounts()
+		#region Public Method(s)
+		public void LoadCardCounts(IEnumerable<CardCount> cardCounts)
 		{
-			//TODO: Load this information from a file
-			CardCounts =
-				new ObservableCollection<CardCount>
-				(
-					_cardList
-						.Select
-						(
-							card =>
-								new CardCount
-								{
-									Card = card,
-									CardId = card.CardId,
-									NumberInTrunk = 0,
-									NumberInDeck = 0
-								}
-						)
-				);
+			SetPropertyValue
+			(
+				nameof(CardCounts),
+				new ObservableCollection<CardCount>(cardCounts)
+			);
+
+			RaisePropertyChanged(nameof(DeckCount));
 		}
 		#endregion
 	}

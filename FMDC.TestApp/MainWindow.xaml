@@ -10,6 +10,11 @@
 		mc:Ignorable="d" Loaded="MainWindow_Loaded"
         Title="Forbidden Memories Duel Companion" Height="800" Width="1200">
 
+	<Window.CommandBindings>
+		<CommandBinding Command="Save" Executed="SaveCommand_Executed"/>
+		<CommandBinding Command="Open" Executed="OpenCommand_Executed"/>
+	</Window.CommandBindings>
+
 	<Grid Background="#333333">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="22"/>
@@ -23,6 +28,18 @@
 
 		<Menu Grid.ColumnSpan="3">
 			<MenuItem Header="File">
+				<MenuItem Header="_Save Card Configuration" Name="SaveMenuItem" 
+					Command="Save" InputGestureText="Ctrl+S">
+					<MenuItem.InputBindings>
+						<KeyBinding Key="S" Modifiers="Control" Command="Save"/>
+					</MenuItem.InputBindings>
+				</MenuItem>
+				<MenuItem Header="_Open Card Configuration" Name="OpenMenuItem" 
+					Command="Open" InputGestureText="Ctrl+O">
+					<MenuItem.InputBindings>
+						<KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+					</MenuItem.InputBindings>
+				</MenuItem>
 			</MenuItem>
 		</Menu>
 

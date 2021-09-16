@@ -128,12 +128,12 @@
 						<StackPanel Orientation="Horizontal" Grid.Column="5" >
 							<TextBlock Text="{Binding Card.FirstGuardianStar, 
 								Converter={StaticResource GuardianStarSymbolConverter}}" 
-									Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"
+									Foreground="White" HorizontalAlignment="Left" Margin="5,0,0,0"
 									VerticalAlignment="Center" FontSize="32" FontWeight="DemiBold" 
 									ToolTip="{Binding Card.FirstGuardianStar}"/>
 							<TextBlock Text="{Binding Card.SecondGuardianStar, 
 								Converter={StaticResource GuardianStarSymbolConverter}}" 
-									Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"
+									Foreground="White" HorizontalAlignment="Left" Margin="5,0,0,0"
 									VerticalAlignment="Center" FontSize="32" FontWeight="DemiBold" 
 									ToolTip="{Binding Card.SecondGuardianStar}"/>
 						</StackPanel>

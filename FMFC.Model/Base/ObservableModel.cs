@@ -31,7 +31,8 @@ namespace FMDC.Model.Base
 		#region Public Method(s)
 		/// <summary>
 		///		Sets the value of the property named <paramref name="propertyName"/>
-		///		on this instance of the model to <paramref name="newValue"/>.
+		///		on this instance of the model to <paramref name="newValue"/> and 
+		///		raises the <seealso cref="PropertyChanged"/> event for it.
 		/// </summary>
 		/// <typeparam name="TPropertyType">
 		///		The type of the property being set.
