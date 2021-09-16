@@ -25,6 +25,7 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Propert(ies)
+		public List<Card> CardList => _cardList;
 		public List<Card> DeckList => _deckList;
 		public ObservableCollection<Card> HandCards { get; set; }
 		public ObservableCollection<Card> FieldCards { get; set; }

@@ -66,7 +66,7 @@
 
 		<!--#region Field Card Combo Boxes-->
 		<ComboBox Name="FieldCard1Selector" Grid.Row="2" Grid.Column="1" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
 			SelectedItem="{Binding FieldCards[0]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -76,7 +76,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard2Selector" Grid.Row="2" Grid.Column="3" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
 			SelectedItem="{Binding FieldCards[1]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -86,7 +86,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard3Selector" Grid.Row="2" Grid.Column="5" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
 			SelectedItem="{Binding FieldCards[2]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -96,7 +96,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard4Selector" Grid.Row="2" Grid.Column="7" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
 			SelectedItem="{Binding FieldCards[3]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -106,7 +106,7 @@
 		</ComboBox>
 
 		<ComboBox Name="FieldCard5Selector" Grid.Row="2" Grid.Column="9" Margin="0,5,0,0" 
-			VerticalContentAlignment="Center" ItemsSource="{Binding DeckList}" 
+			VerticalContentAlignment="Center" ItemsSource="{Binding CardList}" 
 			SelectedItem="{Binding FieldCards[4]}" SelectionChanged="CardSelector_SelectionChanged">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>

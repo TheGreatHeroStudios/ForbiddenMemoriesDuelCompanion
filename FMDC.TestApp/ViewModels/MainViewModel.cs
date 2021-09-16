@@ -34,23 +34,23 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Method(s)
-		public void SaveCardConfiguration(IEnumerable<CardCount> cardCounts)
+		public void SaveCardConfiguration
+		(
+			IEnumerable<CardCount> cardCounts,
+			IEnumerable<Card> cardData
+		)
 		{
 			//Serialize the supplied card counts to JSON
 			string cardConfigurationJson =
 				JsonConvert
 					.SerializeObject
 					(
-						cardCounts
-							.Select
-							(
-								//Strip out the card information which is loaded from the database
-								cardCount =>
-								{
-									cardCount.Card = null;
-									return cardCount;
-								}
-							)
+						cardCounts,
+						Formatting.Indented,
+						new JsonSerializerSettings
+						{
+							ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+						}
 					);
 
 			//Open a save dialog to save the serialized card counts
@@ -76,12 +76,12 @@ namespace FMDC.TestApp.ViewModels
 			openDialog.Filter = "Forbidden Memories Duel Companion Card Configuration (*.fmdc)|*.fmdc";
 			openDialog.InitialDirectory = ApplicationConstants.APPLICATION_DATA_FOLDER;
 
-			if(openDialog.ShowDialog() ?? false)
+			if (openDialog.ShowDialog() ?? false)
 			{
 				//Open and deserialize the file to a collection of card counts
 				string cardConfigurationJson = File.ReadAllText(openDialog.FileName);
 
-				List<CardCount> cardCounts = 
+				List<CardCount> cardCounts =
 					JsonConvert.DeserializeObject<List<CardCount>>(cardConfigurationJson);
 
 				return

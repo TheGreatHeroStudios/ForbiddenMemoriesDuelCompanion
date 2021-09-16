@@ -67,7 +67,8 @@ namespace FMDC.TestApp
 			_mainViewModel
 				.SaveCardConfiguration
 				(
-					_trunkViewModel.CardCounts
+					_trunkViewModel.CardCounts,
+					_currentAppInstance.CardList
 				);
 		}
 
