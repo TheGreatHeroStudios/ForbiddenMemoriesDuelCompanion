@@ -13,7 +13,8 @@
 
     <Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="15*"/>
+			<RowDefinition Height="18*"/>
+			<RowDefinition Height="2*"/>
 			<RowDefinition Height="85*"/>
 			<RowDefinition Height="5*"/>
 		</Grid.RowDefinitions>
@@ -30,14 +31,14 @@
 			Stroke="#555585" StrokeThickness="4" Margin="10,5,0,5"/>
 
 		<StackPanel Orientation="Vertical" Grid.Column="3" Margin="15,20,5,0">
-			<Image Source="{StaticResource DeckIcon}" Margin="12,0,12,0"/>
+			<Image Source="{StaticResource DeckIcon}" Margin="12,0,12,-5"/>
 			<TextBlock Foreground="White" TextAlignment="Center"
-				Text="40" FontSize="18" FontWeight="Bold"/>
+				Text="40" FontSize="32" FontWeight="DemiBold"/>
 		</StackPanel>
 		<!--#endregion-->
 
 		<!--#region Card List-->
-		<ListView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Background="Transparent" 
+		<ListView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Background="Transparent" 
 			BorderBrush="#555585" BorderThickness="4" ItemsSource="{Binding CardCounts}"
 			HorizontalContentAlignment="Stretch">
 			<ListView.ItemTemplate>
@@ -50,8 +51,8 @@
 							<ColumnDefinition Width="10*"/>
 							<ColumnDefinition Width="5*"/>
 							<ColumnDefinition Width="10*"/>
-							<ColumnDefinition Width="10*"/>
-							<ColumnDefinition Width="10*"/>
+							<ColumnDefinition Width="20*"/>
+							<ColumnDefinition Width="15*"/>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="100"/>
@@ -118,6 +119,52 @@
 							Converter={StaticResource MonsterTypeImagePathConverter}}"
 							Grid.Column="4" Width="30" HorizontalAlignment="Center" Margin="-4,0,0,0"
 							ToolTip="{Binding Card.MonsterType}"/>
+						<!--#endregion-->
+
+						<!--#region Guardian Stars-->
+						<Rectangle Fill="#000022" Margin="-4,0,0,0"
+							Stroke="#555585" StrokeThickness="4" Grid.Column="5"/>
+
+						<StackPanel Orientation="Horizontal" Grid.Column="5" >
+							<TextBlock Text="{Binding Card.FirstGuardianStar, 
+								Converter={StaticResource GuardianStarSymbolConverter}}" 
+									Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"
+									VerticalAlignment="Center" FontSize="32" FontWeight="DemiBold" 
+									ToolTip="{Binding Card.FirstGuardianStar}"/>
+							<TextBlock Text="{Binding Card.SecondGuardianStar, 
+								Converter={StaticResource GuardianStarSymbolConverter}}" 
+									Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"
+									VerticalAlignment="Center" FontSize="32" FontWeight="DemiBold" 
+									ToolTip="{Binding Card.SecondGuardianStar}"/>
+						</StackPanel>
+						<!--#endregion-->
+
+						<!--#region Trunk Count -->
+						<Rectangle Fill="#CBDBE9" Stroke="#555585" 
+							StrokeThickness="4"  Margin="-4,0,0,0" Grid.Column="6"/>
+
+						<Image Source="{StaticResource ChestCountIcon}" Grid.Column="6"
+							Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"
+							Margin="10"/>
+
+						<TextBlock Text="{Binding NumberInTrunk}" Grid.Column="6" 
+							Foreground="#435A77" HorizontalAlignment="Right" 
+							VerticalAlignment="Bottom" Margin="0,0,20,10" 
+							FontWeight="DemiBold" FontSize="38"/>
+						<!--#endregion-->
+
+						<!--#region Deck Count -->
+						<Rectangle Fill="#435A77" Stroke="#555585" 
+							StrokeThickness="4"  Margin="-4,0,0,0" Grid.Column="7"/>
+
+						<Image Source="{StaticResource DeckCountIcon}" Grid.Column="7"
+							Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"
+							Margin="10"/>
+
+						<TextBlock Text="{Binding NumberInDeck}" Grid.Column="7" 
+							Foreground="#CBDBE9" HorizontalAlignment="Right" 
+							VerticalAlignment="Bottom" Margin="0,0,20,10" 
+							FontWeight="DemiBold" FontSize="38"/>
 						<!--#endregion-->
 					</Grid>
 				</DataTemplate>
