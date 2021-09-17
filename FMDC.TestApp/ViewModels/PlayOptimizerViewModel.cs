@@ -366,56 +366,39 @@ namespace FMDC.TestApp.ViewModels
 			{
 
 				//Iterate over each potential fusion material
-				//card to generate potential fusions for it...
+				//card to resolve a potential fusion for it...
 				foreach (Card potentialFusionMaterialCard in potentialFusionMaterialCards)
 				{
-					//Determine if either general or specific fusions exist between the 
-					//target card and the currently iterated potential fusion material
-					List<Fusion> potentialFusions =
-						RetrieveViableFusions(targetCard, potentialFusionMaterialCard).ToList();
+					//Determine if either a general or specific fusions exists between  
+					//the target card and the currently iterated fusion material card.
+					Fusion resolvedFusion =
+						ResolveResultantFusion(targetCard, potentialFusionMaterialCard);
 
-					if (potentialFusions.Any())
+					if (resolvedFusion != null)
 					{
-						//If at least one potential fusion exists, branch the starting permutation
-						//into seperate permutations for each potential fusion that can be executed.
-						IEnumerable<List<Card>> branchedPermutations =
-							potentialFusions
-								.Select
+						//If a valid fusion was resolved, add the fusion material card and
+						//resultant card to a new permutation copied from the current one.
+						List<Card> branchPermutation = new List<Card>(currentPermutation);
+						branchPermutation.Add(potentialFusionMaterialCard);
+						branchPermutation.Add(resolvedFusion.ResultantCard);
+
+						//Then recusively resolve permutations that can be made between the
+						//current permutation and remaining potential fusion material cards.
+						generatedFusionPermutations
+							.AddRange
+							(
+								GenerateFusionPermutations
 								(
-									potentialFusion =>
-									{
-										List<Card> branchedPermutation =
-											new List<Card>(currentPermutation);
-
-										//Add the fusion material card and resultant
-										//card to the current permutation (in that order)
-										branchedPermutation.Add(potentialFusionMaterialCard);
-										branchedPermutation.Add(potentialFusion.ResultantCard);
-
-										return branchedPermutation;
-									}
-								);
-
-						//Then, iterate over each branched permutation and recursively build 
-						//upon it by generating additional permutations from remaining cards.
-						foreach (List<Card> branchedPermutation in branchedPermutations)
-						{
-							generatedFusionPermutations
-								.AddRange
-								(
-									GenerateFusionPermutations
-									(
-										branchedPermutation,
-										potentialFusionMaterialCards.Except(new[] { potentialFusionMaterialCard })
-									)
-								);
-						}
+									branchPermutation,
+									potentialFusionMaterialCards.Except(new[] { potentialFusionMaterialCard })
+								)
+							);
 					}
 					else
 					{
-						//When generating a permutation that is not for a branched fusion, if no
-						//potential fusions exist between the permutation target and the current fusion 
-						//material card, add the current permutation to this point to the return list.
+						//If no fusions were possible between the last card
+						//of the permutation and remaining fusion material
+						//cards, add the current permutation to the return list
 						generatedFusionPermutations.Add(currentPermutation);
 					}
 				}
@@ -426,27 +409,27 @@ namespace FMDC.TestApp.ViewModels
 		}
 
 
-		private IEnumerable<Fusion> RetrieveViableFusions
+		private Fusion ResolveResultantFusion
 		(
 			Card targetCard,
 			Card fusionMaterialCard
 		)
 		{
-			//A fusion between the two cards is possible if a fusion record exists where both the target and
-			//fusion material cards possess an id or type matching those of the respective cards being checked.
+			//A fusion between the two cards is possible if a 
+			//fusion record exists where both the target and 
+			//material cards possess an id or type matching
+			//those of the respective cards being checked.
 			IEnumerable<Fusion> possibleFusions =
 				_fusionList
 					.Where
 					(
-
 						fusion =>
 							(
-
-
+								(
 									fusion.TargetCardId != null &&
 									fusion.TargetCardId == targetCard.CardId
-								 ||
-
+								) ||
+								(
 									fusion.TargetMonsterType != null &&
 									(
 										fusion.TargetMonsterType == targetCard.MonsterType ||
@@ -464,14 +447,14 @@ namespace FMDC.TestApp.ViewModels
 														new[] { targetCard.MonsterType }
 											)
 									)
-
+								)
 							) &&
 							(
-
+								(
 									fusion.FusionMaterialCardId != null &&
 									fusion.FusionMaterialCardId == fusionMaterialCard.CardId
-								 ||
-
+								) ||
+								(
 									fusion.FusionMaterialMonsterType != null &&
 									(
 										fusion.FusionMaterialMonsterType == fusionMaterialCard.MonsterType ||
@@ -489,13 +472,20 @@ namespace FMDC.TestApp.ViewModels
 														new[] { fusionMaterialCard.MonsterType }
 											)
 									)
-
+								)
 							)
 					);
 
-			//In terms of which fusions are actually viable (out of those that are possible), take
-			//the specific fusion between the two cards (if one exists) and take the general fusion
-			//whose resultant card has the LOWEST attack greater than those of its material cards.
+			//If a specific fusion exists between the two cards, return it.
+			if(possibleFusions.Any(fusion => fusion.FusionType == FusionType.Specific))
+			{
+				return
+					possibleFusions
+						.First(fusion => fusion.FusionType == FusionType.Specific);
+			}
+
+			//If no specific fusions exist, take the general fusion with the lowest
+			//attack greater than those of the cards used to form the fusion.
 			int maxFusionMaterialAttackPoints =
 				Math.Max
 				(
@@ -503,39 +493,20 @@ namespace FMDC.TestApp.ViewModels
 					fusionMaterialCard.AttackPoints ?? 0
 				);
 
-			IEnumerable<Fusion> viableFusions =
+			return
 				possibleFusions
 					.Where
 					(
 						fusion =>
-							fusion.FusionType == FusionType.Specific
+							fusion.FusionType == FusionType.General &&
+							fusion.ResultantCard.AttackPoints > maxFusionMaterialAttackPoints
 					)
-					.Concat
-					(
-						new[]
-						{
-							possibleFusions
-								.Where
-								(
-									fusion =>
-										fusion.FusionType == FusionType.General &&
-										fusion.ResultantCard.AttackPoints > maxFusionMaterialAttackPoints
-								)
-								.OrderBy
-								(
-									fusion =>
-										fusion.ResultantCard.AttackPoints ?? 0
-								)
-								.FirstOrDefault()
-						}
-					)
-					.Where
+					.OrderBy
 					(
 						fusion =>
-							fusion != null
-					);
-
-			return viableFusions;
+							fusion.ResultantCard.AttackPoints ?? 0
+					)
+					.FirstOrDefault();
 		}
 
 
