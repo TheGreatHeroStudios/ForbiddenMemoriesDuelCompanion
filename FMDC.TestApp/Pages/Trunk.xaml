@@ -71,8 +71,16 @@
 						<Rectangle Fill="#000022" Margin="-4,0,0,0"
 							Stroke="#555585" StrokeThickness="4" Grid.Column="1"/>
 
-						<Image Source="{Binding Card, Converter={StaticResource CardImagePathConverter}}"
-							Grid.Column="1" Margin="6"/>
+						<Button x:Name="InspectCardButton" Cursor="Hand" Grid.Column="1" 
+							Click="InspectCardButton_Click">
+							<Button.Template>
+								<ControlTemplate>
+									<Image Source="{Binding Card, Converter={StaticResource CardImagePathConverter}}"
+										Grid.Column="1" Margin="6"/>
+								</ControlTemplate>
+							</Button.Template>
+						</Button>
+						
 						<!--#endregion-->
 
 						<!--#region Card Name-->
@@ -218,6 +226,84 @@
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+		<!--#endregion-->
+
+		<!--#region Card Details Popup-->
+		<Grid Grid.RowSpan="4" Grid.ColumnSpan="5"
+			Visibility="{Binding CardInspectorOpen, 
+				Converter={StaticResource BooleanToVisibilityConverter}}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="25*"/>
+				<ColumnDefinition Width="50*"/>
+				<ColumnDefinition Width="25*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="10*"/>
+				<RowDefinition Height="80*"/>
+				<RowDefinition Height="10*"/>
+			</Grid.RowDefinitions>
+			<Rectangle Fill="#EE222222"  Grid.Row="1" Grid.Column="1"/>
+			<Image Grid.Row="1" Grid.Column="1"
+				Source="{Binding InspectedCard, 
+					Converter={StaticResource CardImagePathConverter}, 
+					ConverterParameter=CardDetails}"/>
+			<Button Click="DismissInspectorButton_Click">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Column="1">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Column="2">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Row="1">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Column="2" Grid.Row="1">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Row="2">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Column="1" Grid.Row="2">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<Button Click="DismissInspectorButton_Click" Grid.Column="2" Grid.Row="2">
+				<Button.Template>
+					<ControlTemplate>
+						<Rectangle Fill="#EE222222"/>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+		</Grid>
 		<!--#endregion-->
 	</Grid>
 </base:AutoBindingPage>

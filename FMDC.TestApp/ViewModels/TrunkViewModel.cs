@@ -22,6 +22,10 @@ namespace FMDC.TestApp.ViewModels
 		public ObservableCollection<CardCount> CardCounts { get; set; }
 
 		public int DeckCount => CardCounts.Sum(cardCount => cardCount.NumberInDeck);
+
+		public Card InspectedCard { get; set; }
+
+		public bool CardInspectorOpen => InspectedCard != null;
 		#endregion
 
 
@@ -77,6 +81,12 @@ namespace FMDC.TestApp.ViewModels
 			);
 
 			RaisePropertyChanged(nameof(DeckCount));
+		}
+
+
+		public void SetInspectedCard(Card targetCard)
+		{
+
 		}
 		#endregion
 	}

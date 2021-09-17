@@ -20,6 +20,38 @@ namespace FMDC.TestApp.Pages
 
 
 		#region Event Handler(s)
+		private void InspectCardButton_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			Card targetCard =
+				(((sender as Button)?.Parent as Grid)?.DataContext as CardCount)?.Card;
+			
+			if(targetCard != null)
+			{
+				ViewModel
+					.SetPropertyValue
+					(
+						nameof(ViewModel.InspectedCard),
+						targetCard
+					);
+
+				ViewModel.RaisePropertyChanged(nameof(ViewModel.CardInspectorOpen));
+			}
+		}
+
+
+		private void DismissInspectorButton_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			ViewModel
+				.SetPropertyValue
+				(
+					nameof(ViewModel.InspectedCard),
+					(Card)null
+				);
+
+			ViewModel.RaisePropertyChanged(nameof(ViewModel.CardInspectorOpen));
+		}
+
+
 		private void RemoveFromDeckButton_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			CardCount targetCardCount =
