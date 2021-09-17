@@ -225,7 +225,7 @@
 		<DrawingImage x:Key="EquipIcon">
 			<DrawingImage.Drawing>
 				<DrawingGroup>
-					<GeometryDrawing Brush="White">
+					<GeometryDrawing Brush="#8888EE">
 						<GeometryDrawing.Geometry>
 							m 63.817155,178.90761 c -3.605729,-0.39794 -6.913455,-2.04914 -9.477396,-4.73107 
 							-2.038062,-2.13185 -3.294655,-4.58883 -3.898539,-7.62275 -0.277266,-1.39303 
@@ -257,7 +257,7 @@
 		<DrawingImage x:Key="FieldIcon">
 			<DrawingImage.Drawing>
 				<DrawingGroup>
-					<GeometryDrawing Brush="White">
+					<GeometryDrawing Brush="#8888EE">
 						<GeometryDrawing.Geometry>
 							m 27.61393,177.91823 c -6.255225,-1.14108 -11.043844,-5.8422 -12.271618,-12.0474 -0.295248,
 							-1.49218 -0.268596,-4.4104 0.054,-5.9127 1.28142,-5.96748 5.863906,-10.49518 11.945574,

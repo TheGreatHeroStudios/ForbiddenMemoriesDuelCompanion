@@ -321,25 +321,96 @@
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
-		<TextBlock Grid.Row="9" Grid.Column="1"  
-			Text="{Binding OptimalPlay[0]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
-			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+		<TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding OptimalPlay[0]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center"  
+				Foreground="White" Visibility="{Binding OptimalPlay.Count, 
+					Converter={converters:CountToVisibilityConverter InvertLogic=True}, 
+					ConverterParameter=1}"/>
+		<StackPanel Grid.Row="9" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"
+			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
+				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}">
+			<TextBlock Text="{Binding OptimalPlay[0]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
+			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
-		<TextBlock Grid.Row="9" Grid.Column="3" 
-			Text="{Binding OptimalPlay[1]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
-			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+		<TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding OptimalPlay[1]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center"  
+				Foreground="White" Visibility="{Binding OptimalPlay.Count, 
+					Converter={converters:CountToVisibilityConverter InvertLogic=True}, 
+					ConverterParameter=2}"/>
+		<StackPanel Grid.Row="9" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top"
+			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
+				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=2}">
+			<TextBlock Text="{Binding OptimalPlay[1]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
+			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
-		<TextBlock Grid.Row="9" Grid.Column="5" 
-			Text="{Binding OptimalPlay[2]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
-			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+		<TextBlock Grid.Row="9" Grid.Column="5" Text="{Binding OptimalPlay[2]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center"  
+				Foreground="White" Visibility="{Binding OptimalPlay.Count, 
+					Converter={converters:CountToVisibilityConverter InvertLogic=True}, 
+					ConverterParameter=3}"/>
+		<StackPanel Grid.Row="9" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top"
+			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
+				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=3}">
+			<TextBlock Text="{Binding OptimalPlay[2]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
+			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
-		<TextBlock Grid.Row="9" Grid.Column="7" 
-			Text="{Binding OptimalPlay[3]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
-			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+		<TextBlock Grid.Row="9" Grid.Column="7" Text="{Binding OptimalPlay[3]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center"  
+				Foreground="White" Visibility="{Binding OptimalPlay.Count, 
+					Converter={converters:CountToVisibilityConverter InvertLogic=True}, 
+					ConverterParameter=4}"/>
+		<StackPanel Grid.Row="9" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Top"
+			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
+				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=4}">
+			<TextBlock Text="{Binding OptimalPlay[3]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
+			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
-		<TextBlock Grid.Row="9" Grid.Column="9" 
-			Text="{Binding OptimalPlay[4]}" TextWrapping="WrapWithOverflow" TextAlignment="Center"
-			VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+		<TextBlock Grid.Row="9" Grid.Column="9" Text="{Binding OptimalPlay[4]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center"  
+				Foreground="White" Visibility="{Binding OptimalPlay.Count, 
+					Converter={converters:CountToVisibilityConverter InvertLogic=True}, 
+					ConverterParameter=5}"/>
+		<StackPanel Grid.Row="9" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Top"
+			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
+				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=5}">
+			<TextBlock Text="{Binding OptimalPlay[4]}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
+			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
+				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
+				Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
+
 		<!--#endregion-->
 	</Grid>
 </base:AutoBindingPage>

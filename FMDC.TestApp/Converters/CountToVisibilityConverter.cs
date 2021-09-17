@@ -4,11 +4,18 @@ using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace FMDC.TestApp.Converters
 {
-	public class CountToVisibilityConverter : IValueConverter
+	public class CountToVisibilityConverter : MarkupExtension, IValueConverter
 	{
+		#region Public Propertie(s)
+		public bool InvertLogic { get; set; }
+		#endregion
+
+
+
 		#region 'IValueConverter' Implementation
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
@@ -17,11 +24,17 @@ namespace FMDC.TestApp.Converters
 
 			if(providedCount == requiredCount)
 			{
-				return Visibility.Visible;
+				return 
+					InvertLogic ?
+						Visibility.Collapsed :
+						Visibility.Visible;
 			}
 			else
 			{
-				return Visibility.Collapsed;
+				return
+					InvertLogic ?
+						Visibility.Visible :
+						Visibility.Collapsed;
 			}
 		}
 
@@ -29,6 +42,15 @@ namespace FMDC.TestApp.Converters
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotImplementedException();
+		}
+		#endregion
+
+
+
+		#region Abstract Implementation
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			return this;
 		}
 		#endregion
 	}

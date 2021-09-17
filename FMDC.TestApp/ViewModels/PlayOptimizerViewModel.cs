@@ -26,11 +26,14 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Propert(ies)
-		public List<Card> CardList => _cardList;
-		public List<Card> DeckList => _deckList;
 		public ObservableCollection<Card> HandCards { get; set; }
 		public ObservableCollection<Card> FieldCards { get; set; }
 		public ObservableCollection<Card> OptimalPlay { get; set; }
+
+		public List<Card> CardList => _cardList;
+
+		public List<Card> DeckList => _deckList;
+
 		public List<bool> HandCardEquipmentFlags =>
 			_handCards
 				.Select
@@ -45,9 +48,11 @@ namespace FMDC.TestApp.ViewModels
 		public bool EquipCardAvailable =>
 			HandCardEquipmentFlags.Any(equipFlag => equipFlag);
 
-		public int OptimalPlayCardCount => OptimalPlay?.Count ?? 0;
-		public bool ThrowAwayFirstCardInSequence { get; set; }
+		public string OptimalPlayEnhancedText => ModifyOptimalPlayText();
 
+		public int OptimalPlayCardCount => OptimalPlay?.Count ?? 0;
+
+		public bool ThrowAwayFirstCardInSequence { get; set; }
 
 		public IEnumerable<Card> ValidHandCards =>
 			_handCards
@@ -68,7 +73,9 @@ namespace FMDC.TestApp.ViewModels
 				);
 
 		public bool GenerateFusionEnabled => ValidHandCards?.Any() ?? false;
+
 		public bool AcceptFusionEnabled => OptimalPlay?.Any() ?? false;
+
 		public bool ClearCardDataEnabled =>
 			(ValidHandCards?.Any() ?? false) || (ValidFieldCards?.Any() ?? false);
 		#endregion
@@ -151,6 +158,9 @@ namespace FMDC.TestApp.ViewModels
 				_handCards[index] = updatedCard;
 				HandCards = new ObservableCollection<Card>(_handCards);
 
+				RaisePropertyChanged(nameof(HandCardEquipmentFlags));
+				RaisePropertyChanged(nameof(EquipCardAvailable));
+				RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
 				RaisePropertyChanged(nameof(HandCards));
 				RaisePropertyChanged(nameof(GenerateFusionEnabled));
 				RaisePropertyChanged(nameof(ClearCardDataEnabled));
@@ -226,6 +236,7 @@ namespace FMDC.TestApp.ViewModels
 
 				RaisePropertyChanged(nameof(HandCardEquipmentFlags));
 				RaisePropertyChanged(nameof(EquipCardAvailable));
+				RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
 				RaisePropertyChanged(nameof(OptimalPlay));
 				RaisePropertyChanged(nameof(OptimalPlayCardCount));
 				RaisePropertyChanged(nameof(AcceptFusionEnabled));
@@ -708,6 +719,59 @@ namespace FMDC.TestApp.ViewModels
 		}
 
 
+		private string ModifyOptimalPlayText()
+		{
+			Card resultantCard = OptimalPlay?.LastOrDefault();
+
+			if
+			(
+				(_availableEquipCards?.Any() ?? false) &&
+				resultantCard != null
+			)
+			{
+
+				(int attack, int defense) modifiedStats =
+					(
+						resultantCard.AttackPoints ?? 0,
+						resultantCard.DefensePoints ?? 0
+					);
+
+				return
+					_availableEquipCards
+						.Aggregate
+						(
+							modifiedStats,
+							(currentStats, equipCard) =>
+							{
+								if (equipCard.CardId == 657)
+								{
+									modifiedStats.attack += 1000;
+									modifiedStats.defense += 1000;
+								}
+								else
+								{
+									modifiedStats.attack += 500;
+									modifiedStats.defense += 500;
+								}
+
+								return modifiedStats;
+							},
+							modifiedStats =>
+								$"({resultantCard.CardId}) {resultantCard.Name} \n" +
+								$"[ATK: {modifiedStats.attack} | DEF: {modifiedStats.defense} ]"
+						);
+			}
+			else if (resultantCard != null)
+			{
+				return resultantCard.ToString();
+			}
+			else
+			{
+				return string.Empty;
+			}
+		}
+
+
 		private int CalculateModifiedAttack(Card targetCard, IEnumerable<Equippable> potentialEquips)
 		{
 			int calculatedAttack = targetCard.AttackPoints ?? 0;
@@ -830,6 +894,7 @@ namespace FMDC.TestApp.ViewModels
 
 			RaisePropertyChanged(nameof(HandCardEquipmentFlags));
 			RaisePropertyChanged(nameof(EquipCardAvailable));
+			RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
 			RaisePropertyChanged(nameof(OptimalPlay));
 			RaisePropertyChanged(nameof(OptimalPlayCardCount));
 			RaisePropertyChanged(nameof(GenerateFusionEnabled));
