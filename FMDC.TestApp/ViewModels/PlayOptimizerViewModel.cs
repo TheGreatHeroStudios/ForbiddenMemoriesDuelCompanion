@@ -173,6 +173,8 @@ namespace FMDC.TestApp.ViewModels
 				RaisePropertyChanged(nameof(FieldCards));
 				RaisePropertyChanged(nameof(ClearCardDataEnabled));
 			}
+
+			ClearOptimalPlayData();
 		}
 
 
@@ -181,6 +183,7 @@ namespace FMDC.TestApp.ViewModels
 			//Get a list of all potential fusion permutations available
 			//based on the cards in the player's hand and on the field.
 			List<List<Card>> potentialFusionPermutations = MapPotentialFusionPermutations();
+			List<Card> optimalPlay = new List<Card>();
 
 			if (potentialFusionPermutations.Any())
 			{
@@ -213,7 +216,7 @@ namespace FMDC.TestApp.ViewModels
 
 				//Take the optimal permutation and build a play sequence for it
 				//(by stripping out intermediate cards from the permutation)
-				List<Card> optimalPlay =
+				optimalPlay =
 					BuildOptimalPlaySequence(optimalFusionPermutation);
 
 				//Select any equippables from the potential list which can be applied to 
@@ -231,17 +234,17 @@ namespace FMDC.TestApp.ViewModels
 								equip.EquipCard
 						)
 						.ToList();
-
-				OptimalPlay = new ObservableCollection<Card>(optimalPlay);
-
-				RaisePropertyChanged(nameof(HandCardEquipmentFlags));
-				RaisePropertyChanged(nameof(EquipCardAvailable));
-				RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
-				RaisePropertyChanged(nameof(OptimalPlay));
-				RaisePropertyChanged(nameof(OptimalPlayCardCount));
-				RaisePropertyChanged(nameof(AcceptFusionEnabled));
-				RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
 			}
+
+			OptimalPlay = new ObservableCollection<Card>(optimalPlay);
+
+			RaisePropertyChanged(nameof(HandCardEquipmentFlags));
+			RaisePropertyChanged(nameof(EquipCardAvailable));
+			RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
+			RaisePropertyChanged(nameof(OptimalPlay));
+			RaisePropertyChanged(nameof(OptimalPlayCardCount));
+			RaisePropertyChanged(nameof(AcceptFusionEnabled));
+			RaisePropertyChanged(nameof(ThrowAwayFirstCardInSequence));
 		}
 
 
@@ -333,9 +336,6 @@ namespace FMDC.TestApp.ViewModels
 
 			_handCards = newHand.ToArray();
 
-			//Clear optimal fusion data
-			OptimalPlay.Clear();
-
 			//Update the observable properties
 			FieldCards = new ObservableCollection<Card>(_fieldCards);
 			HandCards = new ObservableCollection<Card>(_handCards);
@@ -361,10 +361,8 @@ namespace FMDC.TestApp.ViewModels
 		{
 			List<List<Card>> potentialFusionPermutations = new List<List<Card>>();
 
-			//Start by combining any non-placeholder cards in the player's
+			//Start by combining any non-placeholder monster cards in the player's
 			//hand or on the player's side of the field as fusion 'root' cards.
-
-
 			//NOTE: Field cards can ONLY serve as the root card for a fusion.
 			List<Card> potentialFusionRoots =
 				ValidFieldCards
