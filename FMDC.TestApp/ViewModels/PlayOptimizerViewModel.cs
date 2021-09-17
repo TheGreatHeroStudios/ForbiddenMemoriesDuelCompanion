@@ -219,19 +219,21 @@ namespace FMDC.TestApp.ViewModels
 				optimalPlay =
 					BuildOptimalPlaySequence(optimalFusionPermutation);
 
-				//Select any equippables from the potential list which can be applied to 
+				//Select any equippables from the player's hand which can be applied to 
 				//the optimal resultant card and store them for visualization in the UI
 				_availableEquipCards =
-					potentialEquips
+					_handCards
 						.Where
 						(
-							equip =>
-								equip.TargetCard.Equals(optimalPlay.Last())
-						)
-						.Select
-						(
-							equip =>
-								equip.EquipCard
+							equipCard =>
+								equipCard.CardType == CardType.Equip &&
+								potentialEquips
+									.Any
+									(
+										equip =>
+											equip.EquipCard.Equals(equipCard) &&
+											equip.TargetCard.Equals(optimalPlay.Last())
+									)
 						)
 						.ToList();
 			}
