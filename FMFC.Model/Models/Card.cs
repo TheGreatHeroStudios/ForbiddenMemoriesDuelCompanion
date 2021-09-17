@@ -39,6 +39,20 @@ namespace FMDC.Model.Models
 			return
 				$"({CardId}) {Name} \n[ATK: {AttackPoints} | DEF: {DefensePoints} ]";
 		}
+
+
+		public override bool Equals(object obj)
+		{
+			return
+				obj is Card card &&
+				card.CardId == CardId;
+		}
+
+
+		public override int GetHashCode()
+		{
+			return CardId;
+		}
 		#endregion
 	}
 }

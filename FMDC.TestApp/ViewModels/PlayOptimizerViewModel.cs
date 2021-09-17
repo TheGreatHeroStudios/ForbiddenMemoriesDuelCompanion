@@ -20,6 +20,7 @@ namespace FMDC.TestApp.ViewModels
 		private List<Card> _deckList;
 		private Card[] _handCards = new Card[5];
 		private Card[] _fieldCards = new Card[5];
+		private List<Card> _availableEquipCards;
 		#endregion
 
 
@@ -30,8 +31,23 @@ namespace FMDC.TestApp.ViewModels
 		public ObservableCollection<Card> HandCards { get; set; }
 		public ObservableCollection<Card> FieldCards { get; set; }
 		public ObservableCollection<Card> OptimalPlay { get; set; }
+		public List<bool> HandCardEquipmentFlags =>
+			_handCards
+				.Select
+				(
+					handCard =>
+						_availableEquipCards != null &&
+						handCard != null &&
+						handCard.In(_availableEquipCards)
+				)
+				.ToList();
+
+		public bool EquipCardAvailable =>
+			HandCardEquipmentFlags.Any(equipFlag => equipFlag);
+
 		public int OptimalPlayCardCount => OptimalPlay?.Count ?? 0;
 		public bool ThrowAwayFirstCardInSequence { get; set; }
+
 
 		public IEnumerable<Card> ValidHandCards =>
 			_handCards
@@ -158,29 +174,58 @@ namespace FMDC.TestApp.ViewModels
 
 			if (potentialFusionPermutations.Any())
 			{
+				//Get a list of equippable(s) where the equip card is currently in the player's 
+				//hand and can be applied to one or more of the permutations' resultant cards.
+				List<Equippable> potentialEquips =
+					_equippableList
+						.Join
+						(
+							potentialFusionPermutations
+								.Select(permutation => permutation.Last()),
+							equippable => equippable.TargetCardId,
+							targetCard => targetCard.CardId,
+							(equippable, targetCard) => equippable
+						)
+						.Where
+						(
+							equippable =>
+								equippable.EquipCard.In(_handCards)
+						)
+						.ToList();
+
 				//Get the optimal fusion permutation to use
 				List<Card> optimalFusionPermutation =
-					DetermineOptimalFusionPermutation(potentialFusionPermutations);
+					DetermineOptimalFusionPermutation
+					(
+						potentialFusionPermutations,
+						potentialEquips
+					);
 
+				//Take the optimal permutation and build a play sequence for it
+				//(by stripping out intermediate cards from the permutation)
 				List<Card> optimalPlay =
 					BuildOptimalPlaySequence(optimalFusionPermutation);
 
-				Func<Equippable, bool> equipPredicate =
-					equippable =>
-						equippable.EquipCard.In(_handCards) &&
-						equippable.TargetCard.CardId == optimalFusionPermutation.Last().CardId;
+				//Select any equippables from the potential list which can be applied to 
+				//the optimal resultant card and store them for visualization in the UI
+				_availableEquipCards =
+					potentialEquips
+						.Where
+						(
+							equip =>
+								equip.TargetCard.Equals(optimalPlay.Last())
+						)
+						.Select
+						(
+							equip =>
+								equip.EquipCard
+						)
+						.ToList();
 
-				//If the player has any applicable equip cards in their hand, append the 
-				//first one to the optimal play sequence to enhance the card's strength.
-				if (_equippableList.Any(equipPredicate))
-				{
-					optimalPlay
-						.Add(_equippableList.First(equipPredicate).EquipCard);
-				}
-
-				//Finally, assign the sequence to the observable collection for displaying in the UI
 				OptimalPlay = new ObservableCollection<Card>(optimalPlay);
 
+				RaisePropertyChanged(nameof(HandCardEquipmentFlags));
+				RaisePropertyChanged(nameof(EquipCardAvailable));
 				RaisePropertyChanged(nameof(OptimalPlay));
 				RaisePropertyChanged(nameof(OptimalPlayCardCount));
 				RaisePropertyChanged(nameof(AcceptFusionEnabled));
@@ -284,7 +329,7 @@ namespace FMDC.TestApp.ViewModels
 			FieldCards = new ObservableCollection<Card>(_fieldCards);
 			HandCards = new ObservableCollection<Card>(_handCards);
 
-			ClearOptimalFusionData();
+			ClearOptimalPlayData();
 
 			RaisePropertyChanged(nameof(FieldCards));
 			RaisePropertyChanged(nameof(HandCards));
@@ -294,7 +339,7 @@ namespace FMDC.TestApp.ViewModels
 		public void ClearCardData()
 		{
 			SetPlaceholderCards();
-			ClearOptimalFusionData();
+			ClearOptimalPlayData();
 		}
 		#endregion
 
@@ -512,12 +557,17 @@ namespace FMDC.TestApp.ViewModels
 
 		private List<Card> DetermineOptimalFusionPermutation
 		(
-			List<List<Card>> potentialFusionPermutations
+			List<List<Card>> potentialFusionPermutations,
+			List<Equippable> potentialEquips
 		)
 		{
 			//Determine which permutation to use as the initial optimal permutation.
 			List<Card> initialPermutation =
-				DetermineInitialPermutationToUse(potentialFusionPermutations);
+				DetermineInitialOptimalPermutation
+				(
+					potentialFusionPermutations,
+					potentialEquips
+				);
 
 			List<Card> optimalFusionPermutation = new List<Card>();
 
@@ -536,7 +586,12 @@ namespace FMDC.TestApp.ViewModels
 					.Any
 					(
 						permutation =>
-							permutation.First().AttackPoints < permutation.Last().AttackPoints
+							permutation.First().AttackPoints < 
+								CalculateModifiedAttack
+								(
+									permutation.Last(),
+									potentialEquips
+								)
 					)
 			)
 			{
@@ -550,12 +605,21 @@ namespace FMDC.TestApp.ViewModels
 						.Where
 						(
 							permutation =>
-								permutation.First().AttackPoints < permutation.Last().AttackPoints
+								permutation.First().AttackPoints <
+									CalculateModifiedAttack
+									(
+										permutation.Last(),
+										potentialEquips
+									)
 						)
 						.OrderByDescending
 						(
 							permutation =>
-								permutation.Last().AttackPoints
+								CalculateModifiedAttack
+								(
+									permutation.Last(),
+									potentialEquips
+								)
 						)
 						.ThenBy
 						(
@@ -564,11 +628,16 @@ namespace FMDC.TestApp.ViewModels
 						)
 						.ThenBy
 						(
+							//If any further sorting is necessary (due to multiple 
+							//permutations using the same field card with the same
+							//resultant card), use the permutation with the fewest cards
 							permutation =>
-								permutation.Sum(card => card.AttackPoints)
+								permutation.Count
 						)
 						.FirstOrDefault();
 
+				//Update the starting card of the permutation to
+				//reflect the field monster being sacrificed.
 				optimalFusionPermutation =
 					UpdateStartingCardForPermutation
 					(
@@ -582,6 +651,8 @@ namespace FMDC.TestApp.ViewModels
 				//field monster with the lowest attack for the fusion result with the highest.
 				optimalFusionPermutation = initialPermutation;
 
+				//Update the starting card of the permutation to
+				//reflect the field monster being sacrificed.
 				optimalFusionPermutation =
 					UpdateStartingCardForPermutation
 					(
@@ -594,41 +665,72 @@ namespace FMDC.TestApp.ViewModels
 		}
 
 
-		private List<Card> DetermineInitialPermutationToUse
+		private List<Card> DetermineInitialOptimalPermutation
 		(
-			List<List<Card>> potentialFusionPermutations
+			List<List<Card>> potentialFusionPermutations,
+			List<Equippable> potentialEquips
 		)
 		{
 			return
 				potentialFusionPermutations
-						.Where
-						(
-							//Exclude single-card permutations (indicating no possible fusions)
-							//unless the strongest possible card is in the player's hand.
-							permutation =>
-								permutation.Count > 1 ||
-								permutation[0].CardId
-									.In
-									(
-										_handCards
-											.Select
-											(
-												handCard =>
-													handCard.CardId
-											)
-									)
-						)
-						.OrderByDescending
-						(
-							permutation =>
-								permutation.Last().AttackPoints
-						)
-						.ThenBy
-						(
-							permutation =>
-								permutation.Sum(card => card.AttackPoints)
-						)
-						.FirstOrDefault();
+					.Where
+					(
+						//Exclude single-card permutations (indicating no possible fusions)
+						//unless the strongest possible card is in the player's hand, or an
+						//equip card in the player's hand can be equipped to it.
+						permutation =>
+							permutation.Count > 1 ||
+							permutation[0].In(_handCards) ||
+							potentialEquips
+								.Any
+								(
+									equippable =>
+										equippable.TargetCardId == permutation.Last().CardId
+								)
+					)
+					.OrderByDescending
+					(
+						//Order the possible permutations by the attack points of the
+						//resultant card (descending), also factoring in equip cards
+						permutation =>
+							CalculateModifiedAttack
+							(
+								permutation.Last(),
+								potentialEquips
+							)
+					)
+					.ThenBy
+					(
+						permutation =>
+							permutation.Sum(card => card.AttackPoints)
+					)
+					.FirstOrDefault();
+		}
+
+
+		private int CalculateModifiedAttack(Card targetCard, IEnumerable<Equippable> potentialEquips)
+		{
+			int calculatedAttack = targetCard.AttackPoints ?? 0;
+
+			foreach
+			(
+				Equippable equippable in 
+				potentialEquips.Where(equip => equip.TargetCard.Equals(targetCard))
+			)
+			{
+				if (equippable.EquipCardId == 657)
+				{
+					//If the equip card is 'Megamorph', add 1000 to the calculated attack
+					calculatedAttack += 1000;
+				}
+				else
+				{
+					//For all other equip cards, add 500 to the calculated attack
+					calculatedAttack += 500;
+				}
+			}
+
+			return calculatedAttack;
 		}
 
 
@@ -720,11 +822,14 @@ namespace FMDC.TestApp.ViewModels
 		}
 
 
-		private void ClearOptimalFusionData()
+		private void ClearOptimalPlayData()
 		{
 			OptimalPlay?.Clear();
+			_availableEquipCards?.Clear();
 			ThrowAwayFirstCardInSequence = false;
 
+			RaisePropertyChanged(nameof(HandCardEquipmentFlags));
+			RaisePropertyChanged(nameof(EquipCardAvailable));
 			RaisePropertyChanged(nameof(OptimalPlay));
 			RaisePropertyChanged(nameof(OptimalPlayCardCount));
 			RaisePropertyChanged(nameof(GenerateFusionEnabled));
