@@ -1,6 +1,8 @@
 ﻿using FMDC.Model.Models;
 using FMDC.TestApp.Base;
+using FMDC.TestApp.Enums;
 using FMDC.TestApp.ViewModels;
+using System;
 using System.Windows.Controls;
 
 namespace FMDC.TestApp.Pages
@@ -20,6 +22,19 @@ namespace FMDC.TestApp.Pages
 
 
 		#region Event Handler(s)
+		private void SortMethodButton_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			string sortMethodString =
+				(sender as Button).Name
+					.Replace("SortBy", "")
+					.Replace("Button", "");
+
+			SortMethod sortMethod = Enum.Parse<SortMethod>(sortMethodString);
+
+			ViewModel.SetSortMethod(sortMethod);
+		}
+
+
 		private void InspectCardButton_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			Card targetCard =

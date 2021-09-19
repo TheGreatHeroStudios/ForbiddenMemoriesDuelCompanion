@@ -345,6 +345,7 @@
 		<!--#endregion-->
 
 		<!--#region Converters-->
+		<converters:StringToActiveColorConverter x:Key="StringToColorConverter"/>
 		<converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
 		<converters:EnumStringConverter x:Key="EnumStringConverter"/>
 		<converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>

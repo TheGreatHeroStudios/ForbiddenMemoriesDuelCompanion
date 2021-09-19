@@ -1,6 +1,7 @@
 ﻿using FMDC.Model.Base;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
+using FMDC.TestApp.Enums;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,7 +14,6 @@ namespace FMDC.TestApp.ViewModels
 	{
 		#region Non-Public Member(s)
 		private List<Card> _cardList;
-		private List<GameImage> _monsterTypeImages;
 		#endregion
 
 
@@ -28,6 +28,8 @@ namespace FMDC.TestApp.ViewModels
 		public Card InspectedCard { get; set; }
 
 		public bool CardInspectorOpen => InspectedCard != null;
+
+		public SortMethod SortMethod { get; set; }
 		#endregion
 
 
@@ -42,14 +44,10 @@ namespace FMDC.TestApp.ViewModels
 						card =>
 							card.CardId > 0
 					)
-					.ToList();
-
-			_monsterTypeImages =
-				currentAppInstance.GameImages
-					.Where
+					.OrderBy
 					(
-						gameImage =>
-							gameImage.EntityType == ImageEntityType.MonsterType
+						card => 
+							card.CardId
 					)
 					.ToList();
 
@@ -87,9 +85,96 @@ namespace FMDC.TestApp.ViewModels
 		}
 
 
-		public void SetInspectedCard(Card targetCard)
+		public void SetSortMethod(SortMethod newSortMethod)
 		{
+			switch(newSortMethod)
+			{
+				case SortMethod.Number:
+				{
+					CardCounts =
+						new ObservableCollection<CardCount>
+						(
+							CardCounts
+								.OrderBy
+								(
+									cardCount =>
+										cardCount.Card.CardId
+								)
+						);
 
+					break;
+				}
+				case SortMethod.Name:
+				{
+					CardCounts =
+						new ObservableCollection<CardCount>
+						(
+							CardCounts
+								.OrderBy
+								(
+									cardCount =>
+										cardCount.Card.Name
+								)
+						);
+
+					break;
+				}
+				case SortMethod.Attack:
+				{
+					CardCounts =
+						new ObservableCollection<CardCount>
+						(
+							CardCounts
+								.OrderByDescending
+								(
+									cardCount =>
+										cardCount.Card.AttackPoints ?? -1
+								)
+						);
+
+					break;
+				}
+				case SortMethod.Defense:
+				{
+					CardCounts =
+						new ObservableCollection<CardCount>
+						(
+							CardCounts
+								.OrderByDescending
+								(
+									cardCount =>
+										cardCount.Card.DefensePoints ?? -1
+								)
+						);
+
+					break;
+				}
+				case SortMethod.Type:
+				{
+					CardCounts =
+						new ObservableCollection<CardCount>
+						(
+							CardCounts
+								.OrderBy
+								(
+									cardCount =>
+										(int)(cardCount.Card.MonsterType ?? MonsterType.Unknown)
+								)
+								.ThenBy
+								(
+									cardCount =>
+										cardCount.Card.CardType
+								)
+						);
+
+					break;
+				}
+			}
+
+			SortMethod = newSortMethod;
+
+			RaisePropertyChanged(nameof(CardCounts));
+			RaisePropertyChanged(nameof(SortMethod));
 		}
 		#endregion
 	}
