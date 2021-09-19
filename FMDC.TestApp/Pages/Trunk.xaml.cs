@@ -73,6 +73,7 @@ namespace FMDC.TestApp.Pages
 			}
 
 			ViewModel.RaisePropertyChanged(nameof(ViewModel.DeckCount));
+			ViewModel.RaisePropertyChanged(nameof(ViewModel.TrunkCount));
 		}
 
 
@@ -102,6 +103,7 @@ namespace FMDC.TestApp.Pages
 			}
 
 			ViewModel.RaisePropertyChanged(nameof(ViewModel.DeckCount));
+			ViewModel.RaisePropertyChanged(nameof(ViewModel.TrunkCount));
 		}
 
 
@@ -120,6 +122,7 @@ namespace FMDC.TestApp.Pages
 			}
 
 			ViewModel.RaisePropertyChanged(nameof(ViewModel.DeckCount));
+			ViewModel.RaisePropertyChanged(nameof(ViewModel.TrunkCount));
 		}
 
 
@@ -138,6 +141,7 @@ namespace FMDC.TestApp.Pages
 			}
 
 			ViewModel.RaisePropertyChanged(nameof(ViewModel.DeckCount));
+			ViewModel.RaisePropertyChanged(nameof(ViewModel.TrunkCount));
 		}
 		#endregion
 	}

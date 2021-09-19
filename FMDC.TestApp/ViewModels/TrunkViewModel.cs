@@ -23,6 +23,8 @@ namespace FMDC.TestApp.ViewModels
 
 		public int DeckCount => CardCounts.Sum(cardCount => cardCount.NumberInDeck);
 
+		public int TrunkCount => CardCounts.Sum(cardCount => cardCount.NumberInTrunk);
+
 		public Card InspectedCard { get; set; }
 
 		public bool CardInspectorOpen => InspectedCard != null;
@@ -81,6 +83,7 @@ namespace FMDC.TestApp.ViewModels
 			);
 
 			RaisePropertyChanged(nameof(DeckCount));
+			RaisePropertyChanged(nameof(TrunkCount));
 		}
 
 
