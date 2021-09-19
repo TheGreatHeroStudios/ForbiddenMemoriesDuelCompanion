@@ -122,33 +122,62 @@
 
 		<Image Grid.Row="4" Grid.Column="1"
 			Source="{Binding HandCards[0], Converter={StaticResource CardImagePathConverter}}"/>
-		<Image Grid.Row="4" Grid.Column="1" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top"
-			Source="{StaticResource EquipIcon}" Visibility="{Binding HandCardEquipmentFlags[0], 
-				Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
+		<StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="1" 
+			HorizontalAlignment="Right" VerticalAlignment="Top">
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource EquipIcon}" 
+				Visibility="{Binding HandCardEquipmentFlags[0], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource FieldIcon}" 
+				Visibility="{Binding HandCardFieldFlags[0], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 		<Image Grid.Row="4" Grid.Column="3"
 			Source="{Binding HandCards[1], Converter={StaticResource CardImagePathConverter}}"/>
-		<Image Grid.Row="4" Grid.Column="3" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top"
-			Source="{StaticResource EquipIcon}" Visibility="{Binding HandCardEquipmentFlags[1], 
-				Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		<StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="3" 
+			HorizontalAlignment="Right" VerticalAlignment="Top">
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource EquipIcon}" 
+				Visibility="{Binding HandCardEquipmentFlags[1], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource FieldIcon}" 
+				Visibility="{Binding HandCardFieldFlags[1], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
 		<Image Grid.Row="4" Grid.Column="5"
 			Source="{Binding HandCards[2], Converter={StaticResource CardImagePathConverter}}"/>
-		<Image Grid.Row="4" Grid.Column="5" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top"
-			Source="{StaticResource EquipIcon}" Visibility="{Binding HandCardEquipmentFlags[2], 
-				Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		<StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="5" 
+			HorizontalAlignment="Right" VerticalAlignment="Top">
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource EquipIcon}" 
+				Visibility="{Binding HandCardEquipmentFlags[2], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource FieldIcon}" 
+				Visibility="{Binding HandCardFieldFlags[2], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
 		<Image Grid.Row="4" Grid.Column="7"
 			Source="{Binding HandCards[3], Converter={StaticResource CardImagePathConverter}}"/>
-		<Image Grid.Row="4" Grid.Column="7" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top"
-			Source="{StaticResource EquipIcon}" Visibility="{Binding HandCardEquipmentFlags[3], 
-				Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		<StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="7" 
+			HorizontalAlignment="Right" VerticalAlignment="Top">
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource EquipIcon}" 
+				Visibility="{Binding HandCardEquipmentFlags[3], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource FieldIcon}" 
+				Visibility="{Binding HandCardFieldFlags[3], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 
 		<Image Grid.Row="4" Grid.Column="9"
 			Source="{Binding HandCards[4], Converter={StaticResource CardImagePathConverter}}"/>
-		<Image Grid.Row="4" Grid.Column="9" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top"
-			Source="{StaticResource EquipIcon}" Visibility="{Binding HandCardEquipmentFlags[4], 
-				Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		<StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="9" 
+			HorizontalAlignment="Right" VerticalAlignment="Top">
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource EquipIcon}" 
+				Visibility="{Binding HandCardEquipmentFlags[4], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" Margin="0,10,0,0" Source="{StaticResource FieldIcon}" 
+				Visibility="{Binding HandCardFieldFlags[4], 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</StackPanel>
 		<!--#endregion-->
 
 		<!--#region Hand Card Combo Boxes-->
@@ -245,8 +274,11 @@
 		<StackPanel Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
 			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}">
-			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" 
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
 				Source="{StaticResource EquipIcon}" Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
+				Source="{StaticResource FieldIcon}" Visibility="{Binding FieldCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -268,8 +300,11 @@
 		<StackPanel Grid.Row="8" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top"
 			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=2}">
-			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" 
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
 				Source="{StaticResource EquipIcon}" Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
+				Source="{StaticResource FieldIcon}" Visibility="{Binding FieldCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -284,8 +319,11 @@
 		<StackPanel Grid.Row="8" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Top"
 			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=3}">
-			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" 
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
 				Source="{StaticResource EquipIcon}" Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
+				Source="{StaticResource FieldIcon}" Visibility="{Binding FieldCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -300,8 +338,11 @@
 		<StackPanel Grid.Row="8" Grid.Column="7" HorizontalAlignment="Right" VerticalAlignment="Top"
 			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=4}">
-			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" 
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
 				Source="{StaticResource EquipIcon}" Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
+				Source="{StaticResource FieldIcon}" Visibility="{Binding FieldCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -316,8 +357,11 @@
 		<StackPanel Grid.Row="8" Grid.Column="9" HorizontalAlignment="Right" VerticalAlignment="Top"
 			Orientation="Vertical"  Visibility="{Binding OptimalPlay.Count, 
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=5}">
-			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" 
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
 				Source="{StaticResource EquipIcon}" Visibility="{Binding EquipCardAvailable, 
+					Converter={StaticResource BooleanToVisibilityConverter}}"/>
+			<Image Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0"
+				Source="{StaticResource FieldIcon}" Visibility="{Binding FieldCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -331,11 +375,11 @@
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}">
 			<TextBlock Text="{Binding OptimalPlay[0]}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
 			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -349,11 +393,11 @@
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=2}">
 			<TextBlock Text="{Binding OptimalPlay[1]}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
 			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -367,11 +411,11 @@
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=3}">
 			<TextBlock Text="{Binding OptimalPlay[2]}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
 			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -385,11 +429,11 @@
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=4}">
 			<TextBlock Text="{Binding OptimalPlay[3]}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
 			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 
@@ -403,11 +447,11 @@
 				Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=5}">
 			<TextBlock Text="{Binding OptimalPlay[4]}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" 
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
 			<TextBlock Text="{Binding OptimalPlayEnhancedText}" 
 				TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="#8888EE"
-				Visibility="{Binding EquipCardAvailable, 
+				Visibility="{Binding ModifierCardAvailable, 
 					Converter={StaticResource BooleanToVisibilityConverter}}"/>
 		</StackPanel>
 

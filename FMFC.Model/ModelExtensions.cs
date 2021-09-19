@@ -184,6 +184,58 @@ namespace FMDC.Model
 
 
 		//Card Extensions
+		public static Terrain ToTerrain(this Card card)
+		{
+			Terrain resolvedTerrain = Terrain.Unknown;
+
+			switch(card.CardId)
+			{
+				//Forest
+				case 330:
+				{
+					resolvedTerrain = Terrain.Forest;
+					break;
+				}
+
+				//Wasteland
+				case 331:
+				{
+					resolvedTerrain = Terrain.Wasteland;
+					break;
+				}
+
+				//Mountain
+				case 332:
+				{
+					resolvedTerrain = Terrain.Mountain;
+					break;
+				}
+
+				//Sogen
+				case 333:
+				{
+					resolvedTerrain = Terrain.Grassland;
+					break;
+				}
+
+				//Umi
+				case 334:
+				{
+					resolvedTerrain = Terrain.Sea;
+					break;
+				}
+
+				//Yami
+				case 335:
+				{
+					resolvedTerrain = Terrain.Darkness;
+					break;
+				}
+			}
+
+			return resolvedTerrain;
+		}
+
 		public static IEnumerable<Terrain> FavorableTerrains(this Card card)
 		{
 			List<Terrain> favorableTerrains = new List<Terrain>();

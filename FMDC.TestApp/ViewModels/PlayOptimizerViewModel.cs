@@ -1,4 +1,5 @@
-﻿using FMDC.Model.Enums;
+﻿using FMDC.Model;
+using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.TestApp.Comparers;
 using System;
@@ -21,6 +22,7 @@ namespace FMDC.TestApp.ViewModels
 		private Card[] _handCards = new Card[5];
 		private Card[] _fieldCards = new Card[5];
 		private List<Card> _availableEquipCards;
+		private List<Card> _availableFieldCards;
 		#endregion
 
 
@@ -45,8 +47,25 @@ namespace FMDC.TestApp.ViewModels
 				)
 				.ToList();
 
+		public List<bool> HandCardFieldFlags =>
+			_handCards
+				.Select
+				(
+					handCard =>
+						_availableFieldCards != null &&
+						handCard != null &&
+						handCard.In(_availableFieldCards)
+				)
+				.ToList();
+
 		public bool EquipCardAvailable =>
 			HandCardEquipmentFlags.Any(equipFlag => equipFlag);
+
+		public bool FieldCardAvailable =>
+			HandCardFieldFlags.Any(fieldFlag => fieldFlag);
+
+		public bool ModifierCardAvailable =>
+			EquipCardAvailable || FieldCardAvailable;
 
 		public string OptimalPlayEnhancedText => ModifyOptimalPlayText();
 
@@ -158,8 +177,11 @@ namespace FMDC.TestApp.ViewModels
 				_handCards[index] = updatedCard;
 				HandCards = new ObservableCollection<Card>(_handCards);
 
+				RaisePropertyChanged(nameof(HandCardFieldFlags));
+				RaisePropertyChanged(nameof(FieldCardAvailable));
 				RaisePropertyChanged(nameof(HandCardEquipmentFlags));
 				RaisePropertyChanged(nameof(EquipCardAvailable));
+				RaisePropertyChanged(nameof(ModifierCardAvailable));
 				RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
 				RaisePropertyChanged(nameof(HandCards));
 				RaisePropertyChanged(nameof(GenerateFusionEnabled));
@@ -206,12 +228,29 @@ namespace FMDC.TestApp.ViewModels
 						)
 						.ToList();
 
+				//Get a list of field cards in the player's
+				//hand and project them to a list of terrains
+				List<Terrain> potentialTerrains =
+					_handCards
+						.Where
+						(
+							handCard =>
+								handCard.CardType == CardType.Field
+						)
+						.Select
+						(
+							fieldCard =>
+								fieldCard.ToTerrain()
+						)
+						.ToList();
+
 				//Get the optimal fusion permutation to use
 				List<Card> optimalFusionPermutation =
 					DetermineOptimalFusionPermutation
 					(
 						potentialFusionPermutations,
-						potentialEquips
+						potentialEquips,
+						potentialTerrains
 					);
 
 				//Take the optimal permutation and build a play sequence for it
@@ -219,7 +258,7 @@ namespace FMDC.TestApp.ViewModels
 				optimalPlay =
 					BuildOptimalPlaySequence(optimalFusionPermutation);
 
-				//Select any equippables from the player's hand which can be applied to 
+				//Select any equip cards from the player's hand which can be applied to 
 				//the optimal resultant card and store them for visualization in the UI
 				_availableEquipCards =
 					_handCards
@@ -236,12 +275,29 @@ namespace FMDC.TestApp.ViewModels
 									)
 						)
 						.ToList();
+
+				//Select any field cards from the player's hand which produce terrains
+				//favorable to the resultant card and store them for visualization in the UI
+				_availableFieldCards =
+					_handCards
+						.Where
+						(
+							fieldCard =>
+								fieldCard.CardType == CardType.Field &&
+								fieldCard
+									.ToTerrain()
+									.In(optimalPlay.Last().FavorableTerrains())
+						)
+						.ToList();
 			}
 
 			OptimalPlay = new ObservableCollection<Card>(optimalPlay);
 
+			RaisePropertyChanged(nameof(HandCardFieldFlags));
+			RaisePropertyChanged(nameof(FieldCardAvailable));
 			RaisePropertyChanged(nameof(HandCardEquipmentFlags));
 			RaisePropertyChanged(nameof(EquipCardAvailable));
+			RaisePropertyChanged(nameof(ModifierCardAvailable));
 			RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
 			RaisePropertyChanged(nameof(OptimalPlay));
 			RaisePropertyChanged(nameof(OptimalPlayCardCount));
@@ -569,7 +625,8 @@ namespace FMDC.TestApp.ViewModels
 		private List<Card> DetermineOptimalFusionPermutation
 		(
 			List<List<Card>> potentialFusionPermutations,
-			List<Equippable> potentialEquips
+			List<Equippable> potentialEquips,
+			List<Terrain> potentialTerrains
 		)
 		{
 			//Determine which permutation to use as the initial optimal permutation.
@@ -577,7 +634,8 @@ namespace FMDC.TestApp.ViewModels
 				DetermineInitialOptimalPermutation
 				(
 					potentialFusionPermutations,
-					potentialEquips
+					potentialEquips,
+					potentialTerrains
 				);
 
 			List<Card> optimalFusionPermutation = new List<Card>();
@@ -601,7 +659,8 @@ namespace FMDC.TestApp.ViewModels
 								CalculateModifiedAttack
 								(
 									permutation.Last(),
-									potentialEquips
+									potentialEquips,
+									potentialTerrains
 								)
 					)
 			)
@@ -620,7 +679,8 @@ namespace FMDC.TestApp.ViewModels
 									CalculateModifiedAttack
 									(
 										permutation.Last(),
-										potentialEquips
+										potentialEquips,
+										potentialTerrains
 									)
 						)
 						.OrderByDescending
@@ -629,7 +689,8 @@ namespace FMDC.TestApp.ViewModels
 								CalculateModifiedAttack
 								(
 									permutation.Last(),
-									potentialEquips
+									potentialEquips,
+									potentialTerrains
 								)
 						)
 						.ThenBy
@@ -679,7 +740,8 @@ namespace FMDC.TestApp.ViewModels
 		private List<Card> DetermineInitialOptimalPermutation
 		(
 			List<List<Card>> potentialFusionPermutations,
-			List<Equippable> potentialEquips
+			List<Equippable> potentialEquips,
+			List<Terrain> potentialTerrains
 		)
 		{
 			return
@@ -688,7 +750,7 @@ namespace FMDC.TestApp.ViewModels
 					(
 						//Exclude single-card permutations (indicating no possible fusions)
 						//unless the strongest possible card is in the player's hand, or an
-						//equip card in the player's hand can be equipped to it.
+						//equip card or field card in the player's hand can be used on it.
 						permutation =>
 							permutation.Count > 1 ||
 							permutation[0].In(_handCards) ||
@@ -697,6 +759,12 @@ namespace FMDC.TestApp.ViewModels
 								(
 									equippable =>
 										equippable.TargetCardId == permutation.Last().CardId
+								) ||
+							potentialTerrains
+								.Any
+								(
+									terrain =>
+										terrain.In(permutation.Last().FavorableTerrains())
 								)
 					)
 					.OrderByDescending
@@ -707,7 +775,8 @@ namespace FMDC.TestApp.ViewModels
 							CalculateModifiedAttack
 							(
 								permutation.Last(),
-								potentialEquips
+								potentialEquips,
+								potentialTerrains
 							)
 					)
 					.ThenBy
@@ -725,7 +794,10 @@ namespace FMDC.TestApp.ViewModels
 
 			if
 			(
-				(_availableEquipCards?.Any() ?? false) &&
+				(
+					(_availableEquipCards?.Any() ?? false) ||
+					(_availableFieldCards?.Any() ?? false)
+				) &&
 				resultantCard != null
 			)
 			{
@@ -737,7 +809,8 @@ namespace FMDC.TestApp.ViewModels
 					);
 
 				return
-					_availableEquipCards
+					(_availableEquipCards ?? new List<Card>())
+						.Concat(_availableFieldCards ?? new List<Card>())
 						.Aggregate
 						(
 							modifiedStats,
@@ -772,7 +845,12 @@ namespace FMDC.TestApp.ViewModels
 		}
 
 
-		private int CalculateModifiedAttack(Card targetCard, IEnumerable<Equippable> potentialEquips)
+		private int CalculateModifiedAttack
+		(
+			Card targetCard, 
+			IEnumerable<Equippable> potentialEquips,
+			IEnumerable<Terrain> potentialTerrains
+		)
 		{
 			int calculatedAttack = targetCard.AttackPoints ?? 0;
 
@@ -792,6 +870,13 @@ namespace FMDC.TestApp.ViewModels
 					//For all other equip cards, add 500 to the calculated attack
 					calculatedAttack += 500;
 				}
+			}
+
+			if(potentialTerrains?.Any(terrain => terrain.In(targetCard.FavorableTerrains())) ?? false)
+			{
+				//If any terrains in the player's hand would benefit
+				//the target card, add 500 to the calculated attack.
+				calculatedAttack += 500;
 			}
 
 			return calculatedAttack;
@@ -890,10 +975,14 @@ namespace FMDC.TestApp.ViewModels
 		{
 			OptimalPlay?.Clear();
 			_availableEquipCards?.Clear();
+			_availableFieldCards?.Clear();
 			ThrowAwayFirstCardInSequence = false;
 
+			RaisePropertyChanged(nameof(HandCardFieldFlags));
+			RaisePropertyChanged(nameof(FieldCardAvailable));
 			RaisePropertyChanged(nameof(HandCardEquipmentFlags));
 			RaisePropertyChanged(nameof(EquipCardAvailable));
+			RaisePropertyChanged(nameof(ModifierCardAvailable));
 			RaisePropertyChanged(nameof(OptimalPlayEnhancedText));
 			RaisePropertyChanged(nameof(OptimalPlay));
 			RaisePropertyChanged(nameof(OptimalPlayCardCount));
