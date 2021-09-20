@@ -206,6 +206,9 @@
 				<RowDefinition Height="10*"/>
 			</Grid.RowDefinitions>
 
+			<TextBlock Grid.Column="1" Text="SORT" Foreground="White"
+				FontWeight="Bold" FontSize="14"/>
+
 			<Rectangle Grid.Column="1" Grid.Row="1" Fill="#000022"
 				Stroke="#555585" StrokeThickness="4"/>
 
