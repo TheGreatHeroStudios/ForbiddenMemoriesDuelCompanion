@@ -35,6 +35,19 @@ namespace FMDC.TestApp.Pages
 		}
 
 
+		private void FilterMethodButton_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			string filterMethodString =
+				(sender as Button).Name
+					.Replace("FilterBy", "")
+					.Replace("Button", "");
+
+			FilterMethod filterMethod = Enum.Parse<FilterMethod>(filterMethodString);
+
+			ViewModel.SetFilterMethod(filterMethod);
+		}
+
+
 		private void InspectCardButton_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			Card targetCard =

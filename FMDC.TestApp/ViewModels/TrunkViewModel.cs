@@ -30,6 +30,50 @@ namespace FMDC.TestApp.ViewModels
 		public bool CardInspectorOpen => InspectedCard != null;
 
 		public SortMethod SortMethod { get; set; }
+
+		public FilterMethod FilterMethod { get; set; }
+
+		public ObservableCollection<CardCount> FilteredCardCounts
+		{
+			get
+			{
+				switch(FilterMethod)
+				{
+					case FilterMethod.Trunk:
+					{
+						return
+							new ObservableCollection<CardCount>
+							(
+								CardCounts
+									.Where
+									(
+										cardCount =>
+											cardCount.NumberInTrunk > 0
+									)
+							);
+					}
+
+					case FilterMethod.Deck:
+					{
+						return
+							new ObservableCollection<CardCount>
+							(
+								CardCounts
+									.Where
+									(
+										cardCount =>
+											cardCount.NumberInDeck > 0
+									)
+							);
+					}
+
+					default:
+					{
+						return CardCounts;
+					}
+				}
+			}
+		}
 		#endregion
 
 
@@ -174,7 +218,26 @@ namespace FMDC.TestApp.ViewModels
 			SortMethod = newSortMethod;
 
 			RaisePropertyChanged(nameof(CardCounts));
+			RaisePropertyChanged(nameof(FilteredCardCounts));
 			RaisePropertyChanged(nameof(SortMethod));
+		}
+
+
+		public void SetFilterMethod(FilterMethod newFilterMethod)
+		{
+			if (newFilterMethod == FilterMethod)
+			{
+				//If the filter method supplied is the one that is
+				//already set, reset the filter method back to 'None'.
+				FilterMethod = FilterMethod.None;
+			}
+			else
+			{
+				FilterMethod = newFilterMethod;
+			}
+
+			RaisePropertyChanged(nameof(FilteredCardCounts));
+			RaisePropertyChanged(nameof(FilterMethod));
 		}
 		#endregion
 	}
