@@ -1,0 +1,19 @@
+﻿<base:AutoBindingPage x:Class="FMDC.TestApp.Pages.DeckOptimizer"
+	x:TypeArguments="viewModels:DeckOptimizerViewModel"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:base="clr-namespace:FMDC.TestApp.Base"
+	xmlns:local="clr-namespace:FMDC.TestApp.Pages"
+	xmlns:converters="clr-namespace:FMDC.TestApp.Converters"
+	xmlns:viewModels="clr-namespace:FMDC.TestApp.ViewModels" 
+	d:DataContext="{d:DesignInstance Type=viewModels:DeckOptimizerViewModel}"
+	mc:Ignorable="d" 
+	d:DesignHeight="450" d:DesignWidth="800"
+	Title="DeckOptimizer">
+
+    <Grid>
+        
+    </Grid>
+</base:AutoBindingPage>

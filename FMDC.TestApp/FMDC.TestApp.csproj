@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Patterns\TGH.Common.Patterns.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Persistence\TGH.Common.Persistence.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Repository\TGH.Common.Repository.csproj" />
+    <ProjectReference Include="..\FMDC.BusinessLogic\FMDC.BusinessLogic.csproj" />
     <ProjectReference Include="..\FMDC.Persistence\FMDC.Persistence.csproj" />
     <ProjectReference Include="..\FMFC.Model\FMDC.Model.csproj" />
   </ItemGroup>

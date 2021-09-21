@@ -1,4 +1,5 @@
-﻿using FMDC.Model;
+﻿using FMDC.BusinessLogic;
+using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.TestApp.Comparers;
@@ -14,6 +15,8 @@ namespace FMDC.TestApp.ViewModels
 	public class PlayOptimizerViewModel : INotifyPropertyChanged
 	{
 		#region Non-Public Member(s)
+		private IFusionService _fusionService;
+
 		private List<Card> _cardList;
 		private List<Fusion> _fusionList;
 		private List<Equippable> _equippableList;
@@ -102,8 +105,14 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Constructor(s)
-		public PlayOptimizerViewModel(App currentAppInstance)
+		public PlayOptimizerViewModel
+		(
+			App currentAppInstance,
+			IFusionService fusionService
+		)
 		{
+			_fusionService = fusionService;
+
 			_cardList = currentAppInstance.CardList;
 			_fusionList = currentAppInstance.FusionList;
 			_equippableList = currentAppInstance.EquippableList;
@@ -443,182 +452,20 @@ namespace FMDC.TestApp.ViewModels
 				//root card and each of their potential permutations.
 				potentialFusionPermutations.AddRange
 				(
-					GenerateFusionPermutations
-					(
-						currentPermutation,
-						ValidHandCards.Except(new[] { fusionRoot })
-					)
-						.Distinct(new FusionPermutationEqualityComparer())
+					_fusionService
+						.GenerateFusionPermutations
+						(
+							currentPermutation,
+							ValidHandCards.Except(new[] { fusionRoot })
+						)
+						.Distinct
+						(
+							new FusionPermutationEqualityComparer()
+						)
 				);
 			}
 
 			return potentialFusionPermutations;
-		}
-
-
-		private List<List<Card>> GenerateFusionPermutations
-		(
-			List<Card> currentPermutation,
-			IEnumerable<Card> potentialFusionMaterialCards
-		)
-		{
-			List<List<Card>> generatedFusionPermutations = new List<List<Card>>();
-
-			//Look at the last card of the current permutation being 
-			//built to determine what card is the target of the fusion.
-			Card targetCard = currentPermutation.Last();
-
-			if (!potentialFusionMaterialCards.Any())
-			{
-				//If all potential fusion material cards have been exhausted,
-				//add the current permutation to the list of those generated.
-				generatedFusionPermutations.Add(currentPermutation);
-			}
-			else
-			{
-
-				//Iterate over each potential fusion material
-				//card to resolve a potential fusion for it...
-				foreach (Card potentialFusionMaterialCard in potentialFusionMaterialCards)
-				{
-					//Determine if either a general or specific fusions exists between  
-					//the target card and the currently iterated fusion material card.
-					Fusion resolvedFusion =
-						ResolveResultantFusion(targetCard, potentialFusionMaterialCard);
-
-					if (resolvedFusion != null)
-					{
-						//If a valid fusion was resolved, add the fusion material card and
-						//resultant card to a new permutation copied from the current one.
-						List<Card> branchPermutation = new List<Card>(currentPermutation);
-						branchPermutation.Add(potentialFusionMaterialCard);
-						branchPermutation.Add(resolvedFusion.ResultantCard);
-
-						//Then recusively resolve permutations that can be made between the
-						//current permutation and remaining potential fusion material cards.
-						generatedFusionPermutations
-							.AddRange
-							(
-								GenerateFusionPermutations
-								(
-									branchPermutation,
-									potentialFusionMaterialCards.Except(new[] { potentialFusionMaterialCard })
-								)
-							);
-					}
-					else
-					{
-						//If no fusions were possible between the last card
-						//of the permutation and remaining fusion material
-						//cards, add the current permutation to the return list
-						generatedFusionPermutations.Add(currentPermutation);
-					}
-				}
-			}
-
-			//Return the recursively build permutations generated for the current permutation
-			return generatedFusionPermutations;
-		}
-
-
-		private Fusion ResolveResultantFusion
-		(
-			Card targetCard,
-			Card fusionMaterialCard
-		)
-		{
-			//A fusion between the two cards is possible if a 
-			//fusion record exists where both the target and 
-			//material cards possess an id or type matching
-			//those of the respective cards being checked.
-			IEnumerable<Fusion> possibleFusions =
-				_fusionList
-					.Where
-					(
-						fusion =>
-							(
-								(
-									fusion.TargetCardId != null &&
-									fusion.TargetCardId == targetCard.CardId
-								) ||
-								(
-									fusion.TargetMonsterType != null &&
-									(
-										fusion.TargetMonsterType == targetCard.MonsterType ||
-										fusion
-											.TargetMonsterType
-											.In
-											(
-												targetCard
-													.SecondaryTypes?
-													.Select
-													(
-														secondaryType =>
-															(MonsterType?)secondaryType.MonsterType
-													) ??
-														new[] { targetCard.MonsterType }
-											)
-									)
-								)
-							) &&
-							(
-								(
-									fusion.FusionMaterialCardId != null &&
-									fusion.FusionMaterialCardId == fusionMaterialCard.CardId
-								) ||
-								(
-									fusion.FusionMaterialMonsterType != null &&
-									(
-										fusion.FusionMaterialMonsterType == fusionMaterialCard.MonsterType ||
-										fusion
-											.FusionMaterialMonsterType
-											.In
-											(
-												fusionMaterialCard
-													.SecondaryTypes?
-													.Select
-													(
-														secondaryType =>
-															(MonsterType?)secondaryType.MonsterType
-													) ??
-														new[] { fusionMaterialCard.MonsterType }
-											)
-									)
-								)
-							)
-					);
-
-			//If a specific fusion exists between the two cards, return it.
-			if(possibleFusions.Any(fusion => fusion.FusionType == FusionType.Specific))
-			{
-				return
-					possibleFusions
-						.First(fusion => fusion.FusionType == FusionType.Specific);
-			}
-
-			//If no specific fusions exist, take the general fusion with the lowest
-			//attack greater than those of the cards used to form the fusion.
-			int maxFusionMaterialAttackPoints =
-				Math.Max
-				(
-					targetCard.AttackPoints ?? 0,
-					fusionMaterialCard.AttackPoints ?? 0
-				);
-
-			return
-				possibleFusions
-					.Where
-					(
-						fusion =>
-							fusion.FusionType == FusionType.General &&
-							fusion.ResultantCard.AttackPoints > maxFusionMaterialAttackPoints
-					)
-					.OrderBy
-					(
-						fusion =>
-							fusion.ResultantCard.AttackPoints ?? 0
-					)
-					.FirstOrDefault();
 		}
 
 

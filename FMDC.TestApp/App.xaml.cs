@@ -1,4 +1,5 @@
-﻿using FMDC.Model;
+﻿using FMDC.BusinessLogic;
+using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.Persistence;
@@ -68,6 +69,14 @@ namespace FMDC.TestApp
 			DependencyManager
 				.RegisterService<IGenericRepository, GenericRepository>
 				(
+					ServiceScope.Singleton
+				);
+
+			//Register Service Layer Type(s)
+			DependencyManager
+				.RegisterService<IFusionService, FusionService>
+				(
+					() => new FusionService(FusionList),
 					ServiceScope.Singleton
 				);
 
