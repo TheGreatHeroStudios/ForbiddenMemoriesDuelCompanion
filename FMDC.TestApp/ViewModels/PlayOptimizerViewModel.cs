@@ -262,10 +262,10 @@ namespace FMDC.TestApp.ViewModels
 						potentialTerrains
 					);
 
-				//Take the optimal permutation and build a play sequence for it
-				//(by stripping out intermediate cards from the permutation)
+				//Convert the optimal permutation to a play sequence by
+				//stripping out intermediate cards from the permutation
 				optimalPlay =
-					BuildOptimalPlaySequence(optimalFusionPermutation);
+					_fusionService.ConvertToPlaySequence(optimalFusionPermutation);
 
 				//Select any equip cards from the player's hand which can be applied to 
 				//the optimal resultant card and store them for visualization in the UI
@@ -782,39 +782,6 @@ namespace FMDC.TestApp.ViewModels
 			}
 
 			return targetPermutation;
-		}
-
-
-		private List<Card> BuildOptimalPlaySequence(List<Card> optimalFusionPermutation)
-		{
-			List<Card> optimalFusionSequence = new List<Card>();
-
-			//Add the root card of the permutation to the fusion sequence to be displayed.
-			optimalFusionSequence.Add(optimalFusionPermutation[0]);
-
-			if (optimalFusionPermutation.Count > 1)
-			{
-				if (ThrowAwayFirstCardInSequence)
-				{
-					//If the first card in the sequence is a throw-away card, add
-					//the second card of the permutation to the sequence as well
-					optimalFusionSequence.Add(optimalFusionPermutation[1]);
-				}
-
-				//If the permutation involves more than one card, take every other card in the sequence
-				//(which corresponds to the fusion material cards of which the resultant card is composed)
-				for (int i = optimalFusionSequence.Count; i < optimalFusionPermutation.Count; i += 2)
-				{
-					//Add each to the fusion sequence to be displayed
-					optimalFusionSequence.Add(optimalFusionPermutation[i]);
-				}
-
-				//Add the last card of the permutation to the 
-				//sequence (representing the final resultant card).
-				optimalFusionSequence.Add(optimalFusionPermutation.Last());
-			}
-
-			return optimalFusionSequence;
 		}
 
 

@@ -19,6 +19,7 @@ namespace FMDC.TestApp
 		private MainViewModel _mainViewModel;
 		private TrunkViewModel _trunkViewModel;
 		private PlayOptimizerViewModel _playOptimizerViewModel;
+		private DeckOptimizerViewModel _deckOptimizerViewModel;
 		#endregion
 
 
@@ -52,6 +53,7 @@ namespace FMDC.TestApp
 		private void DeckOptimizerButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainViewModel.CurrentFeature = FeatureSelection.DeckOptimizer;
+			_deckOptimizerViewModel.RefreshAvailableCards(_trunkViewModel.CardCounts);
 		}
 
 
@@ -100,6 +102,9 @@ namespace FMDC.TestApp
 
 			_playOptimizerViewModel = 
 				(PlayOptimizerPage.Content as PlayOptimizer)?.DataContext as PlayOptimizerViewModel;
+
+			_deckOptimizerViewModel =
+				(DeckOptimizerPage.Content as DeckOptimizer)?.DataContext as DeckOptimizerViewModel;
 		}
 		#endregion
 	}

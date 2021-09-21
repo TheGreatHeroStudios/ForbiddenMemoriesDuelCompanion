@@ -90,6 +90,7 @@
 		</StackPanel>
 		<!--#endregion-->
 
+		<!--#region Feature Pages-->
 		<TextBlock Text="{Binding CurrentFeature, 
 			Converter={StaticResource EnumStringConverter}, ConverterParameter=' '}" 
 			Grid.Column="1" Grid.Row="1" Background="#333333" VerticalAlignment="Stretch" 
@@ -100,8 +101,13 @@
 			Visibility="{Binding CurrentFeature, 
 				Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=0}"/>
 
+		<Frame Name="DeckOptimizerPage" Source="Pages/DeckOptimizer.xaml" Grid.Row="2" Grid.Column="1" 
+			Visibility="{Binding CurrentFeature, 
+				Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=1}"/>
+
 		<Frame Name="PlayOptimizerPage" Source="Pages/PlayOptimizer.xaml" Grid.Row="2" Grid.Column="1" 
 			Visibility="{Binding CurrentFeature, 
 				Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=2}"/>
+		<!--#endregion-->
 	</Grid>
 </Window>

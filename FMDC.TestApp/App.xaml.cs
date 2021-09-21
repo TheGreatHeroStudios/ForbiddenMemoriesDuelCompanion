@@ -65,12 +65,14 @@ namespace FMDC.TestApp
 					ServiceScope.Singleton
 				);
 
+
 			//Register Repository Layer Type(s)
 			DependencyManager
 				.RegisterService<IGenericRepository, GenericRepository>
 				(
 					ServiceScope.Singleton
 				);
+
 
 			//Register Service Layer Type(s)
 			DependencyManager
@@ -80,6 +82,7 @@ namespace FMDC.TestApp
 					ServiceScope.Singleton
 				);
 
+
 			//Register Application
 			DependencyManager
 				.RegisterService<App, App>
@@ -87,6 +90,7 @@ namespace FMDC.TestApp
 					() => (App)Current,
 					ServiceScope.Singleton
 				);
+
 
 			//Register View Model Layer Type(s)
 			DependencyManager
@@ -101,6 +105,13 @@ namespace FMDC.TestApp
 					ServiceScope.Singleton
 				);
 
+			DependencyManager
+				.RegisterService<DeckOptimizerViewModel, DeckOptimizerViewModel>
+				(
+					ServiceScope.Singleton
+				);
+
+
 			//Register View Layer Type(s)
 			DependencyManager
 				.RegisterService<Trunk, Trunk>
@@ -110,6 +121,12 @@ namespace FMDC.TestApp
 
 			DependencyManager
 				.RegisterService<PlayOptimizer, PlayOptimizer>
+				(
+					ServiceScope.Singleton
+				);
+
+			DependencyManager
+				.RegisterService<DeckOptimizer, DeckOptimizer>
 				(
 					ServiceScope.Singleton
 				);

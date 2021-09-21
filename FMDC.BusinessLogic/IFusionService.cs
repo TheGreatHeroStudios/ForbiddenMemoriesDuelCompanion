@@ -12,5 +12,13 @@ namespace FMDC.BusinessLogic
 			List<Card> currentPermutation,
 			IEnumerable<Card> potentialFusionMaterialCards
 		);
+
+
+		List<Card> ConvertToPlaySequence
+		(
+			List<Card> fusionPermutation,
+			bool includeResultantCard = true,
+			bool throwAwayFirstCardInSequence = false
+		);
 	}
 }

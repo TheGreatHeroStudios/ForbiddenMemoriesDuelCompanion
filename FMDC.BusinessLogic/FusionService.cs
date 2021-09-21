@@ -218,6 +218,47 @@ namespace FMDC.BusinessLogic
 					)
 					.FirstOrDefault();
 		}
+
+
+		public List<Card> ConvertToPlaySequence
+		(
+			List<Card> fusionPermutation,
+			bool includeResultantCard = true,
+			bool throwAwayFirstCardInSequence = false
+		)
+		{
+			List<Card> playSequence = new List<Card>();
+
+			//Add the root card of the permutation to the play sequence to be displayed.
+			playSequence.Add(fusionPermutation[0]);
+
+			if (fusionPermutation.Count > 1)
+			{
+				if (throwAwayFirstCardInSequence)
+				{
+					//If the first card in the sequence is a throw-away card, add
+					//the second card of the permutation to the sequence as well
+					playSequence.Add(fusionPermutation[1]);
+				}
+
+				//If the permutation involves more than one card, take every other card in the sequence
+				//(which corresponds to the fusion material cards of which the resultant card is composed)
+				for (int i = playSequence.Count; i < fusionPermutation.Count; i += 2)
+				{
+					//Add each to the play sequence to be displayed
+					playSequence.Add(fusionPermutation[i]);
+				}
+
+				if (includeResultantCard)
+				{
+					//Add the last card of the permutation to the 
+					//sequence (representing the final resultant card).
+					playSequence.Add(fusionPermutation.Last());
+				}
+			}
+
+			return playSequence;
+		}
 		#endregion
 	}
 }
