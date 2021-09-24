@@ -3,6 +3,7 @@ using FMDC.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TGH.Common.DataStructures;
 using TGH.Common.Extensions;
 using TGH.Common.Repository.Interfaces;
 
@@ -51,6 +52,24 @@ namespace FMDC.BusinessLogic
 
 
 		#region 'IFusionService' Implementation
+		public void BuildFusionTree
+		(
+			BalancedBinaryTree<Card> currentTree,
+			List<Fusion> viableFusions,
+			Dictionary<Card, int> availableCardCounts
+		)
+		{
+			List<Card> requiredRootCards =
+				currentTree
+					.Where
+					(
+						node =>
+
+					)
+			if()
+		}
+
+
 		public List<Card> ConvertToPlaySequence
 		(
 			List<Card> fusionPermutation,

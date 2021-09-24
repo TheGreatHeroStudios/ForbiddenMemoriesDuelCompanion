@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CommonLibrary\TGH.Common.DataStructures\TGH.Common.DataStructures.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Repository\TGH.Common.Repository.csproj" />
     <ProjectReference Include="..\FMFC.Model\FMDC.Model.csproj" />
   </ItemGroup>

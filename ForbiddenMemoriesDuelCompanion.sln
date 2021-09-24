@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMDC.TestApp", "FMDC.TestAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMDC.BusinessLogic", "FMDC.BusinessLogic\FMDC.BusinessLogic.csproj", "{AB531DD8-27C2-4308-A575-9015B83C9931}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGH.Common.DataStructures", "..\CommonLibrary\TGH.Common.DataStructures\TGH.Common.DataStructures.csproj", "{27D480A1-9E77-438B-AE96-DA98CC872E56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{AB531DD8-27C2-4308-A575-9015B83C9931}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB531DD8-27C2-4308-A575-9015B83C9931}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB531DD8-27C2-4308-A575-9015B83C9931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D480A1-9E77-438B-AE96-DA98CC872E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D480A1-9E77-438B-AE96-DA98CC872E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D480A1-9E77-438B-AE96-DA98CC872E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D480A1-9E77-438B-AE96-DA98CC872E56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{5E8EF4E1-3E2E-40D0-9D26-1BC8C823BCF8} = {769ABAA2-9B68-407C-98FE-8C98ECBFCBFD}
 		{9A03B85F-C038-442B-94AE-179CC482F807} = {606C58F0-2AC6-41B7-BA73-FD8D63FDD59B}
 		{AB531DD8-27C2-4308-A575-9015B83C9931} = {5EA69B6B-1CC2-438F-BA3C-A66E3202F636}
+		{27D480A1-9E77-438B-AE96-DA98CC872E56} = {769ABAA2-9B68-407C-98FE-8C98ECBFCBFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7DA4A5B-1BB1-4F58-A17A-298E13F0B987}

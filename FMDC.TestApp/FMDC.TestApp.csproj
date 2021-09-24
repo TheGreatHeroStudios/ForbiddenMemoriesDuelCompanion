@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CommonLibrary\TGH.Common.DataStructures\TGH.Common.DataStructures.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Patterns\TGH.Common.Patterns.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Persistence\TGH.Common.Persistence.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Repository\TGH.Common.Repository.csproj" />

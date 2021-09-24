@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TGH.Common.DataStructures;
+using TGH.Common.DataStructures.Enums;
 using TGH.Common.Extensions;
 
 namespace FMDC.TestApp.ViewModels
@@ -75,7 +77,6 @@ namespace FMDC.TestApp.ViewModels
 			foreach(Card optimalCard in _cardList.OrderByDescending(card => card.AttackPoints))
 			{
 				int deckCount = _optimizedDeck.Count;
-				List<Fusion> specificFusions;
 
 				if(_availableCardCounts.ContainsKey(optimalCard))
 				{
@@ -98,7 +99,44 @@ namespace FMDC.TestApp.ViewModels
 				{
 					//If the player does not have the card itself in their deck or trunk,
 					//but there is a viable way to make it based on the cards in their
-					//deck or trunk, use the viable fusions to build an optimal fusion path.
+					//deck or trunk, use the viable fusions to build an optimal fusion tree.
+					BalancedBinaryTree<Card> fusionTree =
+						new BalancedBinaryTree<Card>
+						(
+							new[] { optimalCard },
+							SearchMethod.DepthFirst
+						);
+
+					//Initialize the tree with cards for the fusion resulting in the optimal
+					//card which has the highest average attack across material cards
+					Fusion rootFusion =
+						_viableFusions
+							.Where
+							(
+								fusion =>
+									fusion.ResultantCard.Equals(optimalCard)
+							)
+							.OrderByDescending
+							(
+								fusion =>
+									(float)
+										(
+											fusion.TargetCard.AttackPoints +
+											fusion.FusionMaterialCard.AttackPoints
+										) / 2
+							)
+							.First();
+
+					fusionTree.Add(rootFusion.TargetCard);
+					fusionTree.Add(rootFusion.FusionMaterialCard);
+
+					_fusionService
+						.BuildFusionTree
+						(
+							fusionTree,
+							_viableFusions,
+							_availableCardCounts
+						);
 				}
 
 

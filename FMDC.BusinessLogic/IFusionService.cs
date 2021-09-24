@@ -2,11 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TGH.Common.DataStructures;
 
 namespace FMDC.BusinessLogic
 {
 	public interface IFusionService
 	{
+		void BuildFusionTree
+		(
+			BalancedBinaryTree<Card> currentTree,
+			List<Fusion> viableFusions,
+			Dictionary<Card, int> availableCardCounts
+		);
+
+
 		/// <summary>
 		///		Converts a set of cards representing intermediate steps
 		///		involved in a fusion to a subset containing cards for display.
