@@ -21,5 +21,17 @@ namespace FMDC.Model.Models
 		public Card FusionMaterialCard { get; set; }
 		public Card ResultantCard { get; set; }
 		#endregion
+
+
+
+		#region Override(s)
+		public override string ToString()
+		{
+			return
+				FusionType == FusionType.Specific ?
+					$"{TargetCard} + {FusionMaterialCard} = {ResultantCard}" :
+					$"{TargetMonsterType} + {FusionMaterialMonsterType} = {ResultantCard}";
+		}
+		#endregion
 	}
 }

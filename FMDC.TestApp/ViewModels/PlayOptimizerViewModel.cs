@@ -173,6 +173,11 @@ namespace FMDC.TestApp.ViewModels
 						cardCount =>
 							cardCount.Card
 					)
+					.OrderBy
+					(
+						card =>
+							card.Name
+					)
 			);
 
 			RaisePropertyChanged(nameof(DeckList));
