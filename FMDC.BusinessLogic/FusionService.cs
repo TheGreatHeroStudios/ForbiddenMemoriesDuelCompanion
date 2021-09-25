@@ -52,24 +52,6 @@ namespace FMDC.BusinessLogic
 
 
 		#region 'IFusionService' Implementation
-		public void BuildFusionTree
-		(
-			BalancedBinaryTree<Card> currentTree,
-			List<Fusion> viableFusions,
-			Dictionary<Card, int> availableCardCounts
-		)
-		{
-			List<Card> requiredRootCards =
-				currentTree
-					.Where
-					(
-						node =>
-
-					)
-			if()
-		}
-
-
 		public List<Card> ConvertToPlaySequence
 		(
 			List<Card> fusionPermutation,
@@ -108,6 +90,103 @@ namespace FMDC.BusinessLogic
 			}
 
 			return playSequence;
+		}
+
+
+		public Dictionary<Card, int> DetermineOptimalCardsForFusion
+		(
+			BalancedBinaryTree<Card> currentFusionTree,
+			List<Fusion> viableFusions,
+			Dictionary<Card, int> availableCardCounts
+		)
+		{
+			Card blankCard = new Card { CardId = -1 };
+
+			//Get the leaf nodes of the current fusion tree
+			IEnumerable<BinaryTreeNode<Card>> fusionLeafNodes =
+				currentFusionTree
+					.GetNodes()
+					.Where
+					(
+						node =>
+							node.IsLeafNode
+					);
+
+			//Determine the required card counts
+			//to create the current fusion tree
+			Dictionary<Card, int> requiredCardCounts =
+				GetRequiredCardCounts(fusionLeafNodes);
+
+			if
+			(
+				requiredCardCounts
+					.All
+					(
+						cardCount =>
+							availableCardCounts.ContainsKey(cardCount.Key) &&
+							availableCardCounts[cardCount.Key] == cardCount.Value
+					)
+			)
+			{
+				//If the player has all the cards necessary to
+				//make the fusion, return the card counts required
+				return requiredCardCounts;
+			}
+			else
+			{
+				//If the player does not have all the cards necessary
+				//to make the current fusion, continue building the
+				//tree with the optimal fusion for each leaf node
+				foreach
+				(
+					Card leafNodeCard in 
+					fusionLeafNodes
+						.Where(node => node.Data != blankCard)
+						.Select(node => node.Data)
+				)
+				{
+					if (!availableCardCounts.ContainsKey(leafNodeCard))
+					{
+						//If the player does not have the leaf node card, 
+						//pick the optimal fusion resulting in the 
+						//card and add its material cards to the tree
+						Fusion optimalFusion =
+							viableFusions
+								.Where
+								(
+									fusion =>
+										fusion.ResultantCard.Equals(leafNodeCard)
+								)
+								.OrderByDescending
+								(
+									fusion =>
+										(float)
+											(
+												fusion.TargetCard.AttackPoints +
+												fusion.FusionMaterialCard.AttackPoints
+											) / 2
+								)
+								.First();
+
+						currentFusionTree.Add(optimalFusion.TargetCard);
+						currentFusionTree.Add(optimalFusion.FusionMaterialCard);
+
+						//Remove the utilized fusion from the
+						//available list of viable fusions
+						viableFusions.Remove(optimalFusion);
+					}
+				}
+
+				//After mapping new leaf nodes for the fusion,
+				//recursively determine optimal cards for the new tree
+				return
+					DetermineOptimalCardsForFusion
+					(
+						currentFusionTree,
+						viableFusions,
+						availableCardCounts
+					);
+			}
 		}
 
 
@@ -208,6 +287,39 @@ namespace FMDC.BusinessLogic
 
 			//Return the recursively build permutations generated for the current permutation
 			return generatedFusionPermutations;
+		}
+
+
+		public Dictionary<Card, int> GetRequiredCardCounts
+		(
+			IEnumerable<BinaryTreeNode<Card>> fusionLeafNodes
+		)
+		{
+			Card blankCard = new Card { CardId = -1 };
+
+			//Get the leaf nodes of the current fusion tree to determine
+			//the required cards the player must have to make the fusion.
+			return
+				fusionLeafNodes
+					.Select
+					(
+						node =>
+							node.Data
+					)
+					.Where
+					(
+						node =>
+							!node.Equals(blankCard)
+					)
+					.GroupBy
+					(
+						card => card
+					)
+					.ToDictionary
+					(
+						cardGroup => cardGroup.Key,
+						cardGroup => cardGroup.Count()
+					);
 		}
 		#endregion
 

@@ -8,13 +8,6 @@ namespace FMDC.BusinessLogic
 {
 	public interface IFusionService
 	{
-		void BuildFusionTree
-		(
-			BalancedBinaryTree<Card> currentTree,
-			List<Fusion> viableFusions,
-			Dictionary<Card, int> availableCardCounts
-		);
-
 
 		/// <summary>
 		///		Converts a set of cards representing intermediate steps
@@ -40,6 +33,14 @@ namespace FMDC.BusinessLogic
 			List<Card> fusionPermutation,
 			bool includeResultantCard = true,
 			bool throwAwayFirstCardInSequence = false
+		);
+
+
+		Dictionary<Card, int> DetermineOptimalCardsForFusion
+		(
+			BalancedBinaryTree<Card> currentTree,
+			List<Fusion> viableFusions,
+			Dictionary<Card, int> availableCardCounts
 		);
 
 
@@ -87,6 +88,24 @@ namespace FMDC.BusinessLogic
 		(
 			List<Card> currentPermutation,
 			IEnumerable<Card> potentialFusionMaterialCards
+		);
+
+
+		/// <summary>
+		///		Retrieves an aggregation of cards and counts required
+		///		to build the supplied <paramref name="fusionTree"/>
+		/// </summary>
+		/// <param name="fusionTree">
+		///		A <seealso cref="BalancedBinaryTree{TItemType}"/>
+		///		representing a path to a specific fusion.
+		/// </param>
+		/// <returns>
+		///		A dictionary of cards required to fulfill the fusion
+		///		and the corresponding count of each card required.
+		/// </returns>
+		Dictionary<Card, int> GetRequiredCardCounts
+		(
+			IEnumerable<BinaryTreeNode<Card>> fusionLeafNodes
 		);
 	}
 }

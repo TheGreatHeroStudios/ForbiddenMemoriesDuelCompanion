@@ -101,11 +101,7 @@ namespace FMDC.TestApp.ViewModels
 					//but there is a viable way to make it based on the cards in their
 					//deck or trunk, use the viable fusions to build an optimal fusion tree.
 					BalancedBinaryTree<Card> fusionTree =
-						new BalancedBinaryTree<Card>
-						(
-							new[] { optimalCard },
-							SearchMethod.DepthFirst
-						);
+						new BalancedBinaryTree<Card>(new[] { optimalCard });
 
 					//Initialize the tree with cards for the fusion resulting in the optimal
 					//card which has the highest average attack across material cards
@@ -130,11 +126,14 @@ namespace FMDC.TestApp.ViewModels
 					fusionTree.Add(rootFusion.TargetCard);
 					fusionTree.Add(rootFusion.FusionMaterialCard);
 
+					List<Fusion> viableFusionsThisCard =
+						new List<Fusion>(_viableFusions);
+
 					_fusionService
-						.BuildFusionTree
+						.DetermineOptimalCardsForFusion
 						(
 							fusionTree,
-							_viableFusions,
+							viableFusionsThisCard,
 							_availableCardCounts
 						);
 				}
