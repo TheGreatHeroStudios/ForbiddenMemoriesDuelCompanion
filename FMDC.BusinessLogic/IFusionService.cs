@@ -8,9 +8,9 @@ namespace FMDC.BusinessLogic
 {
 	public interface IFusionService
 	{
-		void BuildFusionTree
+		bool BuildFusionTree
 		(
-			BalancedBinaryTree<Card> currentTree,
+			BinaryTreeNode<Card> fusionLeafNode,
 			List<Fusion> viableFusions,
 			Dictionary<Card, int> availableCardCounts
 		);

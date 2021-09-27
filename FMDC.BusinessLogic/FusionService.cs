@@ -52,21 +52,110 @@ namespace FMDC.BusinessLogic
 
 
 		#region 'IFusionService' Implementation
-		public void BuildFusionTree
+		public bool BuildFusionTree
 		(
-			BalancedBinaryTree<Card> currentTree,
+			BinaryTreeNode<Card> fusionLeafNode,
 			List<Fusion> viableFusions,
 			Dictionary<Card, int> availableCardCounts
 		)
 		{
-			List<Card> requiredRootCards =
-				currentTree
+			bool fusionPossible = true;
+
+			//Get the best fusion for the leaf node card by selecting the fusion
+			//from the list of viable fusions resulting in the leaf node card
+			//which has the highest average attack across its material monsters.
+			Fusion optimalFusion =
+				viableFusions
 					.Where
 					(
-						node =>
-
+						fusion =>
+							fusion.ResultantCard.Equals(fusionLeafNode.Data)
 					)
-			if()
+					.OrderByDescending
+					(
+						fusion =>
+							(float)
+								(
+									fusion.TargetCard.AttackPoints +
+									fusion.FusionMaterialCard.AttackPoints
+								) / 2
+					)
+					.FirstOrDefault();
+
+			if (optimalFusion != null)
+			{
+				//If a viable fusion was selected for the leaf node,
+				//remove the selected fusion from the list of viables.
+				viableFusions.Remove(optimalFusion);
+
+				//Add new leaf nodes for each of the material cards
+				//necessary to form the current leaf node.
+				BinaryTreeNode<Card> fusionTreeLeftChildNode =
+					new BinaryTreeNode<Card>(optimalFusion.TargetCard);
+
+				fusionLeafNode.LeftChildNode = fusionTreeLeftChildNode;
+
+				BinaryTreeNode<Card> fusionTreeRightChildNode =
+					new BinaryTreeNode<Card>(optimalFusion.FusionMaterialCard);
+
+				fusionLeafNode.RightChildNode = fusionTreeRightChildNode;
+
+				if
+				(
+					!availableCardCounts.ContainsKey(optimalFusion.TargetCard) ||
+					availableCardCounts[optimalFusion.TargetCard] < 1
+				)
+				{
+					//If the player does not have the card needed to make the target
+					//card's child node added to the tree, recursively build additional
+					//leaf nodes from the fusion material cards until the player 
+					//has the cards necessary to form the entire fusion tree.
+					fusionPossible =
+						BuildFusionTree
+						(
+							fusionTreeLeftChildNode,
+							viableFusions,
+							availableCardCounts
+						);
+				}
+				else
+				{
+					//If the player has the necessary card, subtract one from its
+					//available card count to indicate that the card has been used.
+					availableCardCounts[optimalFusion.TargetCard] =
+						availableCardCounts[optimalFusion.TargetCard] - 1;
+				}
+
+				//Perform the same process for the fusion material card's child node.
+				if
+				(
+					!availableCardCounts.ContainsKey(optimalFusion.FusionMaterialCard) ||
+					availableCardCounts[optimalFusion.FusionMaterialCard] < 1
+				)
+				{
+					fusionPossible =
+						BuildFusionTree
+						(
+							fusionTreeRightChildNode,
+							viableFusions,
+							availableCardCounts
+						);
+				}
+				else
+				{
+					availableCardCounts[optimalFusion.FusionMaterialCard] =
+						availableCardCounts[optimalFusion.FusionMaterialCard] - 1;
+				}
+			}
+			else
+			{
+				//If no viable fusion was selected (most likely due to it
+				//being utilized by another optimization) return 'false'
+				//indicating that the fusion is no longer possible.
+				fusionPossible = false;
+			}
+
+			return fusionPossible;
 		}
 
 

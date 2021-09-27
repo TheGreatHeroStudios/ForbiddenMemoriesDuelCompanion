@@ -100,45 +100,24 @@ namespace FMDC.TestApp.ViewModels
 					//If the player does not have the card itself in their deck or trunk,
 					//but there is a viable way to make it based on the cards in their
 					//deck or trunk, use the viable fusions to build an optimal fusion tree.
-					BalancedBinaryTree<Card> fusionTree =
-						new BalancedBinaryTree<Card>
-						(
-							new[] { optimalCard },
-							SearchMethod.DepthFirst
-						);
+					BinaryTreeNode<Card> fusionRootNode = new BinaryTreeNode<Card>(optimalCard);
 
-					//Initialize the tree with cards for the fusion resulting in the optimal
-					//card which has the highest average attack across material cards
-					Fusion rootFusion =
-						_viableFusions
-							.Where
+					bool fusionPossible =
+						_fusionService
+							.BuildFusionTree
 							(
-								fusion =>
-									fusion.ResultantCard.Equals(optimalCard)
-							)
-							.OrderByDescending
-							(
-								fusion =>
-									(float)
-										(
-											fusion.TargetCard.AttackPoints +
-											fusion.FusionMaterialCard.AttackPoints
-										) / 2
-							)
-							.First();
+								fusionRootNode,
+								_viableFusions,
+								new Dictionary<Card, int>(_availableCardCounts)
+							);
 
-					fusionTree.Add(rootFusion.TargetCard);
-					fusionTree.Add(rootFusion.FusionMaterialCard);
-
-					_fusionService
-						.BuildFusionTree
-						(
-							fusionTree,
-							_viableFusions,
-							_availableCardCounts
-						);
+					if(fusionPossible)
+					{
+						//If a fusion tree was successfully generated for the optimal card
+						//(where all leaf node cards are owned by the player), aggregate
+						//the leaf nodes into card counts and deduct them from the player's.
+					}
 				}
-
 
 				//If adding the last card allowed the optimized
 				//deck to reach 40 cards, break out of the loop
