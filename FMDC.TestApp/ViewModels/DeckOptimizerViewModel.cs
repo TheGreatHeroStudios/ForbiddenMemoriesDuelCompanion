@@ -97,17 +97,22 @@ namespace FMDC.TestApp.ViewModels
 				}
 				else if(_viableFusions.Any(fusion => fusion.ResultantCard.Equals(optimalCard)))
 				{
+					//TODO: Make this a loop in case multiple viable permutations exist for the optimal card.
+
 					//If the player does not have the card itself in their deck or trunk,
 					//but there is a viable way to make it based on the cards in their
 					//deck or trunk, use the viable fusions to build an optimal fusion tree.
-					BinaryTreeNode<Card> fusionRootNode = new BinaryTreeNode<Card>(optimalCard);
+					BinaryTreeNode<Card> fusionRootNode = 
+						new BinaryTreeNode<Card>(optimalCard);
+
+					List<Fusion> currentViableFusions = new List<Fusion>(_viableFusions);
 
 					bool fusionPossible =
 						_fusionService
 							.BuildFusionTree
 							(
 								fusionRootNode,
-								_viableFusions,
+								currentViableFusions,
 								new Dictionary<Card, int>(_availableCardCounts)
 							);
 
@@ -116,6 +121,33 @@ namespace FMDC.TestApp.ViewModels
 						//If a fusion tree was successfully generated for the optimal card
 						//(where all leaf node cards are owned by the player), aggregate
 						//the leaf nodes into card counts and deduct them from the player's.
+						IEnumerable<IGrouping<Card, Card>> requiredCardCounts =
+							fusionRootNode
+								.GetChildNodes()
+								.Where
+								(
+									node =>
+										node.IsLeafNode
+								)
+								.Select
+								(
+									node =>
+										node.Data
+								)
+								.GroupBy
+								(
+									card =>
+										card
+								);
+
+						//If a fusion is possible, update the list of viable fusions
+						//to reflect those expended while generating the current card
+						_viableFusions = currentViableFusions;
+
+						foreach(IGrouping<Card, Card> requiredCardCount in requiredCardCounts)
+						{
+							_availableCardCounts[requiredCardCount.Key] -= requiredCardCount.Count();
+						}
 					}
 				}
 
