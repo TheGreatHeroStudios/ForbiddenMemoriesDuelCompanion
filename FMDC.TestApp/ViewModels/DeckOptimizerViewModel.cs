@@ -89,21 +89,25 @@ namespace FMDC.TestApp.ViewModels
 						AddToOptimizedDeck
 						(
 							optimalCard,
-							ref numberAvailable
+							numberAvailable
 						);
 
-					//Update the number left after adding to the optimized deck
-					_availableCardCounts[optimalCard] = numberAvailable;
-				}
-				else if(_viableFusions.Any(fusion => fusion.ResultantCard.Equals(optimalCard)))
-				{
-					//TODO: Make this a loop in case multiple viable permutations exist for the optimal card.
+					//If adding the last card allowed the optimized
+					//deck to reach 40 cards, break out of the loop
+					if (deckCount == 40)
+					{
+						break;
+					}
 
-					//If the player does not have the card itself in their deck or trunk,
-					//but there is a viable way to make it based on the cards in their
-					//deck or trunk, use the viable fusions to build an optimal fusion tree.
-					BinaryTreeNode<Card> fusionRootNode = 
-						new BinaryTreeNode<Card>(optimalCard);
+					//Update the number left after adding to the optimized deck
+					_availableCardCounts[optimalCard] = 0;
+				}
+
+				//While viable fusions resulting in the optimal card exist,
+				//try to add cards for each of them to the optimal deck...
+				while (_viableFusions.Any(fusion => fusion.ResultantCard.Equals(optimalCard)))
+				{
+					BinaryTreeNode<Card> fusionRootNode = new BinaryTreeNode<Card>(optimalCard);
 
 					List<Fusion> currentViableFusions = new List<Fusion>(_viableFusions);
 
@@ -116,7 +120,7 @@ namespace FMDC.TestApp.ViewModels
 								new Dictionary<Card, int>(_availableCardCounts)
 							);
 
-					if(fusionPossible)
+					if (fusionPossible)
 					{
 						//If a fusion tree was successfully generated for the optimal card
 						//(where all leaf node cards are owned by the player), aggregate
@@ -144,18 +148,33 @@ namespace FMDC.TestApp.ViewModels
 						//to reflect those expended while generating the current card
 						_viableFusions = currentViableFusions;
 
-						foreach(IGrouping<Card, Card> requiredCardCount in requiredCardCounts)
+						foreach (IGrouping<Card, Card> requiredCardCount in requiredCardCounts)
 						{
-							_availableCardCounts[requiredCardCount.Key] -= requiredCardCount.Count();
+							int requiredCount = requiredCardCount.Count();
+
+							//Add the required card(s) to the deck
+							deckCount =
+								AddToOptimizedDeck
+								(
+									requiredCardCount.Key,
+									requiredCount
+								);
+
+							//If adding the last card allowed the optimized
+							//deck to reach 40 cards, break out of the loop
+							if (deckCount == 40)
+							{
+								break;
+							}
+
+							_availableCardCounts[requiredCardCount.Key] -= requiredCount;
 						}
 					}
-				}
-
-				//If adding the last card allowed the optimized
-				//deck to reach 40 cards, break out of the loop
-				if (deckCount == 40)
-				{
-					break;
+					else
+					{
+						//If a fusion is not possible, break out of the loop
+						break;
+					}
 				}
 			}
 		}
@@ -164,16 +183,17 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Non-Public Method(s)
-		private int AddToOptimizedDeck(Card card, ref int maxCount)
+		private int AddToOptimizedDeck(Card card, int count)
 		{
 			//Add the specified number of instances of the card
 			//to the optimized deck until the deck reaches a max
 			//of 40 cards or the max count has been exhausted.
-			while(maxCount > 0 && _optimizedDeck.Count < 40)
+			while (count > 0 && _optimizedDeck.Count < 40)
 			{
 				_optimizedDeck.Add(card);
+				count--;
 			}
-
+			
 			//Return the number of cards currently in the optimized deck
 			return _optimizedDeck.Count;
 		}
