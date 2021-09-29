@@ -95,8 +95,8 @@ namespace FMDC.BusinessLogic
 						fusion =>
 							(float)
 								(
-									fusion.TargetCard.AttackPoints +
-									fusion.FusionMaterialCard.AttackPoints
+									(fusion.TargetCard.AttackPoints ?? 0) +
+									(fusion.FusionMaterialCard.AttackPoints ?? 0)
 								) / 2
 					)
 					.FirstOrDefault();

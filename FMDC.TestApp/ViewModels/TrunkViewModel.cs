@@ -2,6 +2,7 @@
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.TestApp.Enums;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -122,6 +123,69 @@ namespace FMDC.TestApp.ViewModels
 			(
 				nameof(CardCounts),
 				new ObservableCollection<CardCount>(cardCounts)
+			);
+
+			RaisePropertyChanged(nameof(DeckCount));
+			RaisePropertyChanged(nameof(TrunkCount));
+		}
+
+
+		public void RandomizeCardCounts()
+		{
+			List<CardCount> randomizedCardCounts = new List<CardCount>();
+			Random rng = new Random();
+
+			//Iterate over each card in the game and add a
+			//random number of them to the player's trunk
+			foreach (Card card in _cardList)
+			{
+				CardCount currentCardCount =
+					new CardCount
+					{
+						CardId = card.CardId,
+						Card = card,
+						NumberInDeck = 0,
+						NumberInTrunk = 0
+					};
+
+				if (card.AttackPoints >= 2500)
+				{
+					//If the card has more than 2500 attack, give it a
+					//10% chance of appearing in the randomized trunk
+					int generationValue = rng.Next(0, 100);
+
+					if (generationValue < 10)
+					{
+						currentCardCount.NumberInTrunk = 1;
+					}
+				}
+				else if (card.AttackPoints >= 1200)
+				{
+					//If the card has more than 1200 attack, give it a
+					//25% chance of appearing in the randomized trunk
+					int generationValue = rng.Next(0, 100);
+
+					if (generationValue < 25)
+					{
+						currentCardCount.NumberInTrunk = 1;
+					}
+				}
+				else
+				{
+					//If the card has less than 1200 attack points, 
+					//spawn between 0 and 2 of each in the trunk.
+					int trunkCount = rng.Next(0, 3);
+
+					currentCardCount.NumberInTrunk = trunkCount;
+				}
+
+				randomizedCardCounts.Add(currentCardCount);
+			}
+
+			SetPropertyValue
+			(
+				nameof(CardCounts),
+				new ObservableCollection<CardCount>(randomizedCardCounts)
 			);
 
 			RaisePropertyChanged(nameof(DeckCount));

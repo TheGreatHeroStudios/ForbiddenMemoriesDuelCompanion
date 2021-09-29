@@ -90,6 +90,16 @@ namespace FMDC.TestApp
 				_playOptimizerViewModel.RefreshDeckList(_trunkViewModel.CardCounts);
 			}
 		}
+
+
+		private void RandomizeMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			//Randomize the cards in the player's trunk and deck
+			_trunkViewModel.RandomizeCardCounts();
+
+			//Then, refresh the deck list for the play optimizer view
+			_playOptimizerViewModel.RefreshDeckList(_trunkViewModel.CardCounts);
+		}
 		#endregion
 
 

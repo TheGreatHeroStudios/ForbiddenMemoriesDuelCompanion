@@ -41,6 +41,10 @@
 					</MenuItem.InputBindings>
 				</MenuItem>
 			</MenuItem>
+			<MenuItem Header="Debug">
+				<MenuItem Header="Randomize Card Counts" Name="RandomizeMenuItem"
+					Click="RandomizeMenuItem_Click"/>
+			</MenuItem>
 		</Menu>
 
 		<!--#region Feature Selection Menu-->
