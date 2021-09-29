@@ -30,7 +30,9 @@ namespace FMDC.Model.Models
 			return
 				FusionType == FusionType.Specific ?
 					$"{TargetCard} + {FusionMaterialCard} = {ResultantCard}" :
-					$"{TargetMonsterType} + {FusionMaterialMonsterType} = {ResultantCard}";
+					$"{TargetMonsterType?.ToString() ?? TargetCard?.ToString()} + " +
+					$"{FusionMaterialMonsterType?.ToString() ?? FusionMaterialCard?.ToString()} = " +
+					$"{ResultantCard}";
 		}
 		#endregion
 	}

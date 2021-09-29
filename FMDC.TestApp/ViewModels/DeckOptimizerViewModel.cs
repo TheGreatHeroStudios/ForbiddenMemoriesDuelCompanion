@@ -18,7 +18,7 @@ namespace FMDC.TestApp.ViewModels
 
 		private List<Card> _cardList;
 		private Dictionary<Card, int> _availableCardCounts;
-		private List<Fusion> _viableFusions;
+		private List<Fusion> _viableSpecificFusions;
 
 		private List<Card> _optimizedDeck;
 		#endregion
@@ -62,7 +62,7 @@ namespace FMDC.TestApp.ViewModels
 
 			//Recursively map each specific fusion the player is
 			//currently able to make and cache it for later use.
-			_viableFusions = 
+			_viableSpecificFusions = 
 				_fusionService.DetermineViableSpecificFusions(_availableCardCounts);
 
 			//TODO (TEST): Remove the following method call
@@ -105,11 +105,11 @@ namespace FMDC.TestApp.ViewModels
 
 				//While viable fusions resulting in the optimal card exist,
 				//try to add cards for each of them to the optimal deck...
-				while (_viableFusions.Any(fusion => fusion.ResultantCard.Equals(optimalCard)))
+				while (_viableSpecificFusions.Any(fusion => fusion.ResultantCard.Equals(optimalCard)))
 				{
 					BinaryTreeNode<Card> fusionRootNode = new BinaryTreeNode<Card>(optimalCard);
 
-					List<Fusion> currentViableFusions = new List<Fusion>(_viableFusions);
+					List<Fusion> currentViableFusions = new List<Fusion>(_viableSpecificFusions);
 
 					bool fusionPossible =
 						_fusionService
@@ -146,7 +146,7 @@ namespace FMDC.TestApp.ViewModels
 
 						//If a fusion is possible, update the list of viable fusions
 						//to reflect those expended while generating the current card
-						_viableFusions = currentViableFusions;
+						_viableSpecificFusions = currentViableFusions;
 
 						foreach (IGrouping<Card, Card> requiredCardCount in requiredCardCounts)
 						{
@@ -175,6 +175,37 @@ namespace FMDC.TestApp.ViewModels
 						//If a fusion is not possible, break out of the loop
 						break;
 					}
+				}
+
+				//Once all specific fusions for the card have been exhausted,
+				//retrieve any general fusions that can be made for the card
+				//and add the necessary material cards to the deck one-by-one.
+				foreach
+				(
+					Card generalMaterialCard in 
+					_fusionService
+						.GetGeneralFusionCards
+						(
+							optimalCard,
+							_availableCardCounts
+						)
+				)
+				{
+					deckCount = AddToOptimizedDeck(generalMaterialCard, 1);
+
+					//If adding the last card allowed the optimized
+					//deck to reach 40 cards, break out of the inner loop
+					if (deckCount == 40)
+					{
+						break;
+					}
+				}
+
+				//If adding the general fusions allowed the optimized
+				//deck to reach 40 cards, break out of the outer loop
+				if (deckCount == 40)
+				{
+					break;
 				}
 			}
 		}

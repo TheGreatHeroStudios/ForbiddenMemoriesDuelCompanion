@@ -1,4 +1,4 @@
-﻿SELECT 
+﻿SELECT DISTINCT
 	TC.CardId AS TargetCardId,
 	TC.Name AS TargetCardName,
 	C_TT.MonsterTypeDescription AS TargetMonsterType,
@@ -57,4 +57,8 @@ FROM
 		ON C_FMT.MonsterTypeCode = FMT.MonsterType
 	INNER JOIN Card RC
 		ON RC.CardId = F.ResultantCardId
+WHERE
+	F.FusionType = 1 AND
+	F.TargetMonsterType = 26 AND
+	F.FusionMaterialMonsterType IS NULL
 	

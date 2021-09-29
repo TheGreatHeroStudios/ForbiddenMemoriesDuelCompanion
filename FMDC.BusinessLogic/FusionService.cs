@@ -13,6 +13,7 @@ namespace FMDC.BusinessLogic
 	{
 		#region Non-Public Member(s)
 		private List<Fusion> _fusionList;
+		private List<Fusion> _generalFusions;
 		#endregion
 
 
@@ -40,12 +41,30 @@ namespace FMDC.BusinessLogic
 						}
 					)
 					.ToList();
+
+			_generalFusions =
+				_fusionList
+					.Where
+					(
+						fusion =>
+							fusion.FusionType == FusionType.General
+					)
+					.ToList();
 		}
 
 
 		public FusionService(List<Fusion> fusions)
 		{
 			_fusionList = fusions;
+
+			_generalFusions =
+				_fusionList
+					.Where
+					(
+						fusion =>
+							fusion.FusionType == FusionType.General
+					)
+					.ToList();
 		}
 		#endregion
 
@@ -232,6 +251,208 @@ namespace FMDC.BusinessLogic
 			);
 
 			return viableFusions;
+		}
+
+
+		public List<Card> GetGeneralFusionCards
+		(
+			Card targetCard,
+			Dictionary<Card, int> availableCardCounts
+		)
+		{
+			List<Card> generalFusionCards = new List<Card>();
+
+			if
+			(
+				_generalFusions
+					.Any
+					(
+						fusion => 
+							fusion.ResultantCard.Equals(targetCard)
+					)
+			)
+			{
+				//If any general fusions exist for the target card,
+				//iterate over each and determine if the player has
+				//the cards to create it...
+				foreach
+				(
+					Fusion targetFusion in
+					_generalFusions
+						.Where
+						(
+							fusion =>
+								fusion.ResultantCard.Equals(targetCard)
+						)
+				)
+				{
+					//Get similar fusions to that of the one being checked
+					//and determine the next strongest card that can be made
+					Card nextStrongestResultantCard =
+						_generalFusions
+							.Where
+							(
+								similarFusion =>
+									similarFusion.ResultantCard.AttackPoints <
+										targetFusion.ResultantCard.AttackPoints &&
+									(
+										(
+											targetFusion.TargetCard != null &&
+											targetFusion.TargetCard.Equals(similarFusion.TargetCard)
+										) ||
+										targetFusion.TargetMonsterType == similarFusion.TargetMonsterType
+									) &&
+									(
+										(
+											targetFusion.FusionMaterialCard != null &&
+											targetFusion.FusionMaterialCard
+												.Equals(similarFusion.FusionMaterialCard)
+										) ||
+										targetFusion.FusionMaterialMonsterType == 
+											similarFusion.FusionMaterialMonsterType
+									)
+							)
+							.OrderByDescending
+							(
+								similarFusion =>
+									similarFusion.ResultantCard.AttackPoints ?? 0
+							)
+							.FirstOrDefault()?
+							.ResultantCard;
+
+					//Determine which available cards can be used as the target and fusion materials.
+					IEnumerable<KeyValuePair<Card, int>> viableTargetCards =
+						availableCardCounts
+							.Where
+							(
+								cardCount =>
+									cardCount.Value > 0 &&
+									(
+										(
+											targetFusion.TargetCard != null &&
+											cardCount.Key.Equals(targetFusion.TargetCard)
+										) ||
+										(
+											targetFusion.TargetCard == null &&
+											CheckFusionTypeCompatibility
+											(
+												targetFusion.TargetMonsterType,
+												cardCount.Key
+											)
+										)
+									)
+							)
+							.OrderByDescending
+							(
+								cardCount =>
+									cardCount.Key.AttackPoints
+							);
+
+					IEnumerable<KeyValuePair<Card, int>> viableFusionMaterialCards =
+						availableCardCounts
+							.Where
+							(
+								cardCount =>
+									cardCount.Value > 0 &&
+									(
+										(
+											targetFusion.FusionMaterialCard != null &&
+											cardCount.Key.Equals(targetFusion.FusionMaterialCard)
+										) ||
+										(
+											targetFusion.FusionMaterialCard == null &&
+											CheckFusionTypeCompatibility
+											(
+												targetFusion.FusionMaterialMonsterType,
+												cardCount.Key
+											)
+										)
+									)
+							)
+							.OrderByDescending
+							(
+								cardCount =>
+									cardCount.Key.AttackPoints
+							);
+
+					if
+					(
+						!viableTargetCards.Any() ||
+						!viableFusionMaterialCards.Any() ||
+						(
+							viableTargetCards.None
+							(
+								targetCard => 
+									targetCard.Key.AttackPoints > 
+										(nextStrongestResultantCard?.AttackPoints ?? 0) 
+							) &&
+							viableFusionMaterialCards.None
+							(
+								fusionMaterialCard =>
+									fusionMaterialCard.Key.AttackPoints > 
+										(nextStrongestResultantCard?.AttackPoints ?? 0)
+							)
+						)
+					)
+					{
+						//If the player is lacking either a target or fusion material 
+						//card strong enough for the fusion, skip over the fusion.
+						continue;
+					}
+					else
+					{
+						//If the player has cards strong enough to create the
+						//target fusion, select the strongest ones available.
+						Card selectedTargetCard = viableTargetCards.First().Key;
+						Card selectedFusionMaterialCard = viableFusionMaterialCards.First().Key;
+
+						if
+						(
+							selectedTargetCard.Equals(selectedFusionMaterialCard) &&
+							availableCardCounts[selectedTargetCard] < 2
+						)
+						{
+							//If both fusion material cards are the same card, but the player
+							//only has access to one copy of it, take the next strongest card
+							//as either the target or fusion material (if one is available)
+							Card nextStrongestTarget = 
+								viableTargetCards.Skip(1).FirstOrDefault().Key;
+
+							Card nextStrongestFusionMaterial =
+								viableFusionMaterialCards.Skip(1).First().Key;
+
+							if(nextStrongestTarget == null && nextStrongestFusionMaterial == null)
+							{
+								//If only one viable target and fusion material card was available
+								//(and they are both the same single card) skip the current fusion.
+								continue;
+							}
+							else if
+							(
+								nextStrongestTarget.AttackPoints >= 
+									nextStrongestFusionMaterial.AttackPoints
+							)
+							{
+								selectedTargetCard = nextStrongestTarget;
+							}
+							else
+							{
+								selectedFusionMaterialCard = nextStrongestFusionMaterial;
+							}
+						}
+
+						//Add the target and fusion material cards to the output list
+						//and deduct them from the player's available card count.
+						generalFusionCards.Add(selectedTargetCard);
+						generalFusionCards.Add(selectedFusionMaterialCard);
+
+						availableCardCounts[selectedTargetCard]--;
+						availableCardCounts[selectedFusionMaterialCard]--;
+					}
+				}
+			}
+
+			return generalFusionCards;
 		}
 
 

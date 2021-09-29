@@ -88,5 +88,12 @@ namespace FMDC.BusinessLogic
 			List<Card> currentPermutation,
 			IEnumerable<Card> potentialFusionMaterialCards
 		);
+
+
+		List<Card> GetGeneralFusionCards
+		(
+			Card targetCard,
+			Dictionary<Card, int> availableCardCounts
+		);
 	}
 }
