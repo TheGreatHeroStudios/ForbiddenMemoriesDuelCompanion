@@ -78,7 +78,11 @@ namespace FMDC.TestApp.ViewModels
 			{
 				int deckCount = _optimizedDeck.Count;
 
-				if(_availableCardCounts.ContainsKey(optimalCard))
+				if
+				(
+					_availableCardCounts.ContainsKey(optimalCard) &&
+					_availableCardCounts[optimalCard] > 0
+				)
 				{
 					//If the player has at least one of the card in their current 
 					//deck or trunk, add the total number to the optimized deck 

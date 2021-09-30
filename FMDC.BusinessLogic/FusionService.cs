@@ -107,8 +107,8 @@ namespace FMDC.BusinessLogic
 				//remove the selected fusion from the list of viables.
 				viableFusions.Remove(optimalFusion);
 
-				//Add new leaf nodes for each of the material cards
-				//necessary to form the current leaf node.
+				//Add new leaf nodes for each of the material 
+				//cards necessary to form the current leaf node.
 				BinaryTreeNode<Card> fusionTreeLeftChildNode =
 					new BinaryTreeNode<Card>(optimalFusion.TargetCard);
 
@@ -128,7 +128,8 @@ namespace FMDC.BusinessLogic
 					//If the player does not have the card needed to make the target
 					//card's child node added to the tree, recursively build additional
 					//leaf nodes from the fusion material cards until the player 
-					//has the cards necessary to form the entire fusion tree.
+					//has the cards necessary to form the entire fusion tree 
+					//(or the fusion is determined to be impossible to create).
 					fusionPossible =
 						BuildFusionTree
 						(
@@ -137,19 +138,16 @@ namespace FMDC.BusinessLogic
 							availableCardCounts
 						);
 				}
-				else
-				{
-					//If the player has the necessary card, subtract one from its
-					//available card count to indicate that the card has been used.
-					availableCardCounts[optimalFusion.TargetCard] =
-						availableCardCounts[optimalFusion.TargetCard] - 1;
-				}
 
-				//Perform the same process for the fusion material card's child node.
+				//If the fusion is still possible after resolving a viable path for the target 
+				//card, perform the same process for the fusion material card's child node.
 				if
 				(
-					!availableCardCounts.ContainsKey(optimalFusion.FusionMaterialCard) ||
-					availableCardCounts[optimalFusion.FusionMaterialCard] < 1
+					fusionPossible &&
+					(
+						!availableCardCounts.ContainsKey(optimalFusion.FusionMaterialCard) ||
+						availableCardCounts[optimalFusion.FusionMaterialCard] < 1
+					)
 				)
 				{
 					fusionPossible =
@@ -159,11 +157,6 @@ namespace FMDC.BusinessLogic
 							viableFusions,
 							availableCardCounts
 						);
-				}
-				else
-				{
-					availableCardCounts[optimalFusion.FusionMaterialCard] =
-						availableCardCounts[optimalFusion.FusionMaterialCard] - 1;
 				}
 			}
 			else
