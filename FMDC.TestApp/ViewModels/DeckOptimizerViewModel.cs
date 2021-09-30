@@ -25,6 +25,27 @@ namespace FMDC.TestApp.ViewModels
 
 
 
+		#region Public Propert(ies)
+		public float AverageCardStrength =>
+			(float)((_optimizedDeck?.Any() ?? false) ?
+				_optimizedDeck.Average(card => card.AttackPoints ?? 0) : 0);
+		public int OptimizedFusionCount { get; set; }
+		public int TotalOptimalFusionStrength { get; set; }
+		public float AverageOptimalFusionStrength =>
+			OptimizedFusionCount == 0 ?
+				0 : (float)TotalOptimalFusionStrength / OptimizedFusionCount;
+		public int TotalFusionMaterialCardsNecessary { get; set; }
+		public float AverageFusionMaterialCardsNecessary =>
+			OptimizedFusionCount == 0 ?
+				0 : (float)TotalFusionMaterialCardsNecessary / OptimizedFusionCount;
+		public float AverageFusionMaterialStrength =>
+			AverageFusionMaterialCardsNecessary == 0 ?
+				0 : (float)AverageOptimalFusionStrength / AverageFusionMaterialCardsNecessary;
+		public int TotalFusionPermutations { get; set; }
+		#endregion
+
+
+
 		#region Constructor(s)
 		public DeckOptimizerViewModel
 		(
@@ -129,7 +150,7 @@ namespace FMDC.TestApp.ViewModels
 						//If a fusion tree was successfully generated for the optimal card
 						//(where all leaf node cards are owned by the player), aggregate
 						//the leaf nodes into card counts and deduct them from the player's.
-						IEnumerable<IGrouping<Card, Card>> requiredCardCounts =
+						IEnumerable<Card> requiredCards =
 							fusionRootNode
 								.GetChildNodes()
 								.Where
@@ -141,28 +162,16 @@ namespace FMDC.TestApp.ViewModels
 								(
 									node =>
 										node.Data
-								)
-								.GroupBy
-								(
-									card =>
-										card
 								);
 
 						//If a fusion is possible, update the list of viable fusions
 						//to reflect those expended while generating the current card
 						_viableSpecificFusions = currentViableFusions;
 
-						foreach (IGrouping<Card, Card> requiredCardCount in requiredCardCounts)
+						foreach (Card requiredCard in requiredCards)
 						{
-							int requiredCount = requiredCardCount.Count();
-
-							//Add the required card(s) to the deck
-							deckCount =
-								AddToOptimizedDeck
-								(
-									requiredCardCount.Key,
-									requiredCount
-								);
+							//Add the required card to the deck
+							deckCount = AddToOptimizedDeck(requiredCard, 1);
 
 							//If adding the last card allowed the optimized
 							//deck to reach 40 cards, break out of the loop
@@ -171,8 +180,11 @@ namespace FMDC.TestApp.ViewModels
 								break;
 							}
 
-							_availableCardCounts[requiredCardCount.Key] -= requiredCount;
+							_availableCardCounts[requiredCard]--;
 						}
+
+						//Add the current fusion tree into the optimizer's aggregate counts
+						AddToOptimizedFusionAggregates(fusionRootNode);
 					}
 					else
 					{
@@ -212,6 +224,15 @@ namespace FMDC.TestApp.ViewModels
 					break;
 				}
 			}
+
+			RaisePropertyChanged(nameof(OptimizedFusionCount));
+			RaisePropertyChanged(nameof(TotalOptimalFusionStrength));
+			RaisePropertyChanged(nameof(AverageOptimalFusionStrength));
+			RaisePropertyChanged(nameof(TotalFusionMaterialCardsNecessary));
+			RaisePropertyChanged(nameof(AverageFusionMaterialCardsNecessary));
+			RaisePropertyChanged(nameof(AverageFusionMaterialStrength));
+			RaisePropertyChanged(nameof(TotalFusionPermutations));
+			RaisePropertyChanged(nameof(AverageCardStrength));
 		}
 		#endregion
 
@@ -231,6 +252,37 @@ namespace FMDC.TestApp.ViewModels
 			
 			//Return the number of cards currently in the optimized deck
 			return _optimizedDeck.Count;
+		}
+		
+
+		private void AddToOptimizedFusionAggregates(BinaryTreeNode<Card> fusionRootNode)
+		{
+			Card optimalCard = fusionRootNode.Data;
+
+			int distinctFusionCount =
+				fusionRootNode
+					.GetChildNodes()
+					.Where
+					(
+						childNode =>
+							!childNode.IsLeafNode
+					)
+					.Count() + 1;
+
+			int optimalFusionMaterialCardCount =
+				fusionRootNode
+					.GetChildNodes()
+					.Where
+					(
+						childNode =>
+							childNode.IsLeafNode
+					)
+					.Count();
+
+			OptimizedFusionCount++;
+			TotalOptimalFusionStrength += optimalCard.AttackPoints ?? 0;
+			TotalFusionMaterialCardsNecessary += optimalFusionMaterialCardCount;
+			TotalFusionPermutations += distinctFusionCount;
 		}
 		#endregion
 	}

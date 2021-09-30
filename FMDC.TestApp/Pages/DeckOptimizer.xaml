@@ -14,6 +14,28 @@
 	Title="DeckOptimizer">
 
     <Grid>
-        
-    </Grid>
+		<StackPanel Orientation="Vertical" Margin="10,0,0,0">
+			<TextBlock Text="Optimizer Statistics" Foreground="White" FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Average Card Strength: " Foreground="White"/>
+				<TextBlock Text="{Binding AverageCardStrength}" Foreground="White"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Optimal Fusions: " Foreground="White"/>
+				<TextBlock Text="{Binding OptimizedFusionCount}" Foreground="White"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Average Optimal Fusion Strength: " Foreground="White"/>
+				<TextBlock Text="{Binding AverageOptimalFusionStrength, StringFormat=####.00}" Foreground="White"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Average Material Cards Needed: " Foreground="White"/>
+				<TextBlock Text="{Binding AverageFusionMaterialCardsNecessary, StringFormat=#}" Foreground="White"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Total Specific Fusions Possible: " Foreground="White"/>
+				<TextBlock Text="{Binding TotalFusionPermutations}" Foreground="White"/>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
 </base:AutoBindingPage>
