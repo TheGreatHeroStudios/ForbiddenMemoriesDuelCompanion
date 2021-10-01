@@ -1,5 +1,6 @@
 ﻿using FMDC.BusinessLogic;
 using FMDC.Model.Base;
+using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using System;
 using System.Collections.Generic;
@@ -7,19 +8,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using TGH.Common.DataStructures;
-using TGH.Common.DataStructures.Enums;
 using TGH.Common.Extensions;
 
 namespace FMDC.TestApp.ViewModels
 {
-	public enum OptimizerDirection
-	{
-		NoChange,
-		ToDeck,
-		ToTrunk
-	}
-
-
 	public class DeckOptimizerViewModel : ObservableModel
 	{
 		#region Non-Public Member(s)
@@ -53,7 +45,7 @@ namespace FMDC.TestApp.ViewModels
 				0 : (float)AverageOptimalFusionStrength / AverageFusionMaterialCardsNecessary;
 		public int TotalFusionPermutations { get; set; }
 
-		public ObservableCollection<(Card card, OptimizerDirection direction, int number)> OptimizerStrategy { get; set; }
+		public ObservableCollection<OptimizerSuggestion> OptimizerStrategy { get; set; }
 		#endregion
 
 
@@ -317,7 +309,7 @@ namespace FMDC.TestApp.ViewModels
 		private void BuildOptimizerStrategy()
 		{
 			OptimizerStrategy =
-				new ObservableCollection<(Card card, OptimizerDirection direction, int number)>
+				new ObservableCollection<OptimizerSuggestion>
 				(
 					_currentDeck
 						.GroupBy
@@ -340,22 +332,24 @@ namespace FMDC.TestApp.ViewModels
 									//If there is no current card group, the optimized 
 									//card is being fully added to the current deck.
 									return
-									(
-										card: optimizedCardGroup.Key,
-										direction: OptimizerDirection.ToDeck,
-										number: optimizedCardGroup.Count()
-									);
+										new OptimizerSuggestion
+										{
+											TargetCard = optimizedCardGroup.Key,
+											Direction = OptimizerDirection.ToDeck,
+											Amount = optimizedCardGroup.Count()
+										};
 								}
 								else if (optimizedCardGroup == null)
 								{
 									//If there is no optimized card group, the current
 									//card is being fully removed from the current deck
 									return
-									(
-										card: currentCardGroup.Key,
-										direction: OptimizerDirection.ToTrunk,
-										number: currentCardGroup.Count()
-									);
+										new OptimizerSuggestion
+										{
+											TargetCard = currentCardGroup.Key,
+											Direction = OptimizerDirection.ToTrunk,
+											Amount = currentCardGroup.Count()
+										};
 								}
 								else if (currentCardGroup.Count() > optimizedCardGroup.Count())
 								{
@@ -363,11 +357,12 @@ namespace FMDC.TestApp.ViewModels
 									//in the player's current deck than in the optimized  
 									//deck, shift the difference to the player's trunk
 									return
-									(
-										card: currentCardGroup.Key,
-										direction: OptimizerDirection.ToTrunk,
-										number: currentCardGroup.Count() - optimizedCardGroup.Count()
-									);
+										new OptimizerSuggestion
+										{
+											TargetCard = currentCardGroup.Key,
+											Direction = OptimizerDirection.ToTrunk,
+											Amount = currentCardGroup.Count() - optimizedCardGroup.Count()
+										};
 								}
 								else if (optimizedCardGroup.Count() > currentCardGroup.Count())
 								{
@@ -375,24 +370,31 @@ namespace FMDC.TestApp.ViewModels
 									//in the optimized deck than in the player's current 
 									//deck, shift the difference to the player's deck
 									return
-									(
-										card: currentCardGroup.Key,
-										direction: OptimizerDirection.ToDeck,
-										number: optimizedCardGroup.Count() - currentCardGroup.Count()
-									);
+										new OptimizerSuggestion
+										{
+											TargetCard = currentCardGroup.Key,
+											Direction = OptimizerDirection.ToDeck,
+											Amount = optimizedCardGroup.Count() - currentCardGroup.Count()
+										};
 								}
 								else
 								{
 									//If the number of the current card in both the player's current 
 									//deck and the optimized deck are the same, no change is necessary
 									return
-									(
-										card: currentCardGroup.Key,
-										direction: OptimizerDirection.NoChange,
-										number: 0
-									);
+										new OptimizerSuggestion
+										{
+											TargetCard = currentCardGroup.Key,
+											Direction = OptimizerDirection.NoChange,
+											Amount = 0
+										};
 								}
 							}
+						)
+						.Where
+						(
+							optimization =>
+								optimization.Direction != OptimizerDirection.NoChange
 						)
 				);
 

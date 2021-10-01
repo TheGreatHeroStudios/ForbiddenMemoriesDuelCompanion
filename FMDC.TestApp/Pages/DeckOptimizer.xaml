@@ -19,7 +19,8 @@
 			<ColumnDefinition Width="70*"/>
 		</Grid.ColumnDefinitions>
 		<StackPanel Orientation="Vertical">
-			<TextBlock Text="Optimizer Statistics" Foreground="White" FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
+			<TextBlock Text="Optimizer Statistics" Foreground="White" 
+				FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="Average Card Strength: " Foreground="White"/>
 				<TextBlock Text="{Binding AverageCardStrength}" Foreground="White"/>
@@ -40,6 +41,54 @@
 				<TextBlock Text="Total Specific Fusions Possible: " Foreground="White"/>
 				<TextBlock Text="{Binding TotalFusionPermutations}" Foreground="White"/>
 			</StackPanel>
+		</StackPanel>
+		<StackPanel Grid.Column="1">
+			<TextBlock Text="Optimizer Strategy" Foreground="White" 
+				FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
+			<ListView Background="Transparent" BorderBrush="#555585" BorderThickness="4" 
+				ItemsSource="{Binding OptimizerStrategy}" Height="550"
+				HorizontalAlignment="Left" VerticalAlignment="Top">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<Grid Margin="2">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="200"/>
+								<ColumnDefinition Width="100"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="100"/>
+							</Grid.RowDefinitions>
+
+							<Rectangle Fill="#000022" Stroke="#555585" 
+								StrokeThickness="4" Grid.ColumnSpan="3"/>
+
+							<Image Source="{StaticResource ChestIcon}" Height="50"/>
+
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
+								<Grid Visibility="{Binding Direction, 
+									Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=2}">
+									<Image Source="{StaticResource LeftArrowIcon}" 
+										Height="60" VerticalAlignment="Center"/>
+									<TextBlock Text="{Binding Amount}" Foreground="#000022" FontWeight="Bold" FontSize="18" 
+										HorizontalAlignment="Center" VerticalAlignment="Center"/>
+								</Grid>
+								<Image Height="85" Margin="5" 
+									Source="{Binding TargetCard, Converter={StaticResource CardImagePathConverter}}"/>
+								<Grid Visibility="{Binding Direction, 
+									Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=1}">
+									<Image Source="{StaticResource RightArrowIcon}" 
+										Height="60" VerticalAlignment="Center"/>
+									<TextBlock Text="{Binding Amount}" Foreground="#000022" FontWeight="Bold" FontSize="18" 
+										HorizontalAlignment="Center" VerticalAlignment="Center"/>
+								</Grid>
+							</StackPanel>
+
+							<Image Grid.Column="2" Source="{StaticResource DeckIcon}" Height="50"/>
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 		</StackPanel>
 	</Grid>
 </base:AutoBindingPage>
