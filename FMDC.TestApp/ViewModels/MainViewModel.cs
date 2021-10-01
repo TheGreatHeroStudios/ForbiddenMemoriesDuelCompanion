@@ -69,7 +69,7 @@ namespace FMDC.TestApp.ViewModels
 
 		public IEnumerable<CardCount> LoadCardConfiguration(IEnumerable<Card> cardData)
 		{
-			//Open a save dialog to save the serialized card counts
+			//Open a file dialog to load the serialized card counts
 			OpenFileDialog openDialog = new OpenFileDialog();
 			openDialog.AddExtension = true;
 			openDialog.DefaultExt = "*.fmdc";

@@ -88,7 +88,9 @@ namespace FMDC.BusinessLogic
 					.Where
 					(
 						fusion =>
-							fusion.ResultantCard.Equals(fusionLeafNode.Data)
+							fusion.ResultantCard.Equals(fusionLeafNode.Data) &&
+							fusion.TargetCard.AttackPoints < fusion.ResultantCard.AttackPoints &&
+							fusion.FusionMaterialCard.AttackPoints < fusion.ResultantCard.AttackPoints
 					)
 					.OrderByDescending
 					(

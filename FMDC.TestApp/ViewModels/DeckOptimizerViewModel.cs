@@ -3,6 +3,7 @@ using FMDC.Model.Base;
 using FMDC.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using TGH.Common.DataStructures;
@@ -11,6 +12,14 @@ using TGH.Common.Extensions;
 
 namespace FMDC.TestApp.ViewModels
 {
+	public enum OptimizerDirection
+	{
+		NoChange,
+		ToDeck,
+		ToTrunk
+	}
+
+
 	public class DeckOptimizerViewModel : ObservableModel
 	{
 		#region Non-Public Member(s)
@@ -20,6 +29,7 @@ namespace FMDC.TestApp.ViewModels
 		private Dictionary<Card, int> _availableCardCounts;
 		private List<Fusion> _viableSpecificFusions;
 
+		private List<Card> _currentDeck;
 		private List<Card> _optimizedDeck;
 		#endregion
 
@@ -42,6 +52,8 @@ namespace FMDC.TestApp.ViewModels
 			AverageFusionMaterialCardsNecessary == 0 ?
 				0 : (float)AverageOptimalFusionStrength / AverageFusionMaterialCardsNecessary;
 		public int TotalFusionPermutations { get; set; }
+
+		public ObservableCollection<(Card card, OptimizerDirection direction, int number)> OptimizerStrategy { get; set; }
 		#endregion
 
 
@@ -58,6 +70,7 @@ namespace FMDC.TestApp.ViewModels
 			_cardList = currentAppInstance.CardList;
 
 			_optimizedDeck = new List<Card>();
+			_currentDeck = new List<Card>();
 		}
 		#endregion
 
@@ -81,13 +94,25 @@ namespace FMDC.TestApp.ViewModels
 							cardCount.NumberInDeck + cardCount.NumberInTrunk
 					);
 
+			//Build a list of cards currently in the players deck from provided card counts
+			foreach(CardCount deckCardCount in cardCounts.Where(cardCount => cardCount.NumberInDeck > 0))
+			{
+				AddToDeck
+				(
+					_currentDeck,
+					deckCardCount.Card,
+					deckCardCount.NumberInDeck
+				);
+			}
+
 			//Recursively map each specific fusion the player is
 			//currently able to make and cache it for later use.
 			_viableSpecificFusions = 
 				_fusionService.DetermineViableSpecificFusions(_availableCardCounts);
 
-			//TODO (TEST): Remove the following method call
+			//TODO (TEST): Move the following method calls
 			OptimizeDeck();
+			BuildOptimizerStrategy();
 		}
 
 
@@ -111,8 +136,9 @@ namespace FMDC.TestApp.ViewModels
 					int numberAvailable = _availableCardCounts[optimalCard];
 
 					deckCount =
-						AddToOptimizedDeck
+						AddToDeck
 						(
+							_optimizedDeck,
 							optimalCard,
 							numberAvailable
 						);
@@ -171,7 +197,8 @@ namespace FMDC.TestApp.ViewModels
 						foreach (Card requiredCard in requiredCards)
 						{
 							//Add the required card to the deck
-							deckCount = AddToOptimizedDeck(requiredCard, 1);
+							deckCount = 
+								AddToDeck(_optimizedDeck, requiredCard, 1);
 
 							//If adding the last card allowed the optimized
 							//deck to reach 40 cards, break out of the loop
@@ -207,7 +234,8 @@ namespace FMDC.TestApp.ViewModels
 						)
 				)
 				{
-					deckCount = AddToOptimizedDeck(generalMaterialCard, 1);
+					deckCount = 
+						AddToDeck(_optimizedDeck, generalMaterialCard, 1);
 
 					//If adding the last card allowed the optimized
 					//deck to reach 40 cards, break out of the inner loop
@@ -239,14 +267,14 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Non-Public Method(s)
-		private int AddToOptimizedDeck(Card card, int count)
+		private int AddToDeck(List<Card> targetDeck, Card card, int count)
 		{
 			//Add the specified number of instances of the card
 			//to the optimized deck until the deck reaches a max
 			//of 40 cards or the max count has been exhausted.
 			while (count > 0 && _optimizedDeck.Count < 40)
 			{
-				_optimizedDeck.Add(card);
+				targetDeck.Add(card);
 				count--;
 			}
 			
@@ -283,6 +311,92 @@ namespace FMDC.TestApp.ViewModels
 			TotalOptimalFusionStrength += optimalCard.AttackPoints ?? 0;
 			TotalFusionMaterialCardsNecessary += optimalFusionMaterialCardCount;
 			TotalFusionPermutations += distinctFusionCount;
+		}
+		
+		
+		private void BuildOptimizerStrategy()
+		{
+			OptimizerStrategy =
+				new ObservableCollection<(Card card, OptimizerDirection direction, int number)>
+				(
+					_currentDeck
+						.GroupBy
+						(
+							card => card
+						)
+						.FullOuterJoin
+						(
+							_optimizedDeck
+								.GroupBy
+								(
+									card => card
+								),
+							currentCard => currentCard.Key,
+							optimizedCard => optimizedCard.Key,
+							(currentCardGroup, optimizedCardGroup) =>
+							{
+								if (currentCardGroup == null)
+								{
+									//If there is no current card group, the optimized 
+									//card is being fully added to the current deck.
+									return
+									(
+										card: optimizedCardGroup.Key,
+										direction: OptimizerDirection.ToDeck,
+										number: optimizedCardGroup.Count()
+									);
+								}
+								else if (optimizedCardGroup == null)
+								{
+									//If there is no optimized card group, the current
+									//card is being fully removed from the current deck
+									return
+									(
+										card: currentCardGroup.Key,
+										direction: OptimizerDirection.ToTrunk,
+										number: currentCardGroup.Count()
+									);
+								}
+								else if (currentCardGroup.Count() > optimizedCardGroup.Count())
+								{
+									//If there is a greater count of the current card 
+									//in the player's current deck than in the optimized  
+									//deck, shift the difference to the player's trunk
+									return
+									(
+										card: currentCardGroup.Key,
+										direction: OptimizerDirection.ToTrunk,
+										number: currentCardGroup.Count() - optimizedCardGroup.Count()
+									);
+								}
+								else if (optimizedCardGroup.Count() > currentCardGroup.Count())
+								{
+									//If there is a greater count of the current card 
+									//in the optimized deck than in the player's current 
+									//deck, shift the difference to the player's deck
+									return
+									(
+										card: currentCardGroup.Key,
+										direction: OptimizerDirection.ToDeck,
+										number: optimizedCardGroup.Count() - currentCardGroup.Count()
+									);
+								}
+								else
+								{
+									//If the number of the current card in both the player's current 
+									//deck and the optimized deck are the same, no change is necessary
+									return
+									(
+										card: currentCardGroup.Key,
+										direction: OptimizerDirection.NoChange,
+										number: 0
+									);
+								}
+							}
+						)
+				);
+
+			RaisePropertyChanged(nameof(OptimizerStrategy));
 		}
 		#endregion
 	}

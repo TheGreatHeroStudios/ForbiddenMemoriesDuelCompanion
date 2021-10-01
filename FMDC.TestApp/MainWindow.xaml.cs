@@ -46,21 +46,30 @@ namespace FMDC.TestApp
 
 		private void CardChestButton_Click(object sender, RoutedEventArgs e)
 		{
-			_mainViewModel.CurrentFeature = FeatureSelection.Trunk;
+			if (_mainViewModel.CurrentFeature != FeatureSelection.Trunk)
+			{
+				_mainViewModel.CurrentFeature = FeatureSelection.Trunk;
+			}
 		}
 
 
 		private void DeckOptimizerButton_Click(object sender, RoutedEventArgs e)
 		{
-			_mainViewModel.CurrentFeature = FeatureSelection.DeckOptimizer;
-			_deckOptimizerViewModel.RefreshAvailableCards(_trunkViewModel.CardCounts);
+			if (_mainViewModel.CurrentFeature != FeatureSelection.DeckOptimizer)
+			{
+				_mainViewModel.CurrentFeature = FeatureSelection.DeckOptimizer;
+				_deckOptimizerViewModel.RefreshAvailableCards(_trunkViewModel.CardCounts);
+			}
 		}
 
 
 		private void PlayOptimizerButton_Click(object sender, RoutedEventArgs e)
 		{
-			_mainViewModel.CurrentFeature = FeatureSelection.PlayOptimizer;
-			_playOptimizerViewModel.RefreshDeckList(_trunkViewModel.CardCounts);
+			if (_mainViewModel.CurrentFeature != FeatureSelection.PlayOptimizer)
+			{
+				_mainViewModel.CurrentFeature = FeatureSelection.PlayOptimizer;
+				_playOptimizerViewModel.RefreshDeckList(_trunkViewModel.CardCounts);
+			}
 		}
 
 
