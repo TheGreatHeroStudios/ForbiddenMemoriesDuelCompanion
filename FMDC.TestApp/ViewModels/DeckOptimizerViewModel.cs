@@ -46,6 +46,10 @@ namespace FMDC.TestApp.ViewModels
 		public int TotalFusionPermutations { get; set; }
 
 		public ObservableCollection<OptimizerSuggestion> OptimizerStrategy { get; set; }
+
+		public ObservableCollection<ObservableCollection<Card>> OptimalFusions { get; set; }
+
+		public bool OptimalFusionWindowOpen { get; set; }
 		#endregion
 
 
@@ -61,8 +65,11 @@ namespace FMDC.TestApp.ViewModels
 
 			_cardList = currentAppInstance.CardList;
 
-			_optimizedDeck = new List<Card>();
 			_currentDeck = new List<Card>();
+			_optimizedDeck = new List<Card>();
+
+			OptimizerStrategy = new ObservableCollection<OptimizerSuggestion>();
+			OptimalFusions = new ObservableCollection<ObservableCollection<Card>>();
 		}
 		#endregion
 
@@ -71,6 +78,19 @@ namespace FMDC.TestApp.ViewModels
 		#region Public Method(s)
 		public void RefreshAvailableCards(IEnumerable<CardCount> cardCounts)
 		{
+			//Reset any values set during previous optimizations
+			_currentDeck.Clear();
+			_optimizedDeck.Clear();
+			OptimizerStrategy.Clear();
+			OptimalFusions.Clear();
+
+			OptimizedFusionCount = 0;
+			TotalOptimalFusionStrength = 0;
+			TotalFusionMaterialCardsNecessary = 0;
+			TotalFusionPermutations = 0;
+
+			OptimalFusionWindowOpen = false;
+
 			_availableCardCounts =
 				cardCounts
 					.Where
@@ -110,12 +130,12 @@ namespace FMDC.TestApp.ViewModels
 
 		public void OptimizeDeck()
 		{
+			int optimizedDeckCount = 0;
+
 			//Iterate over cards in order of attack (descending) and
 			//determine whether to factor them into deck inclusion
-			foreach(Card optimalCard in _cardList.OrderByDescending(card => card.AttackPoints))
+			foreach (Card optimalCard in _cardList.OrderByDescending(card => card.AttackPoints))
 			{
-				int deckCount = _optimizedDeck.Count;
-
 				if
 				(
 					_availableCardCounts.ContainsKey(optimalCard) &&
@@ -127,7 +147,7 @@ namespace FMDC.TestApp.ViewModels
 					//(until the deck is full or the available count is exhausted)
 					int numberAvailable = _availableCardCounts[optimalCard];
 
-					deckCount =
+					optimizedDeckCount =
 						AddToDeck
 						(
 							_optimizedDeck,
@@ -137,7 +157,7 @@ namespace FMDC.TestApp.ViewModels
 
 					//If adding the last card allowed the optimized
 					//deck to reach 40 cards, break out of the loop
-					if (deckCount == 40)
+					if (optimizedDeckCount == 40)
 					{
 						break;
 					}
@@ -189,12 +209,12 @@ namespace FMDC.TestApp.ViewModels
 						foreach (Card requiredCard in requiredCards)
 						{
 							//Add the required card to the deck
-							deckCount = 
+							optimizedDeckCount = 
 								AddToDeck(_optimizedDeck, requiredCard, 1);
 
 							//If adding the last card allowed the optimized
 							//deck to reach 40 cards, break out of the loop
-							if (deckCount == 40)
+							if (optimizedDeckCount == 40)
 							{
 								break;
 							}
@@ -226,12 +246,12 @@ namespace FMDC.TestApp.ViewModels
 						)
 				)
 				{
-					deckCount = 
+					optimizedDeckCount = 
 						AddToDeck(_optimizedDeck, generalMaterialCard, 1);
 
 					//If adding the last card allowed the optimized
 					//deck to reach 40 cards, break out of the inner loop
-					if (deckCount == 40)
+					if (optimizedDeckCount == 40)
 					{
 						break;
 					}
@@ -239,13 +259,14 @@ namespace FMDC.TestApp.ViewModels
 
 				//If adding the general fusions allowed the optimized
 				//deck to reach 40 cards, break out of the outer loop
-				if (deckCount == 40)
+				if (optimizedDeckCount == 40)
 				{
 					break;
 				}
 			}
 
 			RaisePropertyChanged(nameof(OptimizedFusionCount));
+			RaisePropertyChanged(nameof(OptimalFusions));
 			RaisePropertyChanged(nameof(TotalOptimalFusionStrength));
 			RaisePropertyChanged(nameof(AverageOptimalFusionStrength));
 			RaisePropertyChanged(nameof(TotalFusionMaterialCardsNecessary));
@@ -289,7 +310,7 @@ namespace FMDC.TestApp.ViewModels
 					)
 					.Count() + 1;
 
-			int optimalFusionMaterialCardCount =
+			List<BinaryTreeNode<Card>> optimalFusionNodes =
 				fusionRootNode
 					.GetChildNodes()
 					.Where
@@ -297,7 +318,24 @@ namespace FMDC.TestApp.ViewModels
 						childNode =>
 							childNode.IsLeafNode
 					)
-					.Count();
+					.ToList();
+
+			int optimalFusionMaterialCardCount = optimalFusionNodes.Count;
+
+			ObservableCollection<Card> fusionCards = 
+				new ObservableCollection<Card>
+				(
+					optimalFusionNodes
+						.Select
+						(
+							node => 
+								node.Data
+						)
+				);
+
+			fusionCards.Add(fusionRootNode.Data);
+
+			OptimalFusions.Add(fusionCards);
 
 			OptimizedFusionCount++;
 			TotalOptimalFusionStrength += optimalCard.AttackPoints ?? 0;

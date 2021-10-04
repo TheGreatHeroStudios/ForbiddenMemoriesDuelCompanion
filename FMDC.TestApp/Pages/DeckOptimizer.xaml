@@ -18,6 +18,8 @@
 			<ColumnDefinition Width="30*"/>
 			<ColumnDefinition Width="70*"/>
 		</Grid.ColumnDefinitions>
+
+		<!--#region Optimizer Statistics-->
 		<StackPanel Orientation="Vertical">
 			<TextBlock Text="Optimizer Statistics" Foreground="White" 
 				FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
@@ -28,6 +30,15 @@
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="Optimal Fusions: " Foreground="White"/>
 				<TextBlock Text="{Binding OptimizedFusionCount}" Foreground="White"/>
+				<Button Name="OptimalFusionInfoButton" Cursor="Hand" 
+					ToolTip="Click to see optimal fusion info."
+					Click="OptimalFusionInfoButton_Click">
+					<Button.Template>
+						<ControlTemplate>
+							<Image Source="{StaticResource InfoIcon}" Height="15" Margin="10,0,0,0"/>
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="Average Optimal Fusion Strength: " Foreground="White"/>
@@ -42,6 +53,9 @@
 				<TextBlock Text="{Binding TotalFusionPermutations}" Foreground="White"/>
 			</StackPanel>
 		</StackPanel>
+		<!--#endregion-->
+
+		<!--#region Optimizer Strategy-->
 		<StackPanel Grid.Column="1">
 			<TextBlock Text="Optimizer Strategy" Foreground="White" 
 				FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
@@ -90,5 +104,88 @@
 				</ListView.ItemTemplate>
 			</ListView>
 		</StackPanel>
+		<!--#endregion-->
+
+		<!--#region Optimal Fusions Popup-->
+		<Button Name="DismissOptimalFusionInfoButton" Grid.ColumnSpan="2" Margin="-10" 
+			Click="DismissOptimalFusionInfoButton_Click" Visibility="{Binding OptimalFusionWindowOpen, 
+					Converter={StaticResource BooleanToVisibilityConverter}}">
+			<Button.Template>
+				<ControlTemplate>
+					<Grid>
+						<Rectangle Fill="#EE222222"/>
+						<TextBlock Text="Optimal Fusions" Foreground="White"
+							HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="18"
+							TextDecorations="Underline" FontWeight="DemiBold"/>
+						<ListView Background="#333333" Margin="25,50,25,10"
+							BorderBrush="#555585" BorderThickness="4" 
+							ItemsSource="{Binding OptimalFusions}">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Margin="10" Orientation="Horizontal">
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[0], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[0]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=0}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[1], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[1]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=1}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[2], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[2]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=2}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[3], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[3]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=3}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[4], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[4]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=4}}"/>
+									</StackPanel>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</Grid>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+		
+		<!--#endregion-->
 	</Grid>
 </base:AutoBindingPage>

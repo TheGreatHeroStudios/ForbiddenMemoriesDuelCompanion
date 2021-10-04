@@ -20,9 +20,35 @@ namespace FMDC.TestApp.Pages
 	/// </summary>
 	public partial class DeckOptimizer : AutoBindingPage<DeckOptimizerViewModel>
 	{
+		#region Constructor(s)
 		public DeckOptimizer()
 		{
 			InitializeComponent();
 		}
+
+		#endregion
+
+		#region Event Handler(s)
+		private void OptimalFusionInfoButton_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel
+				.SetPropertyValue
+				(
+					nameof(ViewModel.OptimalFusionWindowOpen),
+					true
+				);
+		}
+
+
+		private void DismissOptimalFusionInfoButton_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel
+				.SetPropertyValue
+				(
+					nameof(ViewModel.OptimalFusionWindowOpen),
+					false
+				);
+		}
+		#endregion
 	}
 }

@@ -673,23 +673,20 @@
 		<!--#endregion-->
 
 		<!--#region Card Details Popup-->
-		<Grid Grid.RowSpan="4" Grid.ColumnSpan="6"
-			Visibility="{Binding CardInspectorOpen, 
-				Converter={StaticResource BooleanToVisibilityConverter}}">
-			<Button Grid.ColumnSpan="4" Grid.RowSpan="3" Cursor="Hand"
-				Click="DismissInspectorButton_Click">
-				<Button.Template>
-					<ControlTemplate>
-						<Grid>
-							<Rectangle Fill="#EE222222"/>
-							<Image Margin="100" Source="{Binding InspectedCard, 
+		<Button Grid.RowSpan="4" Grid.ColumnSpan="6" Cursor="Hand"
+				Click="DismissInspectorButton_Click" Visibility="{Binding CardInspectorOpen, 
+					Converter={StaticResource BooleanToVisibilityConverter}}">>
+			<Button.Template>
+				<ControlTemplate>
+					<Grid>
+						<Rectangle Fill="#EE222222"/>
+						<Image Margin="100" Source="{Binding InspectedCard, 
 								Converter={StaticResource CardImagePathConverter}, 
 								ConverterParameter=CardDetails}"/>
-						</Grid>
-					</ControlTemplate>
-				</Button.Template>
-			</Button>
-		</Grid>
+					</Grid>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
 		<!--#endregion-->
 	</Grid>
 </base:AutoBindingPage>
