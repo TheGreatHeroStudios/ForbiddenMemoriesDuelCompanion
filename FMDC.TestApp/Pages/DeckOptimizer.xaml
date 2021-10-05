@@ -79,8 +79,15 @@
 						</Grid>
 					</ControlTemplate>
 				</Button.Template>
+				<Button.ToolTip>
+					<TextBlock>
+						When turned on, magic and trap cards in the player's
+						current deck will be removed in favor of optimal monster
+						cards.
+					</TextBlock>
+				</Button.ToolTip>
 			</Button>
-			<TextBlock Text="Include Non-Monsters in Optimization"
+			<TextBlock Text="Favor Monsters"
 				HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="White" FontSize="12"/>
 			<!--#endregion-->
 		</StackPanel>
@@ -163,7 +170,7 @@
 		<!--#endregion-->
 
 		<!--#region Optimal Fusions Popup-->
-		<!--<Button Name="DismissOptimalFusionInfoButton" Grid.ColumnSpan="2" Margin="-10" 
+		<Button Name="DismissOptimalFusionInfoButton" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="-10" 
 			Click="DismissOptimalFusionInfoButton_Click" Visibility="{Binding OptimalFusionWindowOpen, 
 					Converter={StaticResource BooleanToVisibilityConverter}}">
 			<Button.Template>
@@ -233,6 +240,39 @@
 										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
 											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
 												CurrentCardIndex=4}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[5], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[5]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=5}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[6], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[6]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=6}}"/>
+
+										<StackPanel Orientation="Vertical" Width="175">
+											<Image Width="100" Source="{Binding .[7], 
+												Converter={StaticResource CardImagePathConverter}}"/>
+											<TextBlock Text="{Binding .[7]}" TextAlignment="Center"
+												Foreground="White"/>
+										</StackPanel>
+
+										<TextBlock VerticalAlignment="Center" Foreground="White" FontSize="28"
+											Text="{Binding ., Converter={converters:SequenceCardToOperatorSymbolConverter 
+												CurrentCardIndex=7}}"/>
 									</StackPanel>
 								</DataTemplate>
 							</ListView.ItemTemplate>
@@ -240,8 +280,7 @@
 					</Grid>
 				</ControlTemplate>
 			</Button.Template>
-		</Button>-->
-		
+		</Button>
 		<!--#endregion-->
 	</Grid>
 </base:AutoBindingPage>

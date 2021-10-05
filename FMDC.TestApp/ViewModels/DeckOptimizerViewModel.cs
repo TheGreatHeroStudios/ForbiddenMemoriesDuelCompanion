@@ -140,13 +140,23 @@ namespace FMDC.TestApp.ViewModels
 					);
 
 			//Build a list of cards currently in the players deck from provided card counts
-			foreach(CardCount deckCardCount in cardCounts.Where(cardCount => cardCount.NumberInDeck > 0))
+			foreach
+			(
+				CardCount deckCardCount in 
+				cardCounts
+					.Where
+					(
+						cardCount => 
+							cardCount.NumberInDeck > 0
+					)
+			)
 			{
 				AddToDeck
 				(
 					_currentDeck,
 					deckCardCount.Card,
-					deckCardCount.NumberInDeck
+					deckCardCount.NumberInDeck,
+					40
 				);
 			}
 
@@ -164,6 +174,13 @@ namespace FMDC.TestApp.ViewModels
 		public void OptimizeDeck()
 		{
 			int optimizedDeckCount = 0;
+
+			//If non monsters should be included in the optimization strategy, build an optimal deck of 40 cards.
+			//Otherwise, build an optimal deck of 40 minus the number of magic and trap cards in the current deck.
+			int targetDeckCount =
+				IncludeNonMonstersInOptimization ?
+					40 :
+					40 - _currentDeck.Count(card => card.CardType != CardType.Monster);
 
 			//Iterate over cards in order of attack (descending) and
 			//determine whether to factor them into deck inclusion
@@ -185,12 +202,13 @@ namespace FMDC.TestApp.ViewModels
 						(
 							_optimizedDeck,
 							optimalCard,
-							numberAvailable
+							numberAvailable,
+							targetDeckCount
 						);
 
-					//If adding the last card allowed the optimized
-					//deck to reach 40 cards, break out of the loop
-					if (optimizedDeckCount == 40)
+					//If adding the last card allowed the optimized deck to
+					//reach the target number of cards, break out of the loop
+					if (optimizedDeckCount == targetDeckCount)
 					{
 						break;
 					}
@@ -243,11 +261,17 @@ namespace FMDC.TestApp.ViewModels
 						{
 							//Add the required card to the deck
 							optimizedDeckCount = 
-								AddToDeck(_optimizedDeck, requiredCard, 1);
+								AddToDeck
+								(
+									_optimizedDeck, 
+									requiredCard, 
+									1,
+									targetDeckCount
+								);
 
-							//If adding the last card allowed the optimized
-							//deck to reach 40 cards, break out of the loop
-							if (optimizedDeckCount == 40)
+							//If adding the last card allowed the optimized deck to
+							//reach the target number of cards, break out of the loop
+							if (optimizedDeckCount == targetDeckCount)
 							{
 								break;
 							}
@@ -280,19 +304,25 @@ namespace FMDC.TestApp.ViewModels
 				)
 				{
 					optimizedDeckCount = 
-						AddToDeck(_optimizedDeck, generalMaterialCard, 1);
+						AddToDeck
+						(
+							_optimizedDeck, 
+							generalMaterialCard, 
+							1,
+							targetDeckCount
+						);
 
-					//If adding the last card allowed the optimized
-					//deck to reach 40 cards, break out of the inner loop
-					if (optimizedDeckCount == 40)
+					//If adding the last card allowed the optimized deck to
+					//reach the target number of cards, break out of the inner loop
+					if (optimizedDeckCount == targetDeckCount)
 					{
 						break;
 					}
 				}
 
-				//If adding the general fusions allowed the optimized
-				//deck to reach 40 cards, break out of the outer loop
-				if (optimizedDeckCount == 40)
+				//If adding the general fusions allowed the optimized deck to
+				//reach the target number of cards, break out of the outer loop
+				if (optimizedDeckCount == targetDeckCount)
 				{
 					break;
 				}
@@ -358,12 +388,18 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Non-Public Method(s)
-		private int AddToDeck(List<Card> targetDeck, Card card, int count)
+		private int AddToDeck
+		(
+			List<Card> targetDeck, 
+			Card card, 
+			int count,
+			int maxDeckSize
+		)
 		{
-			//Add the specified number of instances of the card
-			//to the optimized deck until the deck reaches a max
-			//of 40 cards or the max count has been exhausted.
-			while (count > 0 && _optimizedDeck.Count < 40)
+			//Add the specified number of instances of the card to
+			//the optimized deck until the deck reaches the maximum
+			//number of cards or the available count has been exhausted.
+			while (count > 0 && _optimizedDeck.Count < maxDeckSize)
 			{
 				targetDeck.Add(card);
 				count--;
@@ -426,13 +462,26 @@ namespace FMDC.TestApp.ViewModels
 		{
 			IEnumerable<OptimizerSuggestion> optimizerStrategy =
 				_currentDeck
+					.Where
+					(
+						card =>
+							IncludeNonMonstersInOptimization ||
+							card.CardType == CardType.Monster
+					)
 					.GroupBy
 					(
 						card => card
 					)
+					
 					.FullOuterJoin
 					(
 						_optimizedDeck
+							.Where
+							(
+								card =>
+									IncludeNonMonstersInOptimization ||
+									card.CardType == CardType.Monster
+							)
 							.GroupBy
 							(
 								card => card
