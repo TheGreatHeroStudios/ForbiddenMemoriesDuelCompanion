@@ -1,7 +1,9 @@
-﻿using FMDC.TestApp.Base;
+﻿using FMDC.Model.Models;
+using FMDC.TestApp.Base;
 using FMDC.TestApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +30,21 @@ namespace FMDC.TestApp.Pages
 
 		#endregion
 
+
+
 		#region Event Handler(s)
+		private void OptimizerStrategyListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			ViewModel
+				.UpdateSelectedOptimizationSuggestions
+				(
+					(sender as ListView)
+						.SelectedItems
+						.Cast<OptimizerSuggestion>()
+				);
+		}
+
+
 		private void OptimalFusionInfoButton_Click(object sender, RoutedEventArgs e)
 		{
 			ViewModel
@@ -48,6 +64,39 @@ namespace FMDC.TestApp.Pages
 					nameof(ViewModel.OptimalFusionWindowOpen),
 					false
 				);
+		}
+
+
+		private void AcceptAllOptimizationsButton_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel
+				.ApplyOptimizations
+				(
+					ViewModel.OptimizerStrategy.ToList()
+				);
+		}
+
+
+		private void AcceptSelectedOptimizationsButton_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel
+				.ApplyOptimizations
+				(
+					ViewModel.SelectedOptimizerSuggestions
+				);
+		}
+
+
+		private void IncludeNonMonstersButton_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel
+				.SetPropertyValue
+				(
+					nameof(ViewModel.IncludeNonMonstersInOptimization),
+					!ViewModel.IncludeNonMonstersInOptimization
+				);
+
+			ViewModel.RefreshAvailableCards();
 		}
 		#endregion
 	}

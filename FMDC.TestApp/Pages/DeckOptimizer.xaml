@@ -16,12 +16,18 @@
     <Grid Margin="10">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="30*"/>
-			<ColumnDefinition Width="70*"/>
+			<ColumnDefinition Width="40*"/>
+			<ColumnDefinition Width="30*"/>
 		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="90*"/>
+			<RowDefinition Height="10*"/>
+		</Grid.RowDefinitions>
 
-		<!--#region Optimizer Statistics-->
+		
 		<StackPanel Orientation="Vertical">
-			<TextBlock Text="Optimizer Statistics" Foreground="White" 
+			<!--#region Statistics-->
+			<TextBlock Text="Statistics" Foreground="White" FontSize="14"
 				FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="Average Card Strength: " Foreground="White"/>
@@ -52,16 +58,43 @@
 				<TextBlock Text="Total Specific Fusions Possible: " Foreground="White"/>
 				<TextBlock Text="{Binding TotalFusionPermutations}" Foreground="White"/>
 			</StackPanel>
-		</StackPanel>
-		<!--#endregion-->
+			<!--#endregion-->
 
-		<!--#region Optimizer Strategy-->
-		<StackPanel Grid.Column="1">
-			<TextBlock Text="Optimizer Strategy" Foreground="White" 
+			<!--region Options-->
+			<TextBlock Text="Options" Foreground="White" FontSize="14"
+				FontWeight="Bold" TextDecorations="Underline" Padding="0,20,0,10"/>
+
+			<Button Name="IncludeNonMonstersButton" Height="20" Width="30" Cursor="Hand"
+				HorizontalAlignment="Left" Click="IncludeNonMonstersButton_Click">
+				<Button.Template>
+					<ControlTemplate>
+						<Grid>
+							<Image Source="{StaticResource ToggleButtonOffIcon}"
+								Visibility="{Binding IncludeNonMonstersInOptimization,
+									Converter={StaticResource BooleanToVisibilityConverter},
+									ConverterParameter=True}"/>
+							<Image Source="{StaticResource ToggleButtonOnIcon}"
+								Visibility="{Binding IncludeNonMonstersInOptimization,
+									Converter={StaticResource BooleanToVisibilityConverter}}"/>
+						</Grid>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+			<TextBlock Text="Include Non-Monsters in Optimization"
+				HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="White" FontSize="12"/>
+			<!--#endregion-->
+		</StackPanel>
+		
+
+		<!--#region Strategy-->
+		<StackPanel Grid.Column="1" Visibility="{Binding OptimizerStrategyAvailable, 
+			Converter={StaticResource BooleanToVisibilityConverter}}">
+			<TextBlock Text="Strategy" Foreground="White" FontSize="14"
 				FontWeight="Bold" TextDecorations="Underline" Padding="0,0,0,10"/>
-			<ListView Background="Transparent" BorderBrush="#555585" BorderThickness="4" 
-				ItemsSource="{Binding OptimizerStrategy}" Height="550"
-				HorizontalAlignment="Left" VerticalAlignment="Top">
+			<ListView x:Name="OptimizerStrategyListView" Background="Transparent" 
+				BorderBrush="#555585" BorderThickness="4" ItemsSource="{Binding OptimizerStrategy}" 
+				SelectionChanged="OptimizerStrategyListView_SelectionChanged"
+				Height="550" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<Grid Margin="2">
@@ -104,10 +137,33 @@
 				</ListView.ItemTemplate>
 			</ListView>
 		</StackPanel>
+
+		<TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,200"
+			Text="Current Deck is Fully Optimized" FontSize="16" Foreground="White"
+			Visibility="{Binding OptimizerStrategyAvailable, 
+				Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"/>
+		<!--#endregion-->
+
+		<!--#region Optimizer Buttons-->
+		<StackPanel Grid.Row="1" Grid.Column="1" Margin="10" 
+			HorizontalAlignment="Center" Orientation="Horizontal">
+			<Button x:Name="AcceptAllOptimizationsButton" Margin="0,0,10,0" Width="150" 
+				Height="40" Content="Accept All Optimizations" Cursor="Hand"
+				Click="AcceptAllOptimizationsButton_Click"
+				IsEnabled="{Binding OptimizerStrategyAvailable}"/>
+			<Button x:Name="AcceptSelectedOptimizationsButton" Margin="10,0,0,0" Width="150" 
+				Height="40" Click="AcceptSelectedOptimizationsButton_Click" Cursor="Hand"
+				IsEnabled="{Binding OptimizerSuggestionsSelected}">
+				<Button.Content>
+					<TextBlock Text="Accept Selected Optimizations" 
+						TextWrapping="Wrap" TextAlignment="Center"/>
+				</Button.Content>
+			</Button>
+		</StackPanel>
 		<!--#endregion-->
 
 		<!--#region Optimal Fusions Popup-->
-		<Button Name="DismissOptimalFusionInfoButton" Grid.ColumnSpan="2" Margin="-10" 
+		<!--<Button Name="DismissOptimalFusionInfoButton" Grid.ColumnSpan="2" Margin="-10" 
 			Click="DismissOptimalFusionInfoButton_Click" Visibility="{Binding OptimalFusionWindowOpen, 
 					Converter={StaticResource BooleanToVisibilityConverter}}">
 			<Button.Template>
@@ -184,7 +240,7 @@
 					</Grid>
 				</ControlTemplate>
 			</Button.Template>
-		</Button>
+		</Button>-->
 		
 		<!--#endregion-->
 	</Grid>

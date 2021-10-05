@@ -18,6 +18,7 @@ namespace FMDC.TestApp.ViewModels
 		private IFusionService _fusionService;
 
 		private List<Card> _cardList;
+		private Dictionary<Card, CardCount> _trunkCardCounts;
 		private Dictionary<Card, int> _availableCardCounts;
 		private List<Fusion> _viableSpecificFusions;
 
@@ -45,11 +46,19 @@ namespace FMDC.TestApp.ViewModels
 				0 : (float)AverageOptimalFusionStrength / AverageFusionMaterialCardsNecessary;
 		public int TotalFusionPermutations { get; set; }
 
+		public bool OptimizerStrategyAvailable => OptimizerStrategy?.Any() ?? false;
+
 		public ObservableCollection<OptimizerSuggestion> OptimizerStrategy { get; set; }
+
+		public List<OptimizerSuggestion> SelectedOptimizerSuggestions { get; set; }
+
+		public bool OptimizerSuggestionsSelected => (SelectedOptimizerSuggestions?.Count ?? 0) > 0;
 
 		public ObservableCollection<ObservableCollection<Card>> OptimalFusions { get; set; }
 
 		public bool OptimalFusionWindowOpen { get; set; }
+
+		public bool IncludeNonMonstersInOptimization { get; set; }
 		#endregion
 
 
@@ -76,6 +85,16 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Method(s)
+		public void RefreshAvailableCards()
+		{
+			RefreshAvailableCards
+			(
+				_trunkCardCounts
+					.Select(trunkCardCount => trunkCardCount.Value)
+			);
+		}
+
+
 		public void RefreshAvailableCards(IEnumerable<CardCount> cardCounts)
 		{
 			//Reset any values set during previous optimizations
@@ -90,6 +109,20 @@ namespace FMDC.TestApp.ViewModels
 			TotalFusionPermutations = 0;
 
 			OptimalFusionWindowOpen = false;
+
+			_trunkCardCounts = 
+				cardCounts
+					.Where
+					(
+						cardCount =>
+							cardCount.NumberInDeck > 0 ||
+							cardCount.NumberInTrunk > 0
+					)
+					.ToDictionary
+					(
+						cardCount => cardCount.Card,
+						cardCount => cardCount
+					);
 
 			_availableCardCounts =
 				cardCounts
@@ -275,6 +308,51 @@ namespace FMDC.TestApp.ViewModels
 			RaisePropertyChanged(nameof(TotalFusionPermutations));
 			RaisePropertyChanged(nameof(AverageCardStrength));
 		}
+		
+		
+		public void UpdateSelectedOptimizationSuggestions
+		(
+			IEnumerable<OptimizerSuggestion> selectedSuggestions
+		)
+		{
+			SetPropertyValue
+			(
+				nameof(SelectedOptimizerSuggestions),
+				selectedSuggestions.ToList()
+			);
+
+			RaisePropertyChanged(nameof(OptimizerSuggestionsSelected));
+		}
+
+
+		public void ApplyOptimizations
+		(
+			List<OptimizerSuggestion> acceptedOptimizations
+		)
+		{
+			for(int i = acceptedOptimizations.Count - 1; i >= 0; i--)
+			{
+				OptimizerSuggestion optimization = acceptedOptimizations[i];
+				CardCount targetCardCount =
+						_trunkCardCounts[optimization.TargetCard];
+
+				if (optimization.Direction == OptimizerDirection.ToDeck)
+				{
+					targetCardCount.NumberInDeck += optimization.Amount;
+					targetCardCount.NumberInTrunk -= optimization.Amount;
+				}
+				else if(optimization.Direction == OptimizerDirection.ToTrunk)
+				{
+					targetCardCount.NumberInDeck -= optimization.Amount;
+					targetCardCount.NumberInTrunk += optimization.Amount;
+				}
+
+				OptimizerStrategy.Remove(optimization);
+			}
+
+			RaisePropertyChanged(nameof(OptimizerStrategy));
+			RaisePropertyChanged(nameof(OptimizerStrategyAvailable));
+		}
 		#endregion
 
 
@@ -346,97 +424,76 @@ namespace FMDC.TestApp.ViewModels
 		
 		private void BuildOptimizerStrategy()
 		{
+			IEnumerable<OptimizerSuggestion> optimizerStrategy =
+				_currentDeck
+					.GroupBy
+					(
+						card => card
+					)
+					.FullOuterJoin
+					(
+						_optimizedDeck
+							.GroupBy
+							(
+								card => card
+							),
+						currentCard => currentCard.Key,
+						optimizedCard => optimizedCard.Key,
+						(currentCardGroup, optimizedCardGroup) =>
+						{
+							if(currentCardGroup == null)
+							{
+								return 
+									(
+										card: optimizedCardGroup.Key, 
+										count: optimizedCardGroup.Count()
+									);
+							}
+							else if (optimizedCardGroup == null)
+							{
+								return 
+									(
+										card: currentCardGroup.Key, 
+										count: currentCardGroup.Count() * -1
+									);
+							}
+							else
+							{
+								return 
+									(
+										card: currentCardGroup.Key, 
+										count: optimizedCardGroup.Count() - currentCardGroup.Count()
+									);
+							}
+						}	
+					)
+					.Where
+					(
+						optimizerCardCount =>
+							optimizerCardCount.count != 0
+					)
+					.Select
+					(
+						optimizerCardCount =>
+							new OptimizerSuggestion
+							{
+								Amount = Math.Abs(optimizerCardCount.count),
+								Direction = 
+									optimizerCardCount.count > 0 ?
+										OptimizerDirection.ToDeck :
+										OptimizerDirection.ToTrunk,
+								TargetCard = optimizerCardCount.card
+							}
+					);
+
 			OptimizerStrategy =
 				new ObservableCollection<OptimizerSuggestion>
 				(
-					_currentDeck
-						.GroupBy
-						(
-							card => card
-						)
-						.FullOuterJoin
-						(
-							_optimizedDeck
-								.GroupBy
-								(
-									card => card
-								),
-							currentCard => currentCard.Key,
-							optimizedCard => optimizedCard.Key,
-							(currentCardGroup, optimizedCardGroup) =>
-							{
-								if (currentCardGroup == null)
-								{
-									//If there is no current card group, the optimized 
-									//card is being fully added to the current deck.
-									return
-										new OptimizerSuggestion
-										{
-											TargetCard = optimizedCardGroup.Key,
-											Direction = OptimizerDirection.ToDeck,
-											Amount = optimizedCardGroup.Count()
-										};
-								}
-								else if (optimizedCardGroup == null)
-								{
-									//If there is no optimized card group, the current
-									//card is being fully removed from the current deck
-									return
-										new OptimizerSuggestion
-										{
-											TargetCard = currentCardGroup.Key,
-											Direction = OptimizerDirection.ToTrunk,
-											Amount = currentCardGroup.Count()
-										};
-								}
-								else if (currentCardGroup.Count() > optimizedCardGroup.Count())
-								{
-									//If there is a greater count of the current card 
-									//in the player's current deck than in the optimized  
-									//deck, shift the difference to the player's trunk
-									return
-										new OptimizerSuggestion
-										{
-											TargetCard = currentCardGroup.Key,
-											Direction = OptimizerDirection.ToTrunk,
-											Amount = currentCardGroup.Count() - optimizedCardGroup.Count()
-										};
-								}
-								else if (optimizedCardGroup.Count() > currentCardGroup.Count())
-								{
-									//If there is a greater count of the current card 
-									//in the optimized deck than in the player's current 
-									//deck, shift the difference to the player's deck
-									return
-										new OptimizerSuggestion
-										{
-											TargetCard = currentCardGroup.Key,
-											Direction = OptimizerDirection.ToDeck,
-											Amount = optimizedCardGroup.Count() - currentCardGroup.Count()
-										};
-								}
-								else
-								{
-									//If the number of the current card in both the player's current 
-									//deck and the optimized deck are the same, no change is necessary
-									return
-										new OptimizerSuggestion
-										{
-											TargetCard = currentCardGroup.Key,
-											Direction = OptimizerDirection.NoChange,
-											Amount = 0
-										};
-								}
-							}
-						)
-						.Where
-						(
-							optimization =>
-								optimization.Direction != OptimizerDirection.NoChange
-						)
+					optimizerStrategy
 				);
 
 			RaisePropertyChanged(nameof(OptimizerStrategy));
+			RaisePropertyChanged(nameof(OptimizerStrategyAvailable));
 		}
 		#endregion
 	}

@@ -44,11 +44,12 @@ namespace FMDC.TestApp
 		}
 
 
-		private void CardChestButton_Click(object sender, RoutedEventArgs e)
+		private void TrunkButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (_mainViewModel.CurrentFeature != FeatureSelection.Trunk)
 			{
 				_mainViewModel.CurrentFeature = FeatureSelection.Trunk;
+				_trunkViewModel.RefreshCardCounts(_trunkViewModel.CardCounts);
 			}
 		}
 
@@ -93,7 +94,7 @@ namespace FMDC.TestApp
 			{
 				//If card counts were successfully loaded from a file,
 				//use them to reload card counts on the trunk view model.
-				_trunkViewModel.LoadCardCounts(loadedCardCounts);
+				_trunkViewModel.RefreshCardCounts(loadedCardCounts);
 
 				//Then, refresh the deck list for the play optimizer view
 				_playOptimizerViewModel.RefreshDeckList(_trunkViewModel.CardCounts);

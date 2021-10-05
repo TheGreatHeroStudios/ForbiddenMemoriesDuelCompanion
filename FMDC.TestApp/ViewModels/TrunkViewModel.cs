@@ -96,7 +96,7 @@ namespace FMDC.TestApp.ViewModels
 					)
 					.ToList();
 
-			LoadCardCounts
+			RefreshCardCounts
 			(
 				_cardList
 					.Select
@@ -117,7 +117,7 @@ namespace FMDC.TestApp.ViewModels
 
 
 		#region Public Method(s)
-		public void LoadCardCounts(IEnumerable<CardCount> cardCounts)
+		public void RefreshCardCounts(IEnumerable<CardCount> cardCounts)
 		{
 			SetPropertyValue
 			(
