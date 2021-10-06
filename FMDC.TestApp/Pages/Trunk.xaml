@@ -519,7 +519,7 @@
 							Click="InspectCardButton_Click">
 							<Button.Template>
 								<ControlTemplate>
-									<Image Source="{Binding Card, Converter={StaticResource CardImagePathConverter}}"
+									<Image Source="{Binding Card, Converter={StaticResource ImagePathConverter}}"
 										Grid.Column="1" Margin="6"/>
 								</ControlTemplate>
 							</Button.Template>
@@ -681,7 +681,7 @@
 					<Grid>
 						<Rectangle Fill="#EE222222"/>
 						<Image Margin="100" Source="{Binding InspectedCard, 
-								Converter={StaticResource CardImagePathConverter}, 
+								Converter={StaticResource ImagePathConverter}, 
 								ConverterParameter=CardDetails}"/>
 					</Grid>
 				</ControlTemplate>

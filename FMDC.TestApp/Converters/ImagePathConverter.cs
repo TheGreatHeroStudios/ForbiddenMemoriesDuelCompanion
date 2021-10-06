@@ -7,11 +7,13 @@ using System.Windows.Data;
 
 namespace FMDC.TestApp.Converters
 {
-	public class CardToImagePathConverter : IValueConverter
+	public class ImagePathConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			Card card = value as Card;
+			Character character = value as Character;
+
 			string imagePath = string.Empty;
 			ImageEntityType imageType = ImageEntityType.Card;
 
@@ -42,6 +44,16 @@ namespace FMDC.TestApp.Converters
 						string.Empty :
 						ApplicationConstants.APPLICATION_DATA_FOLDER + 
 							card.CardDescriptionImage.ImageRelativePath;
+			}
+			else if(imageType == ImageEntityType.Character)
+			{
+				//For 'Character' images, use the character image 
+				//filepath (or an empty string if no image is available)
+				imagePath =
+					character == null || character.CharacterImage == null ?
+						string.Empty :
+						ApplicationConstants.APPLICATION_DATA_FOLDER +
+							character.CharacterImage.ImageRelativePath;
 			}
 
 			return imagePath;

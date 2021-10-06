@@ -391,7 +391,7 @@
 		<converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
 		<converters:EnumStringConverter x:Key="EnumStringConverter"/>
 		<converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>
-		<converters:CardToImagePathConverter x:Key="CardImagePathConverter"/>
+		<converters:ImagePathConverter x:Key="ImagePathConverter"/>
 		<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 		<converters:CardToNameStringConverter x:Key="CardNameConverter"/>
 		<converters:MonsterTypeToImageCoverter x:Key="MonsterTypeImagePathConverter"/>

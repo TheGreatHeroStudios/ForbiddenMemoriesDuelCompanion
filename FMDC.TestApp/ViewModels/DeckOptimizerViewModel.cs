@@ -18,12 +18,14 @@ namespace FMDC.TestApp.ViewModels
 		private IFusionService _fusionService;
 
 		private List<Card> _cardList;
+		private List<CardPercentage> _availableCardDrops;
 		private Dictionary<Card, CardCount> _trunkCardCounts;
 		private Dictionary<Card, int> _availableCardCounts;
 		private List<Fusion> _viableSpecificFusions;
 
 		private List<Card> _currentDeck;
 		private List<Card> _optimizedDeck;
+		private List<BinaryTreeNode<Card>> _nonPossibleFusions;
 		#endregion
 
 
@@ -59,6 +61,10 @@ namespace FMDC.TestApp.ViewModels
 		public bool OptimalFusionWindowOpen { get; set; }
 
 		public bool IncludeNonMonstersInOptimization { get; set; }
+
+		public CardPercentage GrindCardPercentage { get; set; }
+
+		public bool GrindCardAvailable => GrindCardPercentage != null;
 		#endregion
 
 
@@ -73,9 +79,11 @@ namespace FMDC.TestApp.ViewModels
 			_fusionService = fusionService;
 
 			_cardList = currentAppInstance.CardList;
+			_availableCardDrops = currentAppInstance.CardDropPercentages;
 
 			_currentDeck = new List<Card>();
 			_optimizedDeck = new List<Card>();
+			_nonPossibleFusions = new List<BinaryTreeNode<Card>>();
 
 			OptimizerStrategy = new ObservableCollection<OptimizerSuggestion>();
 			OptimalFusions = new ObservableCollection<ObservableCollection<Card>>();
@@ -100,6 +108,7 @@ namespace FMDC.TestApp.ViewModels
 			//Reset any values set during previous optimizations
 			_currentDeck.Clear();
 			_optimizedDeck.Clear();
+			_nonPossibleFusions.Clear();
 			OptimizerStrategy.Clear();
 			OptimalFusions.Clear();
 
@@ -168,6 +177,7 @@ namespace FMDC.TestApp.ViewModels
 			//TODO (TEST): Move the following method calls
 			OptimizeDeck();
 			BuildOptimizerStrategy();
+			DetermineGrindCardPercentage();
 		}
 
 
@@ -284,7 +294,9 @@ namespace FMDC.TestApp.ViewModels
 					}
 					else
 					{
-						//If a fusion is not possible, break out of the loop
+						//If one or more viable fusions exists but is not possible given
+						//the player's current set of cards, cache the incomplete fusion tree
+						_nonPossibleFusions.Add(fusionRootNode);
 						break;
 					}
 				}
@@ -543,6 +555,114 @@ namespace FMDC.TestApp.ViewModels
 
 			RaisePropertyChanged(nameof(OptimizerStrategy));
 			RaisePropertyChanged(nameof(OptimizerStrategyAvailable));
+		}
+		
+		
+		private void DetermineGrindCardPercentage()
+		{
+			CardPercentage bestGrindCard =
+				_availableCardDrops
+					.OrderByDescending
+					(
+						cardDrop =>
+							cardDrop.Card.AttackPoints
+					)
+					.ThenByDescending
+					(
+						cardDrop =>
+							cardDrop.GenerationPercentage
+					)
+					.FirstOrDefault();
+
+			Card bestPossibleFusionResult = null;
+			CardPercentage fusionMaterialGrindCard = null;
+
+			foreach
+			(
+				BinaryTreeNode<Card> nonPossibleFusionRootNode in 
+				_nonPossibleFusions
+					.OrderBy
+					(
+						fusionRootNode =>
+							fusionRootNode
+								.GetChildNodes()
+								.Count
+								(
+									fusionChildNode =>
+										!_availableCardCounts.ContainsKey(fusionChildNode.Data) ||
+										_availableCardCounts[fusionChildNode.Data] < 1
+								)
+					)
+					.ThenByDescending
+					(
+						fusionRootNode =>
+							fusionRootNode.Data.AttackPoints ?? 0
+					)
+			)
+			{
+				List<Card> necessaryCards =
+					nonPossibleFusionRootNode
+						.GetChildNodes()
+						.Where
+						(
+							fusionChildNode =>
+								!_availableCardCounts.ContainsKey(fusionChildNode.Data) ||
+								_availableCardCounts[fusionChildNode.Data] < 1
+						)
+						.Select
+						(
+							childNode =>
+								childNode.Data
+						)
+						.ToList();
+
+				if(necessaryCards.All(card => card.In(_availableCardDrops.Select(drop => drop.Card))))
+				{
+					//If all the necessary cards for the fusion can potentially
+					//be dropped by an unlocked character, select the card
+					//percentage that has the highest percentage drop rate
+					fusionMaterialGrindCard =
+						_availableCardDrops
+							.Where
+							(
+								cardDrop =>
+									cardDrop.Card.In(necessaryCards)
+							)
+							.OrderByDescending
+							(
+								cardDrop =>
+									cardDrop.GenerationPercentage
+							)
+							.First();
+
+					//Also, cache the resultant card which will be compared with the strongest 
+					//standalone grind card to determine the best card for which to grind.
+					bestPossibleFusionResult = nonPossibleFusionRootNode.Data;
+
+					break;
+				}
+			}
+
+			if(bestGrindCard != null && fusionMaterialGrindCard != null)
+			{
+				//If both a standalone grind card and fusion material grind card were 
+				//resolved, take the percentage which would result in the stronger monster 
+				GrindCardPercentage =
+					bestGrindCard.Card.AttackPoints >= (bestPossibleFusionResult?.AttackPoints ?? 0) ?
+						bestGrindCard :
+						fusionMaterialGrindCard;
+			}
+			else if(bestGrindCard != null)
+			{
+				GrindCardPercentage = bestGrindCard;
+			}
+			else
+			{
+				GrindCardPercentage = fusionMaterialGrindCard;
+			}
+
+			RaisePropertyChanged(nameof(GrindCardPercentage));
+			RaisePropertyChanged(nameof(GrindCardAvailable));
 		}
 		#endregion
 	}

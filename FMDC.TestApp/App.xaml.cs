@@ -27,6 +27,8 @@ namespace FMDC.TestApp
 		private List<Fusion> _fusionList;
 		private List<Equippable> _equippableList;
 		private List<GameImage> _gameImages;
+		private List<CardPercentage> _cardDropPercentages;
+		private List<Character> _characters;
 		#endregion
 
 
@@ -46,6 +48,8 @@ namespace FMDC.TestApp
 		public List<Fusion> FusionList => _fusionList;
 		public List<Equippable> EquippableList => _equippableList;
 		public List<GameImage> GameImages => _gameImages;
+		public List<CardPercentage> CardDropPercentages => _cardDropPercentages;
+		public List<Character> Characters => _characters;
 		#endregion
 
 
@@ -270,6 +274,81 @@ namespace FMDC.TestApp
 						{
 							equippable.TargetCard = targetCard;
 							return equippable;
+						}
+					)
+					.ToList();
+
+			//Load the list of card percentages and associate each with a card
+			_cardDropPercentages =
+				_cardRepository
+					.RetrieveEntities<CardPercentage>
+					(
+						cardPercentage =>
+							cardPercentage
+								.PercentageType
+								.In
+								(
+									PercentageType.SA_POW,
+									PercentageType.SA_TEC,
+									PercentageType.BCD_POW_TEC
+								)
+					)
+					.Join
+					(
+						_cardList,
+						cardPercentage => cardPercentage.CardId,
+						card => card.CardId,
+						(cardPercentage, card) =>
+						{
+							cardPercentage.Card = card;
+							return cardPercentage;
+						}
+					)
+					.ToList();
+
+			//Load the list of characters and associate
+			//their card percentages and game images
+			_characters =
+				_cardRepository
+					.RetrieveEntities<Character>
+					(
+						character => true
+					)
+					.GroupJoin
+					(
+						_cardDropPercentages,
+						character => character.CharacterId,
+						cardPercentage => cardPercentage.CharacterId,
+						(character, cardPercentages) =>
+						{
+							List<CardPercentage> cardDropPercentages =
+								cardPercentages.ToList();
+
+							cardDropPercentages
+								.ForEach
+								(
+									dropPercentage =>
+										dropPercentage.Character = character
+								);
+
+							character.CardPercentages = cardDropPercentages;
+							return character;
+						}
+					)
+					.Join
+					(
+						_gameImages
+							.Where
+							(
+								gameImage =>
+									gameImage.EntityType == ImageEntityType.Character
+							),
+						character => character.CharacterImageId,
+						gameImage => gameImage.GameImageId,
+						(character, gameImage) =>
+						{
+							character.CharacterImage = gameImage;
+							return character;
 						}
 					)
 					.ToList();

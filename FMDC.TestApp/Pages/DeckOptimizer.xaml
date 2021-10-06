@@ -90,9 +90,29 @@
 			<TextBlock Text="Favor Monsters"
 				HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="White" FontSize="12"/>
 			<!--#endregion-->
+
+			<!--#region Next Grind Card-->
+			<TextBlock Text="Next Grind Card" Foreground="White" FontSize="14"
+				FontWeight="Bold" TextDecorations="Underline" Padding="0,100,0,10"/>
+
+			<Grid Margin="0,10,10,0">
+				<Image Source="{Binding GrindCardPercentage.Character, 
+					Converter={StaticResource ImagePathConverter}, ConverterParameter=Character}"/>
+				<Image Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+					Margin="0,0,20,-10" Source="{Binding GrindCardPercentage.Card, 
+						Converter={StaticResource ImagePathConverter}, ConverterParameter=Card}"/>
+			</Grid>
+			<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+				<TextBlock Text="{Binding GrindCardPercentage.Card.Name}" Foreground="White"/>
+				<TextBlock Text=" from " Foreground="White"/>
+				<TextBlock Text="{Binding GrindCardPercentage.Character.Name}" Foreground="White"/>
+				<TextBlock Text=" (" Foreground="White"/>
+				<TextBlock Text="{Binding GrindCardPercentage.PercentageType}" Foreground="White"/>
+				<TextBlock Text=")" Foreground="White"/>
+			</StackPanel>
+			<!--#endregion-->
 		</StackPanel>
 		
-
 		<!--#region Strategy-->
 		<StackPanel Grid.Column="1" Visibility="{Binding OptimizerStrategyAvailable, 
 			Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -128,7 +148,7 @@
 										HorizontalAlignment="Center" VerticalAlignment="Center"/>
 								</Grid>
 								<Image Height="85" Margin="5" 
-									Source="{Binding TargetCard, Converter={StaticResource CardImagePathConverter}}"/>
+									Source="{Binding TargetCard, Converter={StaticResource ImagePathConverter}}"/>
 								<Grid Visibility="{Binding Direction, 
 									Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=1}">
 									<Image Source="{StaticResource RightArrowIcon}" 
@@ -188,7 +208,7 @@
 									<StackPanel Margin="10" Orientation="Horizontal">
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[0], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[0]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -199,7 +219,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[1], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[1]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -210,7 +230,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[2], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[2]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -221,7 +241,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[3], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[3]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -232,7 +252,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[4], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[4]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -243,7 +263,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[5], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[5]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -254,7 +274,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[6], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[6]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
@@ -265,7 +285,7 @@
 
 										<StackPanel Orientation="Vertical" Width="175">
 											<Image Width="100" Source="{Binding .[7], 
-												Converter={StaticResource CardImagePathConverter}}"/>
+												Converter={StaticResource ImagePathConverter}}"/>
 											<TextBlock Text="{Binding .[7]}" TextAlignment="Center"
 												Foreground="White"/>
 										</StackPanel>
