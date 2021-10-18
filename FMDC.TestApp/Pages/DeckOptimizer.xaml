@@ -93,7 +93,7 @@
 
 			<!--#region Next Grind Card-->
 			<TextBlock Text="Next Grind Card" Foreground="White" FontSize="14"
-				FontWeight="Bold" TextDecorations="Underline" Padding="0,100,0,10"/>
+				FontWeight="Bold" TextDecorations="Underline" Padding="0,160,0,10"/>
 
 			<Grid Margin="0,10,10,0">
 				<Image Source="{Binding GrindCardPercentage.Character, 

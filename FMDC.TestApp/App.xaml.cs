@@ -291,7 +291,8 @@ namespace FMDC.TestApp
 									PercentageType.SA_POW,
 									PercentageType.SA_TEC,
 									PercentageType.BCD_POW_TEC
-								)
+								) &&
+							cardPercentage.CharacterId < 8
 					)
 					.Join
 					(

@@ -522,19 +522,22 @@ namespace FMDC.BusinessLogic
 		private bool CheckFusionTypeCompatibility(MonsterType? fusionType, Card card)
 		{
 			return
-				fusionType == card.MonsterType ||
-				fusionType
-					.In
-					(
-						card
-							.SecondaryTypes?
-							.Select
-							(
-								secondaryType =>
-									(MonsterType?)secondaryType.MonsterType
-							) ??
-								new[] { card.MonsterType }
-					);
+				fusionType != null &&
+				(
+					fusionType == card.MonsterType ||
+					fusionType
+						.In
+						(
+							card
+								.SecondaryTypes?
+								.Select
+								(
+									secondaryType =>
+										(MonsterType?)secondaryType.MonsterType
+								) ??
+									new[] { card.MonsterType }
+						)
+				);
 		}
 
 
@@ -676,7 +679,7 @@ namespace FMDC.BusinessLogic
 							) &&
 							(
 								(
-									fusion.FusionMaterialCard != null &&
+									fusion.FusionMaterialCardId != null &&
 									fusion.FusionMaterialCard.Equals(fusionMaterialCard)
 								) ||
 								CheckFusionTypeCompatibility

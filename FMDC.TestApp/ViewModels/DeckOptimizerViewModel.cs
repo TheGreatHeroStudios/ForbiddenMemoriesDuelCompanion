@@ -581,7 +581,7 @@ namespace FMDC.TestApp.ViewModels
 			(
 				BinaryTreeNode<Card> nonPossibleFusionRootNode in 
 				_nonPossibleFusions
-					.OrderBy
+					.Where
 					(
 						fusionRootNode =>
 							fusionRootNode
@@ -591,9 +591,9 @@ namespace FMDC.TestApp.ViewModels
 									fusionChildNode =>
 										!_availableCardCounts.ContainsKey(fusionChildNode.Data) ||
 										_availableCardCounts[fusionChildNode.Data] < 1
-								)
+								) == 1
 					)
-					.ThenByDescending
+					.OrderByDescending
 					(
 						fusionRootNode =>
 							fusionRootNode.Data.AttackPoints ?? 0
@@ -615,6 +615,11 @@ namespace FMDC.TestApp.ViewModels
 								childNode.Data
 						)
 						.ToList();
+
+				if(necessaryCards.None())
+				{
+					continue;
+				}
 
 				if(necessaryCards.All(card => card.In(_availableCardDrops.Select(drop => drop.Card))))
 				{
