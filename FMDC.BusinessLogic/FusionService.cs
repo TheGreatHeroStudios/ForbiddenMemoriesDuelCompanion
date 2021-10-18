@@ -476,7 +476,7 @@ namespace FMDC.BusinessLogic
 				//card to resolve a potential fusion for it...
 				foreach (Card potentialFusionMaterialCard in potentialFusionMaterialCards)
 				{
-					//Determine if either a general or specific fusions exists between  
+					//Determine if either a general or specific fusion exists between  
 					//the target card and the currently iterated fusion material card.
 					Fusion resolvedFusion =
 						ResolveResultantFusion(targetCard, potentialFusionMaterialCard);
@@ -698,8 +698,10 @@ namespace FMDC.BusinessLogic
 						.First(fusion => fusion.FusionType == FusionType.Specific);
 			}
 
-			//If no specific fusions exist, take the general fusion with the lowest
-			//attack greater than those of the cards used to form the fusion.
+			//If no specific fusions exist, group the general fusions by their 
+			//types, and take the one with the lowest attack in each group 
+			//that is greater than those of the cards used to form the fusion.
+			//Then, take the optimal fusion from what was yielded out of each group.
 			int maxFusionMaterialAttackPoints =
 				Math.Max
 				(
@@ -715,7 +717,29 @@ namespace FMDC.BusinessLogic
 							fusion.FusionType == FusionType.General &&
 							fusion.ResultantCard.AttackPoints > maxFusionMaterialAttackPoints
 					)
-					.OrderBy
+					.GroupBy
+					(
+						fusion =>
+							(
+								fusion.TargetMonsterType, 
+								fusion.FusionMaterialMonsterType
+							)
+					)
+					.SelectMany
+					(
+						generalFusionGroup =>
+							new[]
+							{
+								generalFusionGroup
+								.OrderBy
+								(
+									groupedFusion =>
+										groupedFusion.ResultantCard.AttackPoints ?? 0
+								)
+								.FirstOrDefault()
+							}
+					)
+					.OrderByDescending
 					(
 						fusion =>
 							fusion.ResultantCard.AttackPoints ?? 0
