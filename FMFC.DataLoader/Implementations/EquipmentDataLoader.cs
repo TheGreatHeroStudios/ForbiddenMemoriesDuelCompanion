@@ -1,10 +1,11 @@
 ﻿using FMDC.DataLoader.Exceptions;
 using FMDC.Model;
 using FMDC.Model.Models;
-using FMDC.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TGH.Common.Utilities.DataLoader.Implementations;
+using TGH.Common.Utilities.Logging;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -33,8 +34,8 @@ namespace FMDC.DataLoader.Implementations
 			}
 			else if (cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 			{
-				LoggingUtility.LogWarning(MessageConstants.EQUIPMENT_CARD_LIST_INCOMPLETE);
-				LoggingUtility.LogWarning(MessageConstants.EQUIPMENT_FUNCTION_WARNING);
+				Logger.LogWarning(MessageConstants.EQUIPMENT_CARD_LIST_INCOMPLETE);
+				Logger.LogWarning(MessageConstants.EQUIPMENT_FUNCTION_WARNING);
 			}
 			_cardList = cardList;
 		}
@@ -45,7 +46,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Abstract Base Class Implementations
 		public override Func<Equippable, int> KeySelector => equippable => equippable.EquippableId;
 
-		public override IEnumerable<Equippable> LoadDataIntoMemory()
+		public override IEnumerable<Equippable> ReadDataIntoMemory()
 		{
 			try
 			{
@@ -53,10 +54,10 @@ namespace FMDC.DataLoader.Implementations
 				{
 					//If the correct count of card percentage records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
-					LoggingUtility.LogInfo(MessageConstants.EQUIPPABLE_LOADING_SKIPPED);
+					Logger.LogInfo(MessageConstants.EQUIPPABLE_LOADING_SKIPPED);
 
 					return
-						_cardRepository
+						_repository
 							.RetrieveEntities<Equippable>
 							(
 								entity => true
@@ -64,7 +65,7 @@ namespace FMDC.DataLoader.Implementations
 
 				}
 
-				LoggingUtility.LogInfo(MessageConstants.BEGIN_EQUIPMENT_LOADING);
+				Logger.LogInfo(MessageConstants.BEGIN_EQUIPMENT_LOADING);
 
 				int currentRowNum = 0;
 
@@ -84,18 +85,18 @@ namespace FMDC.DataLoader.Implementations
 
 				if (EquipmentAnomalies.Any())
 				{
-					LoggingUtility.LogWarning(MessageConstants.EQUIPMENT_LOAD_FAILURE_WARNING_TEMPLATE);
+					Logger.LogWarning(MessageConstants.EQUIPMENT_LOAD_FAILURE_WARNING_TEMPLATE);
 				}
 				else
 				{
-					LoggingUtility.LogInfo(MessageConstants.EQUIPMENT_LOADING_SUCCESSFUL);
+					Logger.LogInfo(MessageConstants.EQUIPMENT_LOADING_SUCCESSFUL);
 				}
 
 				return equips.Where(equip => equip != null);
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(MessageConstants.EQUIPMENT_LOAD_FAILURE);
+				Logger.LogError(MessageConstants.EQUIPMENT_LOAD_FAILURE);
 				throw ex;
 			}
 		}
@@ -110,13 +111,13 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Public Methods
-		public void LogAnomalies(FileLogger logger)
+		public void LogAnomalies()
 		{
 			if (EquipmentAnomalies.Any())
 			{
-				logger.WriteLine("");
+				Logger.WriteLine("");
 
-				logger.WriteLine
+				Logger.WriteLine
 				(
 					string.Format
 					(
@@ -128,7 +129,7 @@ namespace FMDC.DataLoader.Implementations
 					.ForEach
 					(
 						anomaly =>
-							logger.WriteLine
+							Logger.WriteLine
 							(
 								string.Format
 								(
@@ -260,7 +261,7 @@ namespace FMDC.DataLoader.Implementations
 							TargetCardId = _lastTargetId
 						};
 
-						LoggingUtility.LogVerbose
+						Logger.LogVerbose
 						(
 							string.Format
 							(

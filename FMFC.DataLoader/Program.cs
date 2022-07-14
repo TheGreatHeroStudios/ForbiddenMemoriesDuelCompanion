@@ -3,9 +3,6 @@ using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using FMDC.Persistence;
-using FMDC.Utility;
-using FMDC.Utility.PubSubUtility;
-using FMDC.Utility.PubSubUtility.PubSubEventTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +11,8 @@ using TGH.Common.Patterns.IoC;
 using TGH.Common.Persistence.Interfaces;
 using TGH.Common.Repository.Implementations;
 using TGH.Common.Repository.Interfaces;
+using TGH.Common.Utilities.Logging;
+using TGH.Common.Utilities.Logging.Providers;
 
 namespace FMDC.DataLoader
 {
@@ -25,7 +24,6 @@ namespace FMDC.DataLoader
 		private static bool _rebuildDatabase = false;
 
 		private static int _exitCode = 0;
-		private static FileLogger _fileLogger;
 
 		private static CardDataLoader _cardLoader;
 		private static SecondaryTypeDataLoader _secondaryTypeLoader;
@@ -62,20 +60,19 @@ namespace FMDC.DataLoader
 			catch (Exception ex)
 			{
 				//Treat any exception that bubbled up to here as unhandled and fatal
-				LoggingUtility.LogError(ex.Message);
-				LoggingUtility.LogError(MessageConstants.DATA_LOADING_FAILED);
+				Logger.LogError(ex.Message);
+				Logger.LogError(MessageConstants.DATA_LOADING_FAILED);
 				_exitCode = -1;
 			}
 			finally
 			{
 				if (_waitOnExit)
 				{
-					LoggingUtility.LogInfo(MessageConstants.EXIT_PROMPT);
+					Logger.LogInfo(MessageConstants.EXIT_PROMPT);
 					Console.Read();
 				}
 
-				_fileLogger.Dispose();
-				PubSubManager.Unsubscribe<LogMessageEvent>();
+				Logger.UnregisterLoggingProviders();
 				Environment.Exit(_exitCode);
 			}
 		}
@@ -86,13 +83,19 @@ namespace FMDC.DataLoader
 		#region Private Methods
 		private static void ConfigureMiddleware()
 		{
-			PubSubManager.Subscribe<LogMessageEvent>(HandleLogMessageEvent);
-			_fileLogger =
-				new FileLogger
-				(
-					FileConstants.DATA_LOADER_LOG_FILE_NAME,
-					ApplicationConstants.APPLICATION_DATA_FOLDER
-				);
+			//Register logging provider(s)
+			Logger.RegisterLoggingProviders
+			(
+				new LoggingProvider[]
+				{
+					new FileLoggingProvider
+					(
+						FileConstants.DATA_LOADER_LOG_FILE_NAME,
+						ApplicationConstants.APPLICATION_DATA_FOLDER
+					),
+					new ConsoleLoggingProvider()
+				}
+			);
 
 			//Register singleton middleware instances for the necessary data layers
 			DependencyManager
@@ -155,7 +158,7 @@ namespace FMDC.DataLoader
 			{
 				//If the database exists but should be rebuilt, delete it from the 
 				//target filepath and re-copy it from the template database filepath.
-				LoggingUtility.LogInfo(MessageConstants.BEGIN_REBUILD_DATABASE);
+				Logger.LogInfo(MessageConstants.BEGIN_REBUILD_DATABASE);
 
 				File.Delete(PersistenceConstants.SQLITE_DB_TARGET_FILEPATH);
 
@@ -166,58 +169,58 @@ namespace FMDC.DataLoader
 				);
 			}
 
-			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATA_LOAD_PROCESS);
+			Logger.LogInfo(MessageConstants.BEGIN_DATA_LOAD_PROCESS);
 
 			#region Character Image Loader
 			_characterImageLoader = new CharacterImageDataLoader();
-			_characterImages = _characterImageLoader.LoadDataIntoMemory();
+			_characterImages = _characterImageLoader.ReadDataIntoMemory();
 			#endregion
 
 			#region Card Image Loader
 			_cardImageLoader = new CardImageDataLoader();
-			_cardImages = _cardImageLoader.LoadDataIntoMemory();
+			_cardImages = _cardImageLoader.ReadDataIntoMemory();
 			#endregion
 
 			#region Card Loader
 			_cardLoader = new CardDataLoader();
-			_cardList = _cardLoader.LoadDataIntoMemory();
+			_cardList = _cardLoader.ReadDataIntoMemory();
 			#endregion
 
 			#region Secondary Type Loader
 			_secondaryTypeLoader = new SecondaryTypeDataLoader(_cardList);
-			_secondaryTypes = _secondaryTypeLoader.LoadDataIntoMemory();
+			_secondaryTypes = _secondaryTypeLoader.ReadDataIntoMemory();
 			#endregion
 
 			#region Fusion Loader
 			_fusionLoader = new FusionDataLoader(_cardList);
-			_fusions = _fusionLoader.LoadDataIntoMemory();
-			_fusionLoader.LogAnomalies(_fileLogger);
+			_fusions = _fusionLoader.ReadDataIntoMemory();
+			_fusionLoader.LogAnomalies();
 			#endregion
 
 			#region Equipment Loader
 			_equipmentLoader = new EquipmentDataLoader(_cardList);
-			_equipment = _equipmentLoader.LoadDataIntoMemory();
-			_equipmentLoader.LogAnomalies(_fileLogger);
+			_equipment = _equipmentLoader.ReadDataIntoMemory();
+			_equipmentLoader.LogAnomalies();
 			#endregion
 
 			#region Character Loader
 			_characterLoader = new CharacterDataLoader();
-			_characterList = _characterLoader.LoadDataIntoMemory();
+			_characterList = _characterLoader.ReadDataIntoMemory();
 			#endregion
 
 			#region Card Percentage Loader
 			_cardPercentageLoader = new CardPercentageDataLoader(_cardList, _characterList);
-			_cardPercentages = _cardPercentageLoader.LoadDataIntoMemory();
-			_cardPercentageLoader.LogAnomalies(_fileLogger);
+			_cardPercentages = _cardPercentageLoader.ReadDataIntoMemory();
+			_cardPercentageLoader.LogAnomalies();
 			#endregion
 
-			LoggingUtility.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
+			Logger.LogInfo(MessageConstants.DATA_LOADING_SUCCESSFUL);
 		}
 
 
 		private static void LoadDatabase()
 		{
-			LoggingUtility.LogInfo(MessageConstants.BEGIN_DATABASE_LOADING);
+			Logger.LogInfo(MessageConstants.BEGIN_DATABASE_LOADING);
 
 			_cardImages = _cardImageLoader.LoadDataIntoDatabase(_cardImages);
 			_characterImages = _characterImageLoader.LoadDataIntoDatabase(_characterImages);
@@ -311,49 +314,7 @@ namespace FMDC.DataLoader
 							.Concat(deckInclusionPercentages)
 					);
 
-			LoggingUtility.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
-		}
-		#endregion
-
-
-
-		#region PubSub Event Handlers
-		private static void HandleLogMessageEvent(LogMessageEvent e)
-		{
-			ConsoleColor messageColor = ConsoleColor.White;
-			string prefix = $"[{e.Level}] ";
-
-			switch (e.Level)
-			{
-				case LogLevel.INFO:
-				case LogLevel.VERBOSE:
-				{
-					messageColor = ConsoleColor.Cyan;
-					break;
-				}
-				case LogLevel.WARN:
-				case LogLevel.DEBUG:
-				{
-					messageColor = ConsoleColor.Yellow;
-					break;
-				}
-				case LogLevel.ERROR:
-				{
-					messageColor = ConsoleColor.Red;
-					break;
-				}
-				default:
-				{
-					break;
-				}
-			}
-
-			Console.ForegroundColor = messageColor;
-
-			if (_useVerboseOutput || e.Level > LogLevel.VERBOSE)
-			{
-				Console.WriteLine($"{prefix}{e.Message}");
-			}
+			Logger.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}
 		#endregion
 	}

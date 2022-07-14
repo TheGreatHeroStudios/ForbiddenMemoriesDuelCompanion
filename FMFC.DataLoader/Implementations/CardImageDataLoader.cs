@@ -1,7 +1,7 @@
 ﻿using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
+using TGH.Common.Utilities.Logging;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TGH.Common.Utilities.DataLoader.Implementations;
+using TGH.Common.Utilities.DataLoader.Extensions;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -40,16 +42,16 @@ namespace FMDC.DataLoader.Implementations
 		#region Abstract Base Class Implementations
 		public override Func<GameImage, int> KeySelector => cardImage => cardImage.GameImageId;
 
-		public override IEnumerable<GameImage> LoadDataIntoMemory()
+		public override IEnumerable<GameImage> ReadDataIntoMemory()
 		{
 			if (ActualRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of card image records has already been loaded into the database, 
 				//skip the entire data load process and return the entities from the database.
-				LoggingUtility.LogInfo(MessageConstants.CARD_IMAGE_LOADING_SKIPPED);
+				Logger.LogInfo(MessageConstants.CARD_IMAGE_LOADING_SKIPPED);
 
 				return
-					_cardRepository
+					_repository
 						.RetrieveEntities<GameImage>
 						(
 							entity => entity.EntityType != ImageEntityType.Character
@@ -62,20 +64,20 @@ namespace FMDC.DataLoader.Implementations
 			//Retrieve the HTML for the card gallery
 			try
 			{
-				LoggingUtility.LogInfo(MessageConstants.BEGIN_CARD_IMAGE_LOADING);
+				Logger.LogInfo(MessageConstants.BEGIN_CARD_IMAGE_LOADING);
 
 				cardGalleryResponse = GetRemoteContentAsync(URLConstants.CARD_GALLERY_PATH);
 				cardGalleryResponse.Wait();
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(MessageConstants.CARD_IMAGE_REPO_ACCESS_FAILURE);
+				Logger.LogError(MessageConstants.CARD_IMAGE_REPO_ACCESS_FAILURE);
 				throw ex;
 			}
 
 			try
 			{
-				LoggingUtility.LogInfo(MessageConstants.PARSING_IMAGE_DATA);
+				Logger.LogInfo(MessageConstants.PARSING_IMAGE_DATA);
 
 				//Parse the HTML to get the URLs for each card's images.  Each card parsed should return two images--
 				//The card image itself, and the image representing the card's description
@@ -99,21 +101,21 @@ namespace FMDC.DataLoader.Implementations
 				//Each card should have yielded two images.  If not, display a warning that not all images loaded correctly
 				if (images.Count() != DataLoaderConstants.TOTAL_CARD_COUNT * 2)
 				{
-					LoggingUtility.LogWarning(MessageConstants.CARD_IMAGE_COUNT_MISMATCH);
-					LoggingUtility.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
+					Logger.LogWarning(MessageConstants.CARD_IMAGE_COUNT_MISMATCH);
+					Logger.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
 				}
 				else
 				{
-					LoggingUtility.LogInfo(MessageConstants.CARD_IMAGE_LOADING_SUCCESSFUL);
+					Logger.LogInfo(MessageConstants.CARD_IMAGE_LOADING_SUCCESSFUL);
 				}
 
 				return images;
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogWarning(MessageConstants.CARD_IMAGE_RETRIEVAL_FAILURE);
-				LoggingUtility.LogWarning(ex.Message);
-				LoggingUtility.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
+				Logger.LogWarning(MessageConstants.CARD_IMAGE_RETRIEVAL_FAILURE);
+				Logger.LogWarning(ex.Message);
+				Logger.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
 				return null;
 			}
 		}
@@ -225,7 +227,7 @@ namespace FMDC.DataLoader.Implementations
 					);
 				}
 
-				LoggingUtility.LogVerbose
+				Logger.LogVerbose
 				(
 					string.Format
 					(
@@ -261,7 +263,7 @@ namespace FMDC.DataLoader.Implementations
 				//At the program level, we will check to make sure we have the correct number of non-null card images.
 				if (!string.IsNullOrEmpty(cardName))
 				{
-					LoggingUtility.LogError
+					Logger.LogError
 					(
 						string.Format
 						(
@@ -272,10 +274,10 @@ namespace FMDC.DataLoader.Implementations
 				}
 				else
 				{
-					LoggingUtility.LogError(MessageConstants.UNKNOWN_CARD_IMAGE_LOAD_FAILURE);
+					Logger.LogError(MessageConstants.UNKNOWN_CARD_IMAGE_LOAD_FAILURE);
 				}
 
-				LoggingUtility.LogError(ex.Message);
+				Logger.LogError(ex.Message);
 				return null;
 			}
 		}

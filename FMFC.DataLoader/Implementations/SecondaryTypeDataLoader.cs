@@ -2,10 +2,11 @@
 using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
+using TGH.Common.Utilities.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TGH.Common.Utilities.DataLoader.Implementations;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -26,8 +27,8 @@ namespace FMDC.DataLoader.Implementations
 			}
 			else if (cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 			{
-				LoggingUtility.LogWarning(MessageConstants.TYPE_LOADER_CARD_LIST_INCOMPLETE);
-				LoggingUtility.LogWarning(MessageConstants.SECONDARY_TYPE_FUNCTION_WARNING);
+				Logger.LogWarning(MessageConstants.TYPE_LOADER_CARD_LIST_INCOMPLETE);
+				Logger.LogWarning(MessageConstants.SECONDARY_TYPE_FUNCTION_WARNING);
 			}
 			_cardList = cardList;
 		}
@@ -39,7 +40,7 @@ namespace FMDC.DataLoader.Implementations
 		public override Func<SecondaryType, int> KeySelector =>
 			secondaryType => secondaryType.SecondaryTypeId;
 
-		public override IEnumerable<SecondaryType> LoadDataIntoMemory()
+		public override IEnumerable<SecondaryType> ReadDataIntoMemory()
 		{
 			try
 			{
@@ -47,10 +48,10 @@ namespace FMDC.DataLoader.Implementations
 				{
 					//If the correct count of secondary type records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
-					LoggingUtility.LogInfo(MessageConstants.SECONDARY_TYPE_LOADING_SKIPPED);
+					Logger.LogInfo(MessageConstants.SECONDARY_TYPE_LOADING_SKIPPED);
 
 					return
-						_cardRepository
+						_repository
 							.RetrieveEntities<SecondaryType>
 							(
 								entity => true
@@ -58,7 +59,7 @@ namespace FMDC.DataLoader.Implementations
 
 				}
 
-				LoggingUtility.LogInfo(MessageConstants.BEGIN_LOADING_SECONDARY_TYPES);
+				Logger.LogInfo(MessageConstants.BEGIN_LOADING_SECONDARY_TYPES);
 
 				//Read in the table of monsters and their secondary data types
 				IEnumerable<string> secondaryTypeData = LoadDataFile(FileConstants.SECONDARY_TYPE_FILEPATH);
@@ -95,7 +96,7 @@ namespace FMDC.DataLoader.Implementations
 												}
 										);
 
-								LoggingUtility.LogVerbose
+								Logger.LogVerbose
 								(
 									string.Format
 									(
@@ -109,8 +110,8 @@ namespace FMDC.DataLoader.Implementations
 							}
 							catch (Exception ex)
 							{
-								LoggingUtility.LogError(MessageConstants.SECONDARY_TYPE_PARSING_ERROR);
-								LoggingUtility.LogError(ex.Message);
+								Logger.LogError(MessageConstants.SECONDARY_TYPE_PARSING_ERROR);
+								Logger.LogError(ex.Message);
 
 								//When using SelectMany, we can't simply return a null for bad records, 
 								//as this will cause the final unioning of the data to fail.  
@@ -125,19 +126,19 @@ namespace FMDC.DataLoader.Implementations
 				//parsing some secondary types, so warn the user that some secondary types were not loaded successfully
 				if (secondaryTypes.Any(type => type == null))
 				{
-					LoggingUtility.LogWarning(MessageConstants.SECONDARY_TYPE_LOAD_FAILURE_WARNING);
-					LoggingUtility.LogWarning(MessageConstants.SECONDARY_TYPE_FUNCTION_WARNING);
+					Logger.LogWarning(MessageConstants.SECONDARY_TYPE_LOAD_FAILURE_WARNING);
+					Logger.LogWarning(MessageConstants.SECONDARY_TYPE_FUNCTION_WARNING);
 				}
 				else
 				{
-					LoggingUtility.LogInfo(MessageConstants.SECONDARY_TYPE_LOADING_SUCCESSFUL);
+					Logger.LogInfo(MessageConstants.SECONDARY_TYPE_LOADING_SUCCESSFUL);
 				}
 
 				return secondaryTypes.Where(type => type != null);
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(MessageConstants.SECONDARY_TYPE_LOAD_FAILURE);
+				Logger.LogError(MessageConstants.SECONDARY_TYPE_LOAD_FAILURE);
 				throw ex;
 			}
 		}

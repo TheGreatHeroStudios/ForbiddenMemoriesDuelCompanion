@@ -2,11 +2,12 @@
 using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TGH.Common.Utilities.DataLoader.Implementations;
+using TGH.Common.Utilities.Logging;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -37,7 +38,7 @@ namespace FMDC.DataLoader.Implementations
 			}
 			else if (cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 			{
-				LoggingUtility.LogWarning(MessageConstants.FUSION_LOADER_CARD_LIST_INCOMPLETE);
+				Logger.LogWarning(MessageConstants.FUSION_LOADER_CARD_LIST_INCOMPLETE);
 			}
 			_cardList = cardList;
 		}
@@ -48,16 +49,16 @@ namespace FMDC.DataLoader.Implementations
 		#region Abstract Base Class Implementations
 		public override Func<Fusion, int> KeySelector => fusion => fusion.FusionId;
 
-		public override IEnumerable<Fusion> LoadDataIntoMemory()
+		public override IEnumerable<Fusion> ReadDataIntoMemory()
 		{
 			if (ActualRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of fusion records has already been loaded into the  
 				//database, skip the entire data load process and return the entities from the database.
-				LoggingUtility.LogInfo(MessageConstants.FUSION_LOADING_SKIPPED);
+				Logger.LogInfo(MessageConstants.FUSION_LOADING_SKIPPED);
 
 				return
-					_cardRepository
+					_repository
 						.RetrieveEntities<Fusion>
 						(
 							entity => true
@@ -81,12 +82,12 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Public Methods
-		public void LogAnomalies(FileLogger logger)
+		public void LogAnomalies()
 		{
 			if (GeneralFusionAnomalies.Any())
 			{
-				logger.WriteLine("");
-				logger.WriteLine
+				Logger.WriteLine("");
+				Logger.WriteLine
 				(
 					string.Format
 					(
@@ -99,7 +100,7 @@ namespace FMDC.DataLoader.Implementations
 					.ForEach
 					(
 						anomaly =>
-							logger.WriteLine
+							Logger.WriteLine
 							(
 								string.Format
 								(
@@ -110,13 +111,13 @@ namespace FMDC.DataLoader.Implementations
 							)
 					);
 
-				logger.WriteLine("");
+				Logger.WriteLine("");
 			}
 
 			if (SpecificFusionAnomalies.Any())
 			{
-				logger.WriteLine("");
-				logger.WriteLine
+				Logger.WriteLine("");
+				Logger.WriteLine
 				(
 					string.Format
 					(
@@ -129,7 +130,7 @@ namespace FMDC.DataLoader.Implementations
 					.ForEach
 					(
 						anomaly =>
-							logger.WriteLine
+							Logger.WriteLine
 							(
 								string.Format
 								(
@@ -139,7 +140,7 @@ namespace FMDC.DataLoader.Implementations
 								)
 							)
 					);
-				logger.WriteLine("");
+				Logger.WriteLine("");
 			}
 		}
 		#endregion
@@ -149,7 +150,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Private Methods
 		private IEnumerable<Fusion> LoadFusions(FusionType fusionType)
 		{
-			LoggingUtility.LogInfo(string.Format(MessageConstants.LOADING_FUSION_DATA_TEMPLATE, fusionType));
+			Logger.LogInfo(string.Format(MessageConstants.LOADING_FUSION_DATA_TEMPLATE, fusionType));
 
 			try
 			{
@@ -185,18 +186,18 @@ namespace FMDC.DataLoader.Implementations
 				//If any anomalies exist, log a warning message to the console.  These should also be dumped to a file.
 				if (anomalies.Any())
 				{
-					LoggingUtility.LogWarning(string.Format(MessageConstants.FUSION_LOAD_FAILURE_WARNING_TEMPLATE, fusionType));
+					Logger.LogWarning(string.Format(MessageConstants.FUSION_LOAD_FAILURE_WARNING_TEMPLATE, fusionType));
 				}
 				else
 				{
-					LoggingUtility.LogInfo(string.Format(MessageConstants.FUSION_LOADING_SUCCESSFUL_TEMPLATE, fusionType));
+					Logger.LogInfo(string.Format(MessageConstants.FUSION_LOADING_SUCCESSFUL_TEMPLATE, fusionType));
 				}
 
 				return fusions;
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(string.Format(MessageConstants.FUSION_LOADING_ERROR_TEMPLATE, fusionType));
+				Logger.LogError(string.Format(MessageConstants.FUSION_LOADING_ERROR_TEMPLATE, fusionType));
 				throw ex;
 			}
 		}
@@ -396,7 +397,7 @@ namespace FMDC.DataLoader.Implementations
 						specificFusion.FusionMaterialCardId = parsedCards[0].CardId;
 						specificFusion.ResultantCardId = parsedCards[1].CardId;
 
-						LoggingUtility.LogVerbose
+						Logger.LogVerbose
 						(
 							string.Format
 							(

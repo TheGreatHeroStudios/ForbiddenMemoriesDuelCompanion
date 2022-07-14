@@ -1,7 +1,6 @@
 ﻿using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,8 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using TGH.Common.Utilities.DataLoader.Implementations;
+using TGH.Common.Utilities.Logging;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -31,16 +32,16 @@ namespace FMDC.DataLoader.Implementations
 		#region Abstract Base Class Implementations
 		public override Func<Card, int> KeySelector => card => card.CardId;
 
-		public override IEnumerable<Card> LoadDataIntoMemory()
+		public override IEnumerable<Card> ReadDataIntoMemory()
 		{
 			if (ActualRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of card records has already been loaded into the database, 
 				//skip the entire data load process and return the entities from the database.
-				LoggingUtility.LogInfo(MessageConstants.CARD_LOADING_SKIPPED);
+				Logger.LogInfo(MessageConstants.CARD_LOADING_SKIPPED);
 
 				return
-					_cardRepository.RetrieveEntities<Card>(entity => true);
+					_repository.RetrieveEntities<Card>(entity => true);
 
 			}
 
@@ -48,20 +49,20 @@ namespace FMDC.DataLoader.Implementations
 
 			try
 			{
-				LoggingUtility.LogInfo(MessageConstants.BEGIN_CARD_LOADING);
+				Logger.LogInfo(MessageConstants.BEGIN_CARD_LOADING);
 
 				cardListResponse = GetRemoteContentAsync(URLConstants.CARD_LIST_PATH);
 				cardListResponse.Wait();
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(MessageConstants.CARD_REPO_ACCESS_FAILURE);
+				Logger.LogError(MessageConstants.CARD_REPO_ACCESS_FAILURE);
 				throw ex;
 			}
 
 			try
 			{
-				LoggingUtility.LogInfo(MessageConstants.PARSING_CARD_DATA);
+				Logger.LogInfo(MessageConstants.PARSING_CARD_DATA);
 
 				string cardListHTML = cardListResponse.Result.Content.ReadAsStringAsync().Result;
 				IEnumerable<Task<Card>> cardTasks = ParseCardData(cardListHTML);
@@ -79,13 +80,13 @@ namespace FMDC.DataLoader.Implementations
 				}
 				else
 				{
-					LoggingUtility.LogInfo(MessageConstants.CARD_RETRIEVAL_SUCCESSFUL);
+					Logger.LogInfo(MessageConstants.CARD_RETRIEVAL_SUCCESSFUL);
 					return cards;
 				}
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(MessageConstants.CARD_RETRIEVAL_FAILED);
+				Logger.LogError(MessageConstants.CARD_RETRIEVAL_FAILED);
 				throw ex;
 			}
 		}
@@ -146,7 +147,7 @@ namespace FMDC.DataLoader.Implementations
 									Card card = await BuildCardObject(row);
 									if (card != null)
 									{
-										LoggingUtility.LogVerbose
+										Logger.LogVerbose
 										(
 											string.Format
 											(
@@ -225,7 +226,7 @@ namespace FMDC.DataLoader.Implementations
 				//At the program level, we will check to make sure we have the correct number of non-null card objects.
 				if (cardDetailRelativePath != null && cardDetailRelativePath.Length >= 7)
 				{
-					LoggingUtility.LogError
+					Logger.LogError
 					(
 						string.Format
 						(
@@ -236,10 +237,10 @@ namespace FMDC.DataLoader.Implementations
 				}
 				else
 				{
-					LoggingUtility.LogError(MessageConstants.UNKNOWN_CARD_OBJECT_CONSTRUCTION_ERROR);
+					Logger.LogError(MessageConstants.UNKNOWN_CARD_OBJECT_CONSTRUCTION_ERROR);
 				}
 
-				LoggingUtility.LogError(ex.Message);
+				Logger.LogError(ex.Message);
 				return null;
 			}
 		}
@@ -266,7 +267,7 @@ namespace FMDC.DataLoader.Implementations
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError
+				Logger.LogError
 				(
 					string.Format
 					(

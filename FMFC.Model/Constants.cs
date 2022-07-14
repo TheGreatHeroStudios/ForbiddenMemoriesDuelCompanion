@@ -145,19 +145,15 @@ namespace FMDC.Model
 	public static class FileConstants
 	{
 		//File Paths
-		public static readonly string EXECUTABLE_FILEPATH = Assembly.GetEntryAssembly().Location.Substring(0, Assembly.GetEntryAssembly().Location.LastIndexOf('\\'));
-		public static readonly string GENERAL_FUSION_FILEPATH = $@"{EXECUTABLE_FILEPATH}\Files\GeneralFusions.txt";
-		public static readonly string SPECIFIC_FUSION_FILEPATH = $@"{EXECUTABLE_FILEPATH}\Files\SpecificFusions.txt";
-		public static readonly string SECONDARY_TYPE_FILEPATH = $@"{EXECUTABLE_FILEPATH}\Files\SecondaryTypes.txt";
-		public static readonly string CHARACTER_LOADING_INFO_FILEPATH = $@"{EXECUTABLE_FILEPATH}\Files\NPCLinks.csv";
-		public static readonly string DROP_RATE_FILEPATH_TEMPLATE = $"{EXECUTABLE_FILEPATH}\\Files\\{{0}}Drops.txt";
-		public static readonly string EQUIPMENT_FILEPATH = $@"{EXECUTABLE_FILEPATH}\Files\Equips.txt";
+		public static readonly string GENERAL_FUSION_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\GeneralFusions.txt";
+		public static readonly string SPECIFIC_FUSION_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\SpecificFusions.txt";
+		public static readonly string SECONDARY_TYPE_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\SecondaryTypes.txt";
+		public static readonly string CHARACTER_LOADING_INFO_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\NPCLinks.csv";
+		public static readonly string DROP_RATE_FILEPATH_TEMPLATE = $"{CommonFileConstants.EXECUTABLE_DIRECTORY}\\Files\\{{0}}Drops.txt";
+		public static readonly string EQUIPMENT_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\Equips.txt";
 
 		//Log File Constants
-		public static readonly string DEFAULT_LOG_FILEPATH = $@"{EXECUTABLE_FILEPATH}";
 		public const string DATA_LOADER_LOG_FILE_NAME = "DataLoaderLog.txt";
-		public const string LOG_FILE_HEADER_DIVIDER = "--------------------------------------------------------------";
-		public const string LOG_FILE_SESSION_STAMP_TEMPLATE = "Logging Session Started ({0})";
 		public const string GENERAL_FUSION_ANOMALY_COUNT_TEMPLATE = "General Fusion Anomalies ({0} found): ";
 		public const string SPECIFIC_FUSION_ANOMALY_COUNT_TEMPLATE = "Specific Fusion Anomalies ({0} found): ";
 		public const string EQUIPMENT_ANOMALY_COUNT_TEMPLATE = "Equipment Anomalies ({0} found): ";
@@ -192,9 +188,6 @@ namespace FMDC.Model
 		public const string DATABASE_LOADING_SUCCESSFUL = "Database Loaded Successfully!";
 
 		//Failure Messages
-		public const string ADD_REQUEST_HEADER_FAILURE = "Failed to add request header.";
-		public const string REMOTE_CONTENT_ACCESS_FAILURE = "Failed to get remote content.";
-		public const string HTTP_CLIENT_NOT_SPECIFIED = "No HTTP client was specified for the target data loader.";
 		public const string DATA_LOADING_FAILED = "Data Loading Failed.  Duel Companion application may not function as expected.";
 		public const string CARD_REPO_ACCESS_FAILURE = "Error Accessing Card Repository Site.";
 		public const string CARD_COUNT_MISMATCH = "Total number of cards loaded did not match the expected value.";
@@ -213,10 +206,6 @@ namespace FMDC.Model
 		public const string FUSION_LOADER_CARD_LIST_NULL = "Card List for cross-referencing fusions was not initialized.  Fusions can not be loaded.";
 		public const string SECONDARY_TYPE_LOAD_FAILURE = "Error Loading Secondary Type Data.";
 		public const string SECONDARY_TYPE_PARSING_ERROR = "Error Parsing Secondary Type Record.";
-		public const string HTTP_REQUEST_RETRY_FAILURE = "Could not execute GET request.  Exceeded the maximum number of retries.";
-		public const string BASE64_CONVERSION_ERROR_TEMPLATE = "Error converting base64 to bitmap: {0}";
-		public const string BITMAP_BASE64_CONVERSION_ERROR_TEMPLATE = "Error converting bitmap to base64: {0}";
-		public const string BITMAP_BYTEARRAY_CONVERSION_ERROR_TEMPLATE = "Error converting bitmap to byte array: {0}";
 		public const string FUSION_LOADING_ERROR_TEMPLATE = "Error Loading {0} Fusion Data.";
 		public const string CHARACTER_LOAD_FAILURE = "Error Loading Character Data into memory.";
 		public const string CHARACTER_RETRIEVAL_FAILURE_TEMPLATE = "Failed to load character information for '{0}'";

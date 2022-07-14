@@ -1,13 +1,14 @@
 ﻿using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
+using TGH.Common.Utilities.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TGH.Common.Utilities.DataLoader.Implementations;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -33,7 +34,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Abstract Base Class Implementations
 		public override Func<GameImage, int> KeySelector => gameImage => gameImage.GameImageId;
 
-		public override IEnumerable<GameImage> LoadDataIntoMemory()
+		public override IEnumerable<GameImage> ReadDataIntoMemory()
 		{
 			try
 			{
@@ -41,10 +42,10 @@ namespace FMDC.DataLoader.Implementations
 				{
 					//If the correct count of character image records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
-					LoggingUtility.LogInfo(MessageConstants.CHARACTER_IMAGE_LOADING_SKIPPED);
+					Logger.LogInfo(MessageConstants.CHARACTER_IMAGE_LOADING_SKIPPED);
 
 					return
-						_cardRepository
+						_repository
 							.RetrieveEntities<GameImage>
 							(
 								entity => entity.EntityType == ImageEntityType.Character
@@ -52,7 +53,7 @@ namespace FMDC.DataLoader.Implementations
 
 				}
 
-				LoggingUtility.LogInfo(MessageConstants.LOADING_CHARACTER_IMAGES);
+				Logger.LogInfo(MessageConstants.LOADING_CHARACTER_IMAGES);
 
 				IEnumerable<CharacterLoadingInfo> imageRelativePaths = ReadCharacterImageInfo();
 
@@ -73,21 +74,21 @@ namespace FMDC.DataLoader.Implementations
 
 				if (images.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
 				{
-					LoggingUtility.LogWarning(MessageConstants.CHARACTER_IMAGE_COUNT_MISMATCH);
-					LoggingUtility.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
+					Logger.LogWarning(MessageConstants.CHARACTER_IMAGE_COUNT_MISMATCH);
+					Logger.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
 				}
 				else
 				{
-					LoggingUtility.LogInfo(MessageConstants.CHARACTER_IMAGE_LOADING_SUCCESSFUL);
+					Logger.LogInfo(MessageConstants.CHARACTER_IMAGE_LOADING_SUCCESSFUL);
 				}
 
 				return images;
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogWarning(MessageConstants.CHARACTER_IMAGE_RETRIEVAL_FAILURE);
-				LoggingUtility.LogWarning(ex.Message);
-				LoggingUtility.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
+				Logger.LogWarning(MessageConstants.CHARACTER_IMAGE_RETRIEVAL_FAILURE);
+				Logger.LogWarning(ex.Message);
+				Logger.LogWarning(MessageConstants.IMAGE_DISPLAY_WARNING);
 				return null;
 			}
 		}
@@ -156,7 +157,7 @@ namespace FMDC.DataLoader.Implementations
 					SaveCharacterImageFile(imageBytes, characterImageRootedFilePath);
 				}
 
-				LoggingUtility.LogVerbose
+				Logger.LogVerbose
 				(
 					string.Format
 					(
@@ -174,7 +175,7 @@ namespace FMDC.DataLoader.Implementations
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError
+				Logger.LogError
 				(
 					string.Format
 					(
@@ -182,7 +183,7 @@ namespace FMDC.DataLoader.Implementations
 						imageInfo.CharacterName
 					)
 				);
-				LoggingUtility.LogError(ex.Message);
+				Logger.LogError(ex.Message);
 
 				return null;
 			}

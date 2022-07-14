@@ -1,7 +1,7 @@
 ﻿using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
+using TGH.Common.Utilities.Logging;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using TGH.Common.Utilities.DataLoader.Implementations;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -26,7 +27,7 @@ namespace FMDC.DataLoader.Implementations
 		#region Abstract Base Class Implementations
 		public override Func<Character, int> KeySelector => character => character.CharacterId;
 
-		public override IEnumerable<Character> LoadDataIntoMemory()
+		public override IEnumerable<Character> ReadDataIntoMemory()
 		{
 			try
 			{
@@ -34,10 +35,10 @@ namespace FMDC.DataLoader.Implementations
 				{
 					//If the correct count of character records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
-					LoggingUtility.LogInfo(MessageConstants.CHARACTER_LOADING_SKIPPED);
+					Logger.LogInfo(MessageConstants.CHARACTER_LOADING_SKIPPED);
 
 					return
-						_cardRepository
+						_repository
 							.RetrieveEntities<Character>
 							(
 								entity => true
@@ -46,7 +47,7 @@ namespace FMDC.DataLoader.Implementations
 				}
 
 				//Load the info required to instantiate character objects
-				LoggingUtility.LogInfo(MessageConstants.LOADING_CHARACTER_LIST);
+				Logger.LogInfo(MessageConstants.LOADING_CHARACTER_LIST);
 				IEnumerable<CharacterLoadingInfo> characterLoadingInfo = ReadCharacterLoadingInfo();
 
 				//Load each character's data into memory
@@ -67,19 +68,19 @@ namespace FMDC.DataLoader.Implementations
 				//Make sure that the correct number of chracters were loaded successfully
 				if (characters.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
 				{
-					LoggingUtility.LogWarning(MessageConstants.CHARACTER_COUNT_MISMATCH);
-					LoggingUtility.LogWarning(MessageConstants.CHARACTER_DISPLAY_WARNING);
+					Logger.LogWarning(MessageConstants.CHARACTER_COUNT_MISMATCH);
+					Logger.LogWarning(MessageConstants.CHARACTER_DISPLAY_WARNING);
 				}
 				else
 				{
-					LoggingUtility.LogInfo(MessageConstants.CHARACTER_LOADING_SUCCESSFUL);
+					Logger.LogInfo(MessageConstants.CHARACTER_LOADING_SUCCESSFUL);
 				}
 
 				return characters;
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError(MessageConstants.CHARACTER_LOAD_FAILURE);
+				Logger.LogError(MessageConstants.CHARACTER_LOAD_FAILURE);
 				throw ex;
 			}
 		}
@@ -138,7 +139,7 @@ namespace FMDC.DataLoader.Implementations
 
 				string biography = ParseCharacterBiography(infoHTML);
 
-				LoggingUtility.LogVerbose
+				Logger.LogVerbose
 				(
 					string.Format
 					(
@@ -175,7 +176,7 @@ namespace FMDC.DataLoader.Implementations
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError
+				Logger.LogError
 				(
 					string.Format
 					(
@@ -183,7 +184,7 @@ namespace FMDC.DataLoader.Implementations
 						loadingInfo.CharacterName
 					)
 				);
-				LoggingUtility.LogError(ex.Message);
+				Logger.LogError(ex.Message);
 
 				return null;
 			}

@@ -2,12 +2,13 @@
 using FMDC.Model;
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
-using FMDC.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TGH.Common.Utilities.DataLoader.Implementations;
+using TGH.Common.Utilities.Logging;
 
 namespace FMDC.DataLoader.Implementations
 {
@@ -43,8 +44,8 @@ namespace FMDC.DataLoader.Implementations
 			}
 			else if (cardList.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 			{
-				LoggingUtility.LogWarning(MessageConstants.DROP_LOADER_CARD_LIST_INCOMPLETE);
-				LoggingUtility.LogWarning(MessageConstants.DROP_RATE_DISPLAY_WARNING);
+				Logger.LogWarning(MessageConstants.DROP_LOADER_CARD_LIST_INCOMPLETE);
+				Logger.LogWarning(MessageConstants.DROP_RATE_DISPLAY_WARNING);
 			}
 			_cardList = cardList;
 
@@ -54,8 +55,8 @@ namespace FMDC.DataLoader.Implementations
 			}
 			else if (characterList.Count() != DataLoaderConstants.TOTAL_CHARACTER_COUNT)
 			{
-				LoggingUtility.LogWarning(MessageConstants.DROP_LOADER_CHARACTER_LIST_INCOMPLETE);
-				LoggingUtility.LogWarning(MessageConstants.DROP_RATE_DISPLAY_WARNING);
+				Logger.LogWarning(MessageConstants.DROP_LOADER_CHARACTER_LIST_INCOMPLETE);
+				Logger.LogWarning(MessageConstants.DROP_RATE_DISPLAY_WARNING);
 			}
 			_characterList = characterList;
 		}
@@ -67,16 +68,16 @@ namespace FMDC.DataLoader.Implementations
 		public override Func<CardPercentage, int> KeySelector =>
 			cardPercentage => cardPercentage.CardPercentageId;
 
-		public override IEnumerable<CardPercentage> LoadDataIntoMemory()
+		public override IEnumerable<CardPercentage> ReadDataIntoMemory()
 		{
 			if (ActualRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of card percentage records has already been loaded into the  
 				//database, skip the entire data load process and return the entities from the database.
-				LoggingUtility.LogInfo(MessageConstants.CARD_PERCENTAGE_LOADING_SKIPPED);
+				Logger.LogInfo(MessageConstants.CARD_PERCENTAGE_LOADING_SKIPPED);
 
 				return
-					_cardRepository
+					_repository
 						.RetrieveEntities<CardPercentage>
 						(
 							entity => true
@@ -101,7 +102,7 @@ namespace FMDC.DataLoader.Implementations
 
 
 		#region Public Methods
-		public void LogAnomalies(FileLogger logger)
+		public void LogAnomalies()
 		{
 			//Get the properties logging anomalies for each type of drop
 			foreach (PropertyInfo anomalyPropertyInfo in GetType().GetProperties())
@@ -119,9 +120,9 @@ namespace FMDC.DataLoader.Implementations
 				//If any anomalies were logged, write them to a file
 				if (anomalyList.Any())
 				{
-					logger.WriteLine("");
+					Logger.WriteLine("");
 
-					logger.WriteLine
+					Logger.WriteLine
 					(
 						string.Format
 						(
@@ -135,7 +136,7 @@ namespace FMDC.DataLoader.Implementations
 						.ForEach
 						(
 							anomaly =>
-								logger.WriteLine
+								Logger.WriteLine
 								(
 									string.Format
 									(
@@ -158,7 +159,7 @@ namespace FMDC.DataLoader.Implementations
 			PercentageType dropPercentageType
 		)
 		{
-			LoggingUtility.LogInfo
+			Logger.LogInfo
 			(
 				string.Format
 				(
@@ -207,7 +208,7 @@ namespace FMDC.DataLoader.Implementations
 				//If any anomalies exist, log a warning message to the console.  These should also be dumped to a file.
 				if (GetAnomalyLoggingProperty(dropPercentageType).Any())
 				{
-					LoggingUtility
+					Logger
 						.LogWarning
 						(
 							string.Format
@@ -219,7 +220,7 @@ namespace FMDC.DataLoader.Implementations
 				}
 				else
 				{
-					LoggingUtility
+					Logger
 						.LogInfo
 						(
 							string.Format
@@ -234,7 +235,7 @@ namespace FMDC.DataLoader.Implementations
 			}
 			catch (Exception ex)
 			{
-				LoggingUtility.LogError
+				Logger.LogError
 				(
 					string.Format
 					(
@@ -408,7 +409,7 @@ namespace FMDC.DataLoader.Implementations
 
 								};
 
-							LoggingUtility.LogVerbose
+							Logger.LogVerbose
 							(
 								string.Format
 								(

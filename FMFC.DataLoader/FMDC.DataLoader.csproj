@@ -61,8 +61,8 @@
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Patterns\TGH.Common.Patterns.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Persistence\TGH.Common.Persistence.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Repository\TGH.Common.Repository.csproj" />
+    <ProjectReference Include="..\..\CommonLibrary\TGH.Common.Utilities\TGH.Common.Utilities.csproj" />
     <ProjectReference Include="..\FMDC.Persistence\FMDC.Persistence.csproj" />
-    <ProjectReference Include="..\FMDC.Utility\FMDC.Utility.csproj" />
   </ItemGroup>
 
 </Project>
