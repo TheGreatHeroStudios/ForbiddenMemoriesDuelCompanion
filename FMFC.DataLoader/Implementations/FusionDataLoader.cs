@@ -51,15 +51,15 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<Fusion> ReadDataIntoMemory()
 		{
-			if (ActualRecordCount == ExpectedRecordCount)
+			if (ActuaRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of fusion records has already been loaded into the  
 				//database, skip the entire data load process and return the entities from the database.
 				Logger.LogInfo(MessageConstants.FUSION_LOADING_SKIPPED);
 
 				return
-					_repository
-						.RetrieveEntities<Fusion>
+					_context
+						.Read<Fusion>
 						(
 							entity => true
 						);
@@ -195,10 +195,10 @@ namespace FMDC.DataLoader.Implementations
 
 				return fusions;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(string.Format(MessageConstants.FUSION_LOADING_ERROR_TEMPLATE, fusionType));
-				throw ex;
+				throw;
 			}
 		}
 

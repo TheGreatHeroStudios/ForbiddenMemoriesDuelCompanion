@@ -19,7 +19,7 @@ namespace FMDC.DataLoader
 	class Program
 	{
 		#region Fields
-		private static bool _useVerboseOutput = false;
+		//private static bool _useVerboseOutput = false;
 		private static bool _waitOnExit = false;
 		private static bool _rebuildDatabase = false;
 
@@ -121,11 +121,11 @@ namespace FMDC.DataLoader
 		{
 			IEnumerable<string> argsList = args.Select(arg => arg.ToLower());
 
-			if (argsList.Contains("/v") || argsList.Contains("-v")
+			/*if (argsList.Contains("/v") || argsList.Contains("-v")
 				|| argsList.Contains("/verbose") || argsList.Contains("-verbose"))
 			{
 				_useVerboseOutput = true;
-			}
+			}*/
 
 			if (argsList.Contains("/w") || argsList.Contains("-w")
 				|| argsList.Contains("/wait") || argsList.Contains("-wait")
@@ -222,8 +222,8 @@ namespace FMDC.DataLoader
 		{
 			Logger.LogInfo(MessageConstants.BEGIN_DATABASE_LOADING);
 
-			_cardImages = _cardImageLoader.LoadDataIntoDatabase(_cardImages);
-			_characterImages = _characterImageLoader.LoadDataIntoDatabase(_characterImages);
+			_cardImageLoader.StageDataForInsert(_cardImages);
+			_characterImageLoader.StageDataForInsert(_characterImages);
 
 			//Associate loaded card images with their corresponding card
 			_cardList =
@@ -272,13 +272,13 @@ namespace FMDC.DataLoader
 						}
 					);
 
-			_cardList = _cardLoader.LoadDataIntoDatabase(_cardList);
+			_cardLoader.StageDataForInsert(_cardList);
 
-			_secondaryTypes = _secondaryTypeLoader.LoadDataIntoDatabase(_secondaryTypes);
+			_secondaryTypeLoader.StageDataForInsert(_secondaryTypes);
 
-			_fusions = _fusionLoader.LoadDataIntoDatabase(_fusions);
+			_fusionLoader.StageDataForInsert(_fusions);
 
-			_equipment = _equipmentLoader.LoadDataIntoDatabase(_equipment);
+			_equipmentLoader.StageDataForInsert(_equipment);
 
 			//Associate loaded character images with their corresponding 
 			//character and extract deck inclusion percentage rates.
@@ -304,15 +304,15 @@ namespace FMDC.DataLoader
 						}
 					);
 
-			_characterList = _characterLoader.LoadDataIntoDatabase(_characterList);
+			_characterLoader.StageDataForInsert(_characterList);
 
-			_cardPercentages =
-				_cardPercentageLoader
-					.LoadDataIntoDatabase
-					(
-						_cardPercentages
-							.Concat(deckInclusionPercentages)
-					);
+			
+			_cardPercentageLoader
+				.StageDataForInsert
+				(
+					_cardPercentages
+						.Concat(deckInclusionPercentages)
+				);
 
 			Logger.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}

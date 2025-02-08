@@ -44,15 +44,15 @@ namespace FMDC.DataLoader.Implementations
 		{
 			try
 			{
-				if (ActualRecordCount == ExpectedRecordCount)
+				if (ActuaRecordCount == ExpectedRecordCount)
 				{
 					//If the correct count of secondary type records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
 					Logger.LogInfo(MessageConstants.SECONDARY_TYPE_LOADING_SKIPPED);
 
 					return
-						_repository
-							.RetrieveEntities<SecondaryType>
+						_context
+							.Read<SecondaryType>
 							(
 								entity => true
 							);
@@ -136,10 +136,10 @@ namespace FMDC.DataLoader.Implementations
 
 				return secondaryTypes.Where(type => type != null);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(MessageConstants.SECONDARY_TYPE_LOAD_FAILURE);
-				throw ex;
+				throw;
 			}
 		}
 		#endregion

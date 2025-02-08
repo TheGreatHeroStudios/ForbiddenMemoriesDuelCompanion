@@ -44,15 +44,15 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<GameImage> ReadDataIntoMemory()
 		{
-			if (ActualRecordCount == ExpectedRecordCount)
+			if (ActuaRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of card image records has already been loaded into the database, 
 				//skip the entire data load process and return the entities from the database.
 				Logger.LogInfo(MessageConstants.CARD_IMAGE_LOADING_SKIPPED);
 
 				return
-					_repository
-						.RetrieveEntities<GameImage>
+					_context
+						.Read<GameImage>
 						(
 							entity => entity.EntityType != ImageEntityType.Character
 						);
@@ -69,10 +69,10 @@ namespace FMDC.DataLoader.Implementations
 				cardGalleryResponse = GetRemoteContentAsync(URLConstants.CARD_GALLERY_PATH);
 				cardGalleryResponse.Wait();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(MessageConstants.CARD_IMAGE_REPO_ACCESS_FAILURE);
-				throw ex;
+				throw;
 			}
 
 			try

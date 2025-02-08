@@ -31,15 +31,15 @@ namespace FMDC.DataLoader.Implementations
 		{
 			try
 			{
-				if (ActualRecordCount == ExpectedRecordCount)
+				if (ActuaRecordCount == ExpectedRecordCount)
 				{
 					//If the correct count of character records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
 					Logger.LogInfo(MessageConstants.CHARACTER_LOADING_SKIPPED);
 
 					return
-						_repository
-							.RetrieveEntities<Character>
+						_context
+							.Read<Character>
 							(
 								entity => true
 							);
@@ -78,10 +78,10 @@ namespace FMDC.DataLoader.Implementations
 
 				return characters;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(MessageConstants.CHARACTER_LOAD_FAILURE);
-				throw ex;
+				throw;
 			}
 		}
 		#endregion

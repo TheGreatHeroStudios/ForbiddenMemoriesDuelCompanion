@@ -38,15 +38,15 @@ namespace FMDC.DataLoader.Implementations
 		{
 			try
 			{
-				if (ActualRecordCount == ExpectedRecordCount)
+				if (ActuaRecordCount == ExpectedRecordCount)
 				{
 					//If the correct count of character image records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
 					Logger.LogInfo(MessageConstants.CHARACTER_IMAGE_LOADING_SKIPPED);
 
 					return
-						_repository
-							.RetrieveEntities<GameImage>
+						_context
+							.Read<GameImage>
 							(
 								entity => entity.EntityType == ImageEntityType.Character
 							);

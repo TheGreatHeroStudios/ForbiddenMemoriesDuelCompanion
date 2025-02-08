@@ -50,15 +50,15 @@ namespace FMDC.DataLoader.Implementations
 		{
 			try
 			{
-				if (ActualRecordCount == ExpectedRecordCount)
+				if (ActuaRecordCount == ExpectedRecordCount)
 				{
 					//If the correct count of card percentage records has already been loaded into the  
 					//database, skip the entire data load process and return the entities from the database.
 					Logger.LogInfo(MessageConstants.EQUIPPABLE_LOADING_SKIPPED);
 
 					return
-						_repository
-							.RetrieveEntities<Equippable>
+						_context
+							.Read<Equippable>
 							(
 								entity => true
 							);
@@ -94,10 +94,10 @@ namespace FMDC.DataLoader.Implementations
 
 				return equips.Where(equip => equip != null);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(MessageConstants.EQUIPMENT_LOAD_FAILURE);
-				throw ex;
+				throw;
 			}
 		}
 		#endregion

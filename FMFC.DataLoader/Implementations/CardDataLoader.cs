@@ -17,12 +17,6 @@ namespace FMDC.DataLoader.Implementations
 {
 	public class CardDataLoader : DataLoader<Card>
 	{
-		#region Fields
-
-		#endregion
-
-
-
 		#region Constructor(s)
 		public CardDataLoader() : base(URLConstants.YUGIOH_FANDOM_URL) { }
 		#endregion
@@ -34,14 +28,14 @@ namespace FMDC.DataLoader.Implementations
 
 		public override IEnumerable<Card> ReadDataIntoMemory()
 		{
-			if (ActualRecordCount == ExpectedRecordCount)
+			if (ActuaRecordCount == ExpectedRecordCount)
 			{
 				//If the correct count of card records has already been loaded into the database, 
 				//skip the entire data load process and return the entities from the database.
 				Logger.LogInfo(MessageConstants.CARD_LOADING_SKIPPED);
 
 				return
-					_repository.RetrieveEntities<Card>(entity => true);
+					_context.Read<Card>(entity => true);
 
 			}
 
@@ -54,10 +48,10 @@ namespace FMDC.DataLoader.Implementations
 				cardListResponse = GetRemoteContentAsync(URLConstants.CARD_LIST_PATH);
 				cardListResponse.Wait();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(MessageConstants.CARD_REPO_ACCESS_FAILURE);
-				throw ex;
+				throw;
 			}
 
 			try
@@ -84,10 +78,10 @@ namespace FMDC.DataLoader.Implementations
 					return cards;
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Logger.LogError(MessageConstants.CARD_RETRIEVAL_FAILED);
-				throw ex;
+				throw;
 			}
 		}
 		#endregion
