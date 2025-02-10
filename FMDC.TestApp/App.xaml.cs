@@ -64,7 +64,7 @@ namespace FMDC.TestApp
 					() =>
 						new ForbiddenMemoriesDbContext
 						(
-							PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
+							//PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
 						),
 					ServiceScope.Singleton
 				);

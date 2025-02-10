@@ -14,6 +14,9 @@ namespace FMDC.Persistence.Configurations
 
 			//Configure Primary Key
 			builder.HasKey(gameImage => gameImage.GameImageId);
+
+			//Key included in parsed data (non-identity key)
+			//builder.Property(gameImage => gameImage.GameImageId).ValueGeneratedNever();
 		}
 		#endregion
 	}

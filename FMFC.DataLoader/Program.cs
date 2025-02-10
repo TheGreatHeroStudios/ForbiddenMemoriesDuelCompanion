@@ -104,7 +104,7 @@ namespace FMDC.DataLoader
 					() =>
 						new ForbiddenMemoriesDbContext
 						(
-							PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
+							//PersistenceConstants.SQLITE_DB_TARGET_FILEPATH
 						),
 					ServiceScope.Singleton
 				);
@@ -313,6 +313,8 @@ namespace FMDC.DataLoader
 					_cardPercentages
 						.Concat(deckInclusionPercentages)
 				);
+
+			//DependencyManager.ResolveService<IDatabaseContext>().CommitChanges();
 
 			Logger.LogInfo(MessageConstants.DATABASE_LOADING_SUCCESSFUL);
 		}

@@ -19,17 +19,20 @@ namespace FMDC.Persistence.Configurations
 			builder
 				.HasOne(fusion => fusion.TargetCard)
 				.WithMany()
-				.HasForeignKey(fusion => fusion.TargetCardId);
+				.HasForeignKey(fusion => fusion.TargetCardId)
+				.OnDelete(DeleteBehavior.NoAction);
 
 			builder
 				.HasOne(fusion => fusion.FusionMaterialCard)
 				.WithMany()
-				.HasForeignKey(fusion => fusion.FusionMaterialCardId);
+				.HasForeignKey(fusion => fusion.FusionMaterialCardId)
+				.OnDelete(DeleteBehavior.NoAction);
 
 			builder
 				.HasOne(fusion => fusion.ResultantCard)
 				.WithMany()
-				.HasForeignKey(fusion => fusion.ResultantCardId);
+				.HasForeignKey(fusion => fusion.ResultantCardId)
+				.OnDelete(DeleteBehavior.NoAction);
 		}
 		#endregion
 	}

@@ -2,9 +2,11 @@
 using FMDC.Model.Enums;
 using FMDC.Model.Models;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -43,10 +45,12 @@ namespace FMDC.DataLoader.Implementations
 
 			try
 			{
-				Logger.LogInfo(MessageConstants.BEGIN_CARD_LOADING);
-
-				cardListResponse = GetRemoteContentAsync(URLConstants.CARD_LIST_PATH);
-				cardListResponse.Wait();
+				if (!File.Exists(FileConstants.CARD_DATA_FILEPATH))
+				{
+					Logger.LogInfo(MessageConstants.BEGIN_CARD_LOADING);
+					cardListResponse = GetRemoteContentAsync(URLConstants.CARD_LIST_PATH);
+					cardListResponse.Wait();
+				}
 			}
 			catch (Exception)
 			{
@@ -58,15 +62,36 @@ namespace FMDC.DataLoader.Implementations
 			{
 				Logger.LogInfo(MessageConstants.PARSING_CARD_DATA);
 
-				string cardListHTML = cardListResponse.Result.Content.ReadAsStringAsync().Result;
-				IEnumerable<Task<Card>> cardTasks = ParseCardData(cardListHTML);
+				IEnumerable<Card> cards;
 
-				Task<Card>[] cardTaskArray = cardTasks?.ToArray();
-				Task.WaitAll(cardTaskArray, -1);
+				if (File.Exists(FileConstants.CARD_DATA_FILEPATH))
+				{
+					cards = 
+						JsonConvert
+							.DeserializeObject<List<Card>>
+							(
+								File.ReadAllText(FileConstants.CARD_DATA_FILEPATH)
+							);
+				}
+				else
+				{
+					string cardListHTML = cardListResponse.Result.Content.ReadAsStringAsync().Result;
+					IEnumerable<Task<Card>> cardTasks = ParseCardData(cardListHTML);
 
-				IEnumerable<Card> cards = cardTaskArray
-					.Select(task => task.Result)
-					.Where(card => card != null);
+					Task<Card>[] cardTaskArray = cardTasks?.ToArray();
+					Task.WaitAll(cardTaskArray, -1);
+
+					cards = cardTaskArray
+						.Select(task => task.Result)
+						.Where(card => card != null);
+
+					//Cache the card data in flat-file format so we don't have to web scrape it next time
+					File.WriteAllText
+					(
+						FileConstants.CARD_DATA_FILEPATH,
+						JsonConvert.SerializeObject(cards.ToList())
+					);
+				}
 
 				if (cards.Count() != DataLoaderConstants.TOTAL_CARD_COUNT)
 				{
@@ -177,6 +202,11 @@ namespace FMDC.DataLoader.Implementations
 				//Determine Card Type
 				CardType cardType = CardType.Unknown;
 				Enum.TryParse(data[2].InnerText, out cardType);
+
+				if (cardType == CardType.Unknown)
+				{
+					throw new FormatException("Unable to parse card from provided row data.");
+				}
 
 				//Determine Monster Type
 				MonsterType monsterType = MonsterType.Unknown;

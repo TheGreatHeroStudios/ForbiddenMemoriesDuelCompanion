@@ -19,12 +19,14 @@ namespace FMDC.Persistence.Configurations
 			builder
 				.HasOne(cardPercentage => cardPercentage.Character)
 				.WithMany(character => character.CardPercentages)
-				.HasForeignKey(cardPercentage => cardPercentage.CharacterId);
+				.HasForeignKey(cardPercentage => cardPercentage.CharacterId)
+				.OnDelete(DeleteBehavior.NoAction);
 
 			builder
 				.HasOne(cardPercentage => cardPercentage.Card)
 				.WithMany()
-				.HasForeignKey(cardPercentage => cardPercentage.CardId);
+				.HasForeignKey(cardPercentage => cardPercentage.CardId)
+				.OnDelete(DeleteBehavior.NoAction);
 		}
 		#endregion
 	}

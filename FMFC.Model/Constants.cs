@@ -145,6 +145,7 @@ namespace FMDC.Model
 	public static class FileConstants
 	{
 		//File Paths
+		public static readonly string CARD_DATA_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\CardData.json";
 		public static readonly string GENERAL_FUSION_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\GeneralFusions.txt";
 		public static readonly string SPECIFIC_FUSION_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\SpecificFusions.txt";
 		public static readonly string SECONDARY_TYPE_FILEPATH = $@"{CommonFileConstants.EXECUTABLE_DIRECTORY}\Files\SecondaryTypes.txt";

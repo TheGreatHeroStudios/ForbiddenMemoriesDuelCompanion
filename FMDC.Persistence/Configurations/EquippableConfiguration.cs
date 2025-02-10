@@ -19,12 +19,14 @@ namespace FMDC.Persistence.Configurations
 			builder
 				.HasOne(equippable => equippable.TargetCard)
 				.WithMany(card => card.EquippableCards)
-				.HasForeignKey(equippable => equippable.TargetCardId);
+				.HasForeignKey(equippable => equippable.TargetCardId)
+				.OnDelete(DeleteBehavior.NoAction);
 
 			builder
 				.HasOne(equippable => equippable.EquipCard)
 				.WithMany()
-				.HasForeignKey(equippable => equippable.EquipCardId);
+				.HasForeignKey(equippable => equippable.EquipCardId)
+				.OnDelete(DeleteBehavior.NoAction);
 		}
 		#endregion
 	}
